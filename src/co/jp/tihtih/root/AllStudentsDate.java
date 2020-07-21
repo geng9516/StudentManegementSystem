@@ -24,34 +24,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     public AllStudentsDate() {
         initComponents();
-        readeStudentsDb();
-    }
 
-    //DBからデータを読む
-    public void readeStudentsDb() {
-        List<Student> list = new ArrayList<>();
-        Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
-            list = jdbc.getStudentDate();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-        tableModel.setRowCount(0);
-        for (Student students : list) {
-            tableModel.addRow(new Object[]{students.getId(), students.getClasss(), students.getName(), students.getPass(), students.getSex(),
-                students.getKokugo(), students.getMath(), students.getEnglish(), students.getScience(), students.getHistory(), students.getSum()});
-        }
     }
 
     /**
@@ -88,14 +61,14 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
             },
             new String [] {
-                "学生ID", "クラス", "名前", "パスワード", "性別", "国語", "数学", "英語", "理科", "歴史", "合計"
+                "学生ID", "クラス", "名前", "パスワード"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,42 +79,17 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setText("キーワード");
 
         jButton1.setText("新規学生");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("修正");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jButton3.setText("削除");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jButton4.setText("閉じる");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         jLabel2.setForeground(new java.awt.Color(255, 51, 0));
 
@@ -152,35 +100,32 @@ public class AllStudentsDate extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel1)
-                .addGap(172, 658, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1))
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 224, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jButton1)
-                .addGap(64, 64, 64)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(83, 83, 83)
-                .addComponent(jButton6)
-                .addGap(104, 104, 104)
-                .addComponent(jButton4)
-                .addGap(42, 42, 42))
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,98 +152,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    //修正
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        //Jtable表を値を取得し、編集画面に入れる
-        Student student = new Student();
-
-        //getSelectedColumn() 如果未选择行就返回-1
-        if (jTable1.getSelectedColumn() != -1) {
-            student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-            student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
-            student.setKokugo(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString()));
-            student.setMath(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
-            student.setEnglish(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 7).toString()));
-            student.setScience(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 8).toString()));
-            student.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 9).toString()));
-
-            StudentAdd sa = new StudentAdd();
-
-            sa.getDate(student);
-
-            this.dispose();
-
-            sa.setVisible(true);
-
-        } else {
-            jLabel2.setText("データを選択してください！");
-            return;
-        }
-
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    //新規学生
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        StudentAdd sa = new StudentAdd();
-        this.dispose();
-        sa.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    //削除
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        Student student = new Student();
-
-        Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
-
-            //getSelectedColumn() 如果未选择行就返回-1
-            if (jTable1.getSelectedColumn() != -1) {
-                student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                jdbc.deleteStudent(student);
-                jdbc.deleteGrade(student);
-
-                jdbc.deteleUser(student);
-
-            } else {
-                jLabel2.setText("データを選択してください！");
-                return;
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        readeStudentsDb();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    //閉じる
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    //多行削除
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-        int[] i = jTable1.getSelectedRows();
-        Student student = null;
-        
-        
-        
-    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments

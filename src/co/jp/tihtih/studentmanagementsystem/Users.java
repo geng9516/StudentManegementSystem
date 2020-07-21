@@ -8,13 +8,14 @@ package co.jp.tihtih.studentmanagementsystem;
 import java.util.Objects;
 
 /**
- *　ユーザークラス
+ * ユーザークラス
+ *
  * @author user
  */
 public class Users {
+
     private String id;
     private String pass;
-    private String role;
 
     public Users() {
     }
@@ -57,8 +58,6 @@ public class Users {
         }
         return true;
     }
-    
-    
 
     public String getId() {
         return id;
@@ -75,5 +74,5 @@ public class Users {
     public void setPass(String pass) {
         this.pass = pass;
     }
-    
+
 }

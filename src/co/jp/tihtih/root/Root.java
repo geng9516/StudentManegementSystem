@@ -25,47 +25,7 @@ public class Root extends javax.swing.JFrame {
      */
     public Root() {
         initComponents();
-        readTeacherDB();
-    }
 
-    //データベースからTeachersのデータを読み取る
-    public void readTeacherDB() {
-        List<Teachers> list = new ArrayList<>();
-        Jdbc jdbc = new Jdbc();
-
-        try {
-
-            jdbc.getDbcom();
-            list = jdbc.getTeachersDate();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-        tableModel.setRowCount(0);
-        for (Teachers teacher : list) {
-            tableModel.addRow(new Object[]{teacher.getId(), teacher.getName(), teacher.getPass(), teacher.getAclass(), teacher.getSubject(),
-                teacher.getSex()});
-        }
-
-    }
-
-    public void searchResults(List<Teachers> list) {
-        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-        tableModel.setRowCount(0);
-        for (Teachers teacher : list) {
-            tableModel.addRow(new Object[]{teacher.getId(), teacher.getName(), teacher.getPass(), teacher.getAclass(), teacher.getSubject(),
-                teacher.getSex()});
-        }
     }
 
     /**
@@ -126,56 +86,21 @@ public class Root extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("新規教師");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("編集");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("キーワード");
 
         jButton3.setText("検索");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jButton4.setText("削除");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         jButton5.setText("生徒一覧へ");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
 
         jButton6.setText("ログアウト");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
 
         jLabel4.setForeground(new java.awt.Color(255, 51, 0));
 
@@ -247,167 +172,6 @@ public class Root extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    //新規教師ボタンを押したら、新規登録画面へ
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        TeacherAdd ta = new TeacherAdd();
-        this.dispose();
-        ta.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    //学生一覧へ
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-
-        AllStudentsDate sd = new AllStudentsDate();
-        sd.setVisible(true);
-
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    //教師データ編集へ
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Teachers teacher = new Teachers();
-
-        //getSelectedColumn() 如果未选择行就返回-1
-        if (jTable1.getSelectedColumn() != -1) {
-            jLabel4.setText("");
-            teacher.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            teacher.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-            teacher.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-
-            TeacherAdd ta = new TeacherAdd();
-            this.dispose();
-            ta.setVisible(true);
-
-            ta.getDate(teacher);
-        } else {
-            jLabel4.setText("データを選択してください！");
-        }
-
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    //ログアウト，login画面に戻る
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        Login login = new Login();
-        this.dispose();
-        login.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    //先生情報を削除
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        Teachers teacher = new Teachers();
-
-        Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
-
-            //getSelectedColumn() 如果未选择行就返回-1
-            if (jTable1.getSelectedColumn() != -1) {
-                teacher.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-
-                jdbc.deleteTeacher(teacher);
-
-                //パスワードを消す
-                jdbc.deteleUser(teacher);
-
-            } else {
-                jLabel4.setText("データを選択してください！");
-                return;
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        readTeacherDB();
-
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    //クラス毎に学生データを表示
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-
-        Jdbc jdbc = new Jdbc();
-
-        List<Student> list = new ArrayList<>();
-
-        ClassStudentsDate students = new ClassStudentsDate();
-
-        try {
-
-            jdbc.getDbcom();
-
-            if (jTable1.getSelectedColumn() != -1) {
-
-                list = jdbc.classDate(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
-
-                students.showStudentDate(list);
-
-                students.setVisible(true);
-            } else {
-
-                jLabel4.setText("データを選択してください！");
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    //検索
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        List<Teachers> list = new ArrayList<>();
-        Jdbc jdbc = new Jdbc();
-
-        try {
-            jdbc.getDbcom();
-
-            //入力したかを判断
-            if (jTextField1.getText().isEmpty()) {
-                jLabel4.setText("キーワードを入力してください！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText()) > 0 || Integer.parseInt(jTextField1.getText()) < 1000) {
-
-                searchResults(jdbc.searchTeacher(Integer.parseInt(jTextField1.getText())));
-            } else {
-                jLabel4.setText("ss");
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

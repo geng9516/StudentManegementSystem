@@ -75,25 +75,10 @@ public class TeacherAdd extends javax.swing.JFrame {
         jLabel5.setText("パスワード");
 
         jButton1.setText("追加");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("編集");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jButton3.setText("キャンセル");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし", "Aクラス", "Bクラス", "Cクラス", "Dクラス" }));
 
@@ -118,7 +103,7 @@ public class TeacherAdd extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(19, 19, 19)
                 .addComponent(jButton3)
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,16 +133,16 @@ public class TeacherAdd extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -184,7 +169,7 @@ public class TeacherAdd extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2))
-                .addGap(46, 46, 46)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -194,186 +179,6 @@ public class TeacherAdd extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    //先生データを追加
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Teachers teacher = new Teachers();
-
-        Jdbc jdbc = new Jdbc();
-        try {
-
-            jdbc.getDbcom();
-
-            if (jTextField1.getText().isEmpty()) {
-                jLabel8.setText("先生IDを入力してください！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
-                jLabel8.setText("先生IDは101～999以内です！");
-                return;
-
-                //追加するとき先生のIDが重複しているかを判断
-            } else if (jdbc.getTeacherID(Integer.parseInt(jTextField1.getText()))) {
-                jLabel8.setText("先生IDすでに存在しています！");
-                return;
-            } else {
-                teacher.setId(Integer.parseInt(jTextField1.getText()));
-            }
-
-            if (jTextField2.getText().isEmpty()) {
-                jLabel8.setText("名前を入力してください！");
-                return;
-            } else {
-                teacher.setName(jTextField2.getText());
-            }
-
-            if (jTextField3.getText().isEmpty()) {
-                jLabel8.setText("パスワードを設定してください！");
-                return;
-            } else if (jdbc.checkPass(jTextField3.getText())) {
-                jLabel8.setText("パスワードが重複しています！");
-                return;
-            } else {
-                teacher.setPass(jTextField3.getText());
-            }
-
-            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
-                jLabel8.setText("クラスを選んでください！");
-                return;
-            } else {
-                teacher.setAclass(jComboBox1.getSelectedItem().toString());
-            }
-
-            if ("なし".equals(jComboBox2.getSelectedItem().toString())) {
-                jLabel8.setText("科目を選んでください！");
-                return;
-            } else {
-                teacher.setSubject(jComboBox2.getSelectedItem().toString());
-            }
-
-            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
-                jLabel8.setText("性別を選択していません！");
-                return;
-            }
-            if (jRadioButton1.isSelected()) {
-                teacher.setSex("男");
-            } else {
-                teacher.setSex("女");
-            }
-
-            //先生データ追加
-            jdbc.insertTeachers(teacher);
-
-            //先生IDとパスワード追加
-            jdbc.insertUser(teacher);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        Root root = new Root();
-        this.dispose();
-        root.setVisible(true);
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    //先生データを修正する
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Teachers teacher = new Teachers();
-        Jdbc jdbc = new Jdbc();
-
-        try {
-
-            jdbc.getDbcom();
-
-            if (jTextField1.getText().isEmpty()) {
-                jLabel8.setText("先生IDを入力してください！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
-                jLabel8.setText("先生IDは101～999以内です！");
-                return;
-            } else {
-                teacher.setId(Integer.parseInt(jTextField1.getText()));
-            }
-
-            if (jTextField2.getText().isEmpty()) {
-                jLabel8.setText("名前を入力してください！");
-                return;
-            } else {
-                teacher.setName(jTextField2.getText());
-            }
-
-            if (jTextField3.getText().isEmpty()) {
-                jLabel8.setText("パスワードを設定してください！");
-                return;
-            } else {
-                teacher.setPass(jTextField3.getText());
-            }
-
-            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
-                jLabel8.setText("クラスを選んでください！");
-                return;
-            } else {
-                teacher.setAclass(jComboBox1.getSelectedItem().toString());
-            }
-
-            if ("なし".equals(jComboBox2.getSelectedItem().toString())) {
-                jLabel8.setText("科目を選んでください！");
-                return;
-            } else {
-                teacher.setSubject(jComboBox2.getSelectedItem().toString());
-            }
-
-            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
-                jLabel8.setText("性別を選択していません！");
-                return;
-            }
-            if (jRadioButton1.isSelected()) {
-                teacher.setSex("男");
-            } else {
-                teacher.setSex("女");
-            }
-            
-            //先生データ編集
-            jdbc.updateTeacher(teacher);
-            
-            //先生IDパスワード編集
-            jdbc.updateUser(teacher);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        Root teachers = new Root();
-        this.dispose();
-        teachers.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    //キャンセル
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-
-        Root teachers = new Root();
-        this.dispose();
-        teachers.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
