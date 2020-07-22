@@ -23,6 +23,13 @@ public class StudentAdd extends javax.swing.JFrame {
         initComponents();
     }
 
+    //編集の基本データを表示
+    public void setDate(Student student) {
+        jTextField1.setText(String.valueOf(student.getId()));
+        jTextField2.setText(student.getName());
+        jTextField3.setText(student.getPass());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,10 +68,25 @@ public class StudentAdd extends javax.swing.JFrame {
         jLabel4.setText("性別");
 
         jButton1.setText("追加");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("編集");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("キャンセル");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし", "Aクラス", "Bクラス", "Cクラス", "Dクラス" }));
 
@@ -148,11 +170,185 @@ public class StudentAdd extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(13, 13, 13))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+/*
+   追加
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Student student = new Student();
+
+        AllStudentsDate asd = new AllStudentsDate();
+
+        Jdbc jdbc = new Jdbc();
+        try {
+            jdbc.getDbcom();
+
+            //null判断
+            if (jTextField1.getText().isEmpty()) {
+                jLabel10.setText("IDを空欄にしてはいけません！");
+                return;
+            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+                jLabel10.setText("IDは1001から9999以内です！");
+                return;
+
+                //IDが重複しているかを判断する
+            } else if (jdbc.checkStudentId(Integer.parseInt(jTextField1.getText()))) {
+                jLabel10.setText("IDがすでに存在しています！");
+                return;
+            } else {
+                student.setId(Integer.parseInt(jTextField1.getText()));
+            }
+
+            //クラス判断
+            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                jLabel10.setText("クラスを選択してください！");
+                return;
+            } else {
+                student.setAclass(jComboBox1.getSelectedItem().toString());
+            }
+
+            //null判断
+            if (jTextField2.getText().isEmpty()) {
+                jLabel10.setText("名前を空欄にしてはいけません！");
+                return;
+            } else {
+                student.setName(jTextField2.getText());
+            }
+
+            if (jTextField3.getText().isEmpty()) {
+                jLabel10.setText("パスワードを設定してください！");
+                return;
+            } else if (jdbc.checkPasss(jTextField3.getText())) {
+                jLabel10.setText("パスワードが重複しています！");
+                return;
+            } else {
+                student.setPass(jTextField3.getText());
+            }
+
+            //選択しているか判断
+            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                jLabel10.setText("性別を選択していません！");
+                return;
+            }
+            if (jRadioButton1.isSelected()) {
+                student.setSex("男");
+            } else {
+                student.setSex("女");
+            }
+
+            jdbc.insertStudent(student);
+
+            this.dispose();
+            asd.setVisible(true);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                jdbc.closeDbcom();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    /*
+    編集
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Student student = new Student();
+
+        AllStudentsDate asd = new AllStudentsDate();
+
+        Jdbc jdbc = new Jdbc();
+        try {
+            jdbc.getDbcom();
+
+            //null判断
+            if (jTextField1.getText().isEmpty()) {
+                jLabel10.setText("IDを空欄にしてはいけません！");
+                return;
+            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+                jLabel10.setText("IDは1001から9999以内です！");
+                return;
+
+                //IDが重複しているかを判断する
+            } else if (jdbc.checkStudentId(Integer.parseInt(jTextField1.getText()))) {
+                jLabel10.setText("IDがすでに存在しています！");
+                return;
+            } else {
+                student.setId(Integer.parseInt(jTextField1.getText()));
+            }
+
+            //クラス判断
+            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                jLabel10.setText("クラスを選択してください！");
+                return;
+            } else {
+                student.setAclass(jComboBox1.getSelectedItem().toString());
+            }
+
+            //null判断
+            if (jTextField2.getText().isEmpty()) {
+                jLabel10.setText("名前を空欄にしてはいけません！");
+                return;
+            } else {
+                student.setName(jTextField2.getText());
+            }
+
+            //編集時重複おｋ
+            if (jTextField3.getText().isEmpty()) {
+                jLabel10.setText("パスワードを設定してください！");
+                return;
+            } else {
+                student.setPass(jTextField3.getText());
+            }
+
+            //選択しているか判断
+            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                jLabel10.setText("性別を選択していません！");
+                return;
+            }
+            if (jRadioButton1.isSelected()) {
+                student.setSex("男");
+            } else {
+                student.setSex("女");
+            }
+
+            jdbc.updateStudent(student);
+
+            this.dispose();
+            asd.setVisible(true);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                jdbc.closeDbcom();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+    /*
+    キャンセル
+     */
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        AllStudentsDate asd = new AllStudentsDate();
+        this.dispose();
+        asd.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,4 +404,5 @@ public class StudentAdd extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
 }

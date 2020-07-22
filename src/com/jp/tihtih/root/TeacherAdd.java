@@ -314,10 +314,11 @@ public class TeacherAdd extends javax.swing.JFrame {
             }
 
             jdbc.insertTeacher(teacher);
+            
+            
 
-//            list = jdbc.getClassDB(Integer.parseInt(jTextField1.getText()));
             td = new TeachersDate();
-//            td.readClassDb(list);
+
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
