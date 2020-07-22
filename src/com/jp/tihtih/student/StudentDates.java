@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.jp.tihtih.student;
+package com.jp.tihtih.student;
 
-import co.jp.tihtih.studentmanagementsystem.Login;
-import co.jp.tihtih.teacher.Students;
+import com.jp.tihtih.studentmanagementsystem.Login;
+import com.jp.tihtih.teacher.Students;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.jp.tihtih.root;
+package com.jp.tihtih.root;
 
 import java.util.Objects;
 
@@ -11,42 +11,30 @@ import java.util.Objects;
  *
  * @author geng9516
  */
-public class Teachers {
+public class Teacher {
 
     private int id;
     private String name;
     private String pass;
-    private String aclass;
     private String Subject;
     private String sex;
-    
 
-    public Teachers() {
-    }
-
-    public Teachers(int id, String name, String pass, String aclass, String Subject, String sex) {
-        this.id = id;
-        this.name = name;
-        this.pass = pass;
-        this.aclass = aclass;
-        this.Subject = Subject;
-        this.sex = sex;
+    public Teacher() {
     }
 
     @Override
     public String toString() {
-        return "Teachers{" + "id=" + id + ", name=" + name + ", pass=" + pass + ", aclass=" + aclass + ", Subject=" + Subject + ", sex=" + sex + '}';
+        return "Teacher{" + "id=" + id + ", name=" + name + ", pass=" + pass + ", Subject=" + Subject + ", sex=" + sex + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + this.id;
-        hash = 67 * hash + Objects.hashCode(this.name);
-        hash = 67 * hash + Objects.hashCode(this.pass);
-        hash = 67 * hash + Objects.hashCode(this.aclass);
-        hash = 67 * hash + Objects.hashCode(this.Subject);
-        hash = 67 * hash + Objects.hashCode(this.sex);
+        int hash = 7;
+        hash = 23 * hash + this.id;
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.pass);
+        hash = 23 * hash + Objects.hashCode(this.Subject);
+        hash = 23 * hash + Objects.hashCode(this.sex);
         return hash;
     }
 
@@ -61,7 +49,7 @@ public class Teachers {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Teachers other = (Teachers) obj;
+        final Teacher other = (Teacher) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -69,9 +57,6 @@ public class Teachers {
             return false;
         }
         if (!Objects.equals(this.pass, other.pass)) {
-            return false;
-        }
-        if (!Objects.equals(this.aclass, other.aclass)) {
             return false;
         }
         if (!Objects.equals(this.Subject, other.Subject)) {
@@ -107,14 +92,6 @@ public class Teachers {
         this.pass = pass;
     }
 
-    public String getAclass() {
-        return aclass;
-    }
-
-    public void setAclass(String aclass) {
-        this.aclass = aclass;
-    }
-
     public String getSubject() {
         return Subject;
     }
@@ -131,4 +108,12 @@ public class Teachers {
         this.sex = sex;
     }
 
+    public Teacher(int id, String name, String pass, String Subject, String sex) {
+        this.id = id;
+        this.name = name;
+        this.pass = pass;
+        this.Subject = Subject;
+        this.sex = sex;
     }
+
+   }

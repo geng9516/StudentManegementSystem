@@ -59,20 +59,18 @@
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jComboBox1" alignment="1" min="-2" pref="110" max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" alignment="1" min="-2" pref="110" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox2" min="-2" pref="110" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -106,11 +104,19 @@
                   <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -173,32 +179,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x8ffd;&#x52a0;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x7de8;&#x96c6;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x30ad;&#x30e3;&#x30f3;&#x30bb;&#x30eb;"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
-            <StringItem index="0" value="&#x306a;&#x3057;"/>
-            <StringItem index="1" value="A&#x30af;&#x30e9;&#x30b9;"/>
-            <StringItem index="2" value="B&#x30af;&#x30e9;&#x30b9;"/>
-            <StringItem index="3" value="C&#x30af;&#x30e9;&#x30b9;"/>
-            <StringItem index="4" value="D&#x30af;&#x30e9;&#x30b9;"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox2">
       <Properties>
@@ -238,6 +237,26 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="33" red="ff" type="rgb"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="A&#x30af;&#x30e9;&#x30b9;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="B&#x30af;&#x30e9;&#x30b9;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="C&#x30af;&#x30e9;&#x30b9;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="D&#x30af;&#x30e9;&#x30b9;"/>
       </Properties>
     </Component>
   </SubComponents>

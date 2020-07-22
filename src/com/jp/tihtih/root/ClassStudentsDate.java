@@ -4,14 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.jp.tihtih.root;
-
-import co.jp.tihtih.studentmanagementsystem.Jdbc;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
+package com.jp.tihtih.root;
 
 /**
  *
@@ -25,18 +18,6 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     public ClassStudentsDate() {
         initComponents();
 
-    }
-
-    //DBからデータを読む
-    //クラス毎のデータを表示
-    public void showStudentDate(List<Student> list) {
-
-        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-        tableModel.setRowCount(0);
-        for (Student students : list) {
-            tableModel.addRow(new Object[]{students.getId(), students.getClasss(), students.getName(), students.getPass(), students.getSex(),
-                students.getKokugo(), students.getMath(), students.getEnglish(), students.getScience(), students.getHistory(), students.getSum()});
-        }
     }
 
     /**
@@ -75,16 +56,9 @@ public class ClassStudentsDate extends javax.swing.JFrame {
                 "学生ID", "クラス", "名前", "パスワード", "性別"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -122,7 +96,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(36, 36, 36)
                 .addComponent(jButton1)
                 .addGap(28, 28, 28)
                 .addComponent(jButton2)
@@ -143,14 +117,14 @@ public class ClassStudentsDate extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton5)))
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
