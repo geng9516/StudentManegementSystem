@@ -114,10 +114,10 @@ public class Jdbc {
     public void updateTeacher(Teacher teacher) throws SQLException {
         String sql = "update t_teachers set ";
         sql += "name= '" + teacher.getName() + "',";
-        sql += "password= '" + teacher.getPass() + "',";
+        sql += "pass= '" + teacher.getPass() + "',";
         sql += "subject= '" + teacher.getSubject() + "',";
         sql += "sex= '" + teacher.getSex() + "'";
-        sql += " where id=" + teacher.getId();
+        sql += "where id=" + teacher.getId();
         stmt.executeUpdate(sql);
     }
 
@@ -125,12 +125,12 @@ public class Jdbc {
     public void updateClass(Aclass aclass) {
         String sql = "update t_teachers set ";
         sql += "classname '" + aclass.getClassName();
-        sql += " where teacherid = " + aclass.getTeacherId() + "and classname = '" + aclass.getClassName() + "'";
+        sql += " where teacherid = " + aclass.getTeacherId() + " and classname = '" + aclass.getClassName() + "'";
     }
 
     //クラス重複チェック
-    public boolean checkClass(Aclass aclass) throws SQLException {
-        String sql = "select classname from t_class where teacherid = " + aclass.getTeacherId() + "and '" + aclass.getSubject() + "'";
+    public boolean checkClass(int teacherId,String subject) throws SQLException {
+        String sql = "select * from t_class where teacherid = " + teacherId + " and subject='" + subject + "'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -211,6 +211,23 @@ public class Jdbc {
         return list;
     }
 
+    //loginIDとパスワードを追加
+    public void insertTeacherUser(int teacherId, String pass) throws SQLException {
+        String sql = "insert into t_user(id,pass)values(" + teacherId + ",'" + pass + "')";
+        stmt.executeUpdate(sql);
+    }
+
+    //loginIDとパスワードを更新
+    public void updateTeacherUser(String teacherId, String pass) throws SQLException {
+        String sql = "update t_user set pass = '" + pass + "' where id =" + teacherId;
+        stmt.executeUpdate(sql);
+    }
+
+    //先生IDとパスワードを削除
+    public void deleteTeacherUser(int teacherId) {
+        String sql = "delete from t_user where id = " + teacherId;
+    }
+
     /*
     管理者画面生徒データの追加編集
      */
@@ -253,7 +270,7 @@ public class Jdbc {
     //生徒データを更新する
     public void updateStudent(Student student) throws SQLException {
         String sql = "update t_students set ";
-        sql += "aclass =" + "'" + student.getAclass() + "',";
+        sql += "classname =" + "'" + student.getAclass() + "',";
         sql += "name =" + "'" + student.getName() + "',";
         sql += "pass=" + "'" + student.getPass() + "',";
         sql += "sex =" + "'" + student.getSex() + "'";
@@ -262,10 +279,10 @@ public class Jdbc {
     }
 
     //生徒1人一人の成績を取り出す
-    public List<Grade> getGrade(int studentid) throws SQLException {
+    public List<Grade> getGrade(int studentId) throws SQLException {
         List<Grade> list = new ArrayList<>();
 
-        String sql = "select * from t_grade where studentid =" + studentid;
+        String sql = "select * from t_grades where studentid =" + studentId;
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -281,6 +298,120 @@ public class Jdbc {
             }
         }
         return list;
+    }
+
+    //テストの種類が重複するかをチェック
+    public boolean checkTestType(String testType, int studentId) throws SQLException {
+        String sql = "select * from t_grades where testtype='" + testType + "' and studentid =" + studentId;
+        rs = stmt.executeQuery(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //生徒の成績を挿入
+    public void insertGrade(Grade grade) throws SQLException {
+        String sql = "insert into t_grades(studentid,testtype,kokugo,math,english,science,history)values(";
+        sql += grade.getStudentid() + ",'";
+        sql += grade.getTest() + "','";
+        sql += grade.getKokugo() + "','";
+        sql += grade.getMath() + "','";
+        sql += grade.getEnglish() + "','";
+        sql += grade.getScience() + "','";
+        sql += grade.getHistory() + "')";
+        stmt.executeUpdate(sql);
+    }
+
+    //成績を編集
+    public void updateGrade(Grade grade) throws SQLException {
+        String sql = "update t_grades set kokugo =" + grade.getKokugo();
+        sql += "," + "math=" + grade.getMath();
+        sql += "," + "english=" + grade.getEnglish();
+        sql += "," + "science=" + grade.getScience();
+        sql += "," + "history=" + grade.getHistory();
+        sql += " where studentid =" + grade.getStudentid() + " and testtype = '" + grade.getTest() + "'";
+        stmt.executeUpdate(sql);
+    }
+
+    //成績をすべて読み取って一覧に表示
+    public List<Grade> selectGrade(int studentid) throws SQLException {
+        List<Grade> list = new ArrayList<>();
+
+        String sql = "select studentid,testtype,kokugo,math,english,science,history,(kokugo+math+english+science+history) from t_grades where studentid =" + studentid;
+        rs = stmt.executeQuery(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                Grade grade = new Grade();
+                grade.setStudentid(rs.getInt(1));
+                grade.setTest(rs.getString(2));
+                grade.setKokugo(rs.getDouble(3));
+                grade.setMath(rs.getDouble(4));
+                grade.setEnglish(rs.getDouble(5));
+                grade.setScience(rs.getDouble(6));
+                grade.setHistory(rs.getDouble(7));
+                grade.setSum(rs.getDouble(8));
+                list.add(grade);
+            }
+        }
+        return list;
+    }
+
+    //クラス毎の生徒一覧
+    public List<Student> selectClass(String className) throws SQLException {
+
+        String sql = "select * from t_students where classname = '" + className + "'";
+        List<Student> list = new ArrayList<>();
+        rs = stmt.executeQuery(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt(1));
+                student.setAclass(rs.getString(2));
+                student.setName(rs.getString(3));
+                student.setPass(rs.getString(4));
+                student.setSex(rs.getString(5));
+                list.add(student);
+            }
+        }
+        return list;
+    }
+
+    //生徒データ削除
+    public void deleteStudent(int studentId) throws SQLException {
+        String sql = "delete from t_students where studentid =" + studentId;
+        stmt.executeUpdate(sql);
+    }
+
+    //生徒すべての成績削除
+    public void deleteGrade(int studentId) throws SQLException {
+        String sql = "delete from t_grades where studentid =" + studentId;
+        stmt.executeUpdate(sql);
+    }
+
+    //成績をテスト別に削除
+    public void deleteGrade(int studentId, String testType) throws SQLException {
+        String sql = "delete from t_grades where studentid =" + studentId + " and testtype = '" + testType + "'";
+        stmt.executeUpdate(sql);
+    }
+
+    //学生IDとパスワードを追加
+    public void insertStudentUser(int studentId, String pass) throws SQLException {
+        String sql = "insert into t_user(id,pass)values(" + studentId + ",'" + pass + "')";
+        stmt.executeUpdate(sql);
+    }
+
+    //学生IDとパスワードを更新
+    public void updateStudentUser(String studentId, String pass) throws SQLException {
+        String sql = "update t_user set pass = '" + pass + "' where id ='" + studentId + "'";
+        stmt.executeUpdate(sql);
+    }
+
+    //生徒IDとパスワードを削除
+    public void deleteStudentUser(int studentId) {
+        String sql = "delete from t_user where id = " + studentId;
     }
 
 }

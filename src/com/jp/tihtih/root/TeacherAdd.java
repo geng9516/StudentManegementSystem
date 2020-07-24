@@ -30,6 +30,27 @@ public class TeacherAdd extends javax.swing.JFrame {
         jTextField1.setText(String.valueOf(teacher.getId()));
         jTextField2.setText(teacher.getName());
         jTextField3.setText(teacher.getPass());
+        jComboBox1.setSelectedItem(teacher.getSubject());
+        if ("男".equals(teacher.getSex())) {
+            jRadioButton1.setSelected(true);
+        } else if ("女".equals(teacher.getSex())) {
+            jRadioButton2.setSelected(true);
+        }
+    }
+
+    public void setClass(List<Aclass> list) {
+        for (Aclass aclass : list) {
+            if ("Aクラス".equals(aclass.getClassName())) {
+                jCheckBox1.setSelected(true);
+            } else if ("Bクラス".equals(aclass.getClassName())) {
+                jCheckBox2.setSelected(true);
+            } else if ("Cクラス".equals(aclass.getClassName())) {
+                jCheckBox3.setSelected(true);
+            } else if ("Dクラス".equals(aclass.getClassName())) {
+                jCheckBox4.setSelected(true);
+
+            }
+        }
 
     }
 
@@ -55,7 +76,7 @@ public class TeacherAdd extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
@@ -100,7 +121,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし", "国語", "数学", "英語", "理科", "歴史" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし", "国語", "数学", "英語", "理科", "歴史" }));
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("男");
@@ -158,7 +179,7 @@ public class TeacherAdd extends javax.swing.JFrame {
                             .addComponent(jCheckBox2)
                             .addComponent(jCheckBox3)
                             .addComponent(jCheckBox4)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -196,7 +217,7 @@ public class TeacherAdd extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -265,11 +286,11 @@ public class TeacherAdd extends javax.swing.JFrame {
                 return;
             }
 
-            if ("なし".equals(jComboBox2.getSelectedItem().toString())) {
+            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
                 jLabel8.setText("科目を選んでください！");
                 return;
             } else {
-                teacher.setSubject(jComboBox2.getSelectedItem().toString());
+                teacher.setSubject(jComboBox1.getSelectedItem().toString());
             }
 
             if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
@@ -313,27 +334,31 @@ public class TeacherAdd extends javax.swing.JFrame {
                 jdbc.insertClass(aclass);
             }
 
+            //先生情報を追加
             jdbc.insertTeacher(teacher);
-            
-            
+
+            //loginIDとパスワードを追加
+            jdbc.insertTeacherUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
 
             td = new TeachersDate();
 
+            this.dispose();
+            td.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
-        this.dispose();
-        td.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -345,6 +370,7 @@ public class TeacherAdd extends javax.swing.JFrame {
 
         Jdbc jdbc = new Jdbc();
         Teacher teacher = new Teacher();
+        TeachersDate td = new TeachersDate();
         Aclass aclass = null;
 
         try {
@@ -355,11 +381,6 @@ public class TeacherAdd extends javax.swing.JFrame {
                 return;
             } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
                 jLabel8.setText("先生IDは101～999以内です！");
-                return;
-
-                //追加するとき先生のIDが重複しているかを判断
-            } else if (jdbc.checkTeacherID(Integer.parseInt(jTextField1.getText()))) {
-                jLabel8.setText("先生IDすでに存在しています！");
                 return;
             } else {
                 teacher.setId(Integer.parseInt(jTextField1.getText()));
@@ -374,9 +395,6 @@ public class TeacherAdd extends javax.swing.JFrame {
 
             if (jTextField3.getText().isEmpty()) {
                 jLabel8.setText("パスワードを設定してください！");
-                return;
-            } else if (jdbc.checkPass(jTextField3.getText())) {
-                jLabel8.setText("パスワードが重複しています！");
                 return;
             } else {
                 teacher.setPass(jTextField3.getText());
@@ -397,66 +415,65 @@ public class TeacherAdd extends javax.swing.JFrame {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox1.getText());
-                aclass.setSubject(teacher.getSubject());
+                aclass.setSubject(jComboBox1.getSelectedItem().toString());
 
                 //t_classにもうすでにクラスがあるかどうか
-                if (!jdbc.checkClass(aclass)) {
-                    jdbc.updateClass(aclass);
-                } else {
-                    return;
-                }
+//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
+                jdbc.updateClass(aclass);
+//                }
             }
             if (!jCheckBox2.getText().isEmpty()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox2.getText());
-                aclass.setSubject(teacher.getSubject());
-                if (!jdbc.checkClass(aclass)) {
-                    jdbc.updateClass(aclass);
-                } else {
-                    return;
-                }
+                aclass.setSubject(jComboBox1.getSelectedItem().toString());
+//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
+                jdbc.updateClass(aclass);
+//                }
             }
             if (!jCheckBox3.getText().isEmpty()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox3.getText());
-                aclass.setSubject(teacher.getSubject());
-                if (!jdbc.checkClass(aclass)) {
-                    jdbc.updateClass(aclass);
-                } else {
-                    return;
-                }
+                aclass.setSubject(jComboBox1.getSelectedItem().toString());
+//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
+                jdbc.updateClass(aclass);
+//                }
             }
             if (!jCheckBox3.getText().isEmpty()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox3.getText());
-                aclass.setSubject(teacher.getSubject());
-                if (!jdbc.checkClass(aclass)) {
-                    jdbc.updateClass(aclass);
-                } else {
-                    return;
-                }
+                aclass.setSubject(jComboBox1.getSelectedItem().toString());
+//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
+                jdbc.updateClass(aclass);
+//                }
             }
 
+            //先生データを変更
             jdbc.updateTeacher(teacher);
+
+            //loginIDとパスワードを更新
+            jdbc.updateTeacherUser(jTextField1.getText(), jTextField3.getText());
+
+            this.dispose();
+            td.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(TeacherAdd.class.getName()).log(Level.SEVERE, null, ex);
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
-        TeachersDate td = new TeachersDate();
-        this.dispose();
-        td.setVisible(true);
+
     }//GEN-LAST:event_jButton2ActionPerformed
     /*
     キャンセル
@@ -515,7 +532,7 @@ public class TeacherAdd extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

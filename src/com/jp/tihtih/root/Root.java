@@ -137,6 +137,14 @@ public class Root extends javax.swing.JFrame {
             Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Root.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed

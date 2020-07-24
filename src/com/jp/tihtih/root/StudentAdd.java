@@ -26,8 +26,14 @@ public class StudentAdd extends javax.swing.JFrame {
     //編集の基本データを表示
     public void setDate(Student student) {
         jTextField1.setText(String.valueOf(student.getId()));
+        jComboBox1.setSelectedItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
+        if("男".equals(student.getSex())){
+            jRadioButton1.setSelected(true);
+        }else if("女".equals(student.getSex())){
+            jRadioButton2.setSelected(true);
+        }
     }
 
     /**
@@ -156,7 +162,7 @@ public class StudentAdd extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -242,6 +248,9 @@ public class StudentAdd extends javax.swing.JFrame {
             }
 
             jdbc.insertStudent(student);
+            jdbc.insertStudentUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
+
+            asd.readeStudents();
 
             this.dispose();
             asd.setVisible(true);
@@ -251,10 +260,12 @@ public class StudentAdd extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -279,10 +290,6 @@ public class StudentAdd extends javax.swing.JFrame {
                 jLabel10.setText("IDは1001から9999以内です！");
                 return;
 
-                //IDが重複しているかを判断する
-            } else if (jdbc.checkStudentId(Integer.parseInt(jTextField1.getText()))) {
-                jLabel10.setText("IDがすでに存在しています！");
-                return;
             } else {
                 student.setId(Integer.parseInt(jTextField1.getText()));
             }
@@ -323,6 +330,9 @@ public class StudentAdd extends javax.swing.JFrame {
             }
 
             jdbc.updateStudent(student);
+            jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
+            
+            asd.readeStudents();
 
             this.dispose();
             asd.setVisible(true);
@@ -332,10 +342,12 @@ public class StudentAdd extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                jdbc.closeDbcom();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 

@@ -20,13 +20,67 @@ public class Grade {
     private double english;
     private double science;
     private double history;
+    private double sum;
 
     public Grade() {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + this.studentid;
+        hash = 79 * hash + Objects.hashCode(this.test);
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Grade other = (Grade) obj;
+        if (this.studentid != other.studentid) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.kokugo) != Double.doubleToLongBits(other.kokugo)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.math) != Double.doubleToLongBits(other.math)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.english) != Double.doubleToLongBits(other.english)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.science) != Double.doubleToLongBits(other.science)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.history) != Double.doubleToLongBits(other.history)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.sum) != Double.doubleToLongBits(other.sum)) {
+            return false;
+        }
+        if (!Objects.equals(this.test, other.test)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + '}';
+        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + ", sum=" + sum + '}';
     }
 
     public int getStudentid() {
@@ -85,56 +139,15 @@ public class Grade {
         this.history = history;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + this.studentid;
-        hash = 53 * hash + Objects.hashCode(this.test);
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
-        return hash;
+    public double getSum() {
+        return sum;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Grade other = (Grade) obj;
-        if (this.studentid != other.studentid) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.kokugo) != Double.doubleToLongBits(other.kokugo)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.math) != Double.doubleToLongBits(other.math)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.english) != Double.doubleToLongBits(other.english)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.science) != Double.doubleToLongBits(other.science)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.history) != Double.doubleToLongBits(other.history)) {
-            return false;
-        }
-        if (!Objects.equals(this.test, other.test)) {
-            return false;
-        }
-        return true;
+    public void setSum(double sum) {
+        this.sum = sum;
     }
 
-    public Grade(int studentid, String test, double kokugo, double math, double english, double science, double history) {
+    public Grade(int studentid, String test, double kokugo, double math, double english, double science, double history, double sum) {
         this.studentid = studentid;
         this.test = test;
         this.kokugo = kokugo;
@@ -142,6 +155,7 @@ public class Grade {
         this.english = english;
         this.science = science;
         this.history = history;
+        this.sum = sum;
     }
 
-    }
+}
