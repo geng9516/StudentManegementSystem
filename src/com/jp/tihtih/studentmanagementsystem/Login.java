@@ -5,7 +5,16 @@
  */
 package com.jp.tihtih.studentmanagementsystem;
 
-
+import com.jp.tihtih.root.Root;
+import com.jp.tihtih.root.Student;
+import com.jp.tihtih.root.Teacher;
+import com.jp.tihtih.student.StudentDates;
+import com.jp.tihtih.teacher.TeachersMeru;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,6 +59,11 @@ public class Login extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("MS UI Gothic", 0, 18)); // NOI18N
         jButton1.setText("ログイン");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 51, 0));
 
@@ -105,6 +119,91 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //管理者画面にログイン
+
+        List<Student> list = new ArrayList<>();
+        Users user = new Users();
+        Teacher teacher = null;
+        Student student = student = new Student();
+        StudentDates sd = null;
+        Jdbc jdbc = new Jdbc();
+        try {
+
+            jdbc.getDbcom();
+
+            //ユーザー情報を検索
+            user = jdbc.selectUser(jTextField1.getText());
+
+            //t_user内を検索(あるかどうか)
+            if (jdbc.selectUser(jTextField1.getText()) != null) {
+
+                //入力したIDとpassがDBにあるかどうかを判断する
+                if (jTextField1.getText().equals(user.getId()) && jPasswordField1.getText().equals(user.getPass())) {
+
+                    //IDがadminであれば管理者画面へ
+                    if ("admin".equals(user.getId())) {
+                        Root root = new Root();
+                        this.dispose();
+                        root.setVisible(true);
+
+                        //IDが101から999までのであれば、判断をし、その先生の管理画面にログイン
+                    } else if (Integer.parseInt(jTextField1.getText()) > 100 && Integer.parseInt(jTextField1.getText()) < 1000) {
+                        teacher = new Teacher();
+                        TeachersMeru td = new TeachersMeru();
+
+                        //先生を探す
+                        teacher = jdbc.getTeacher(jTextField1.getText());
+
+                        td.setTeacher(teacher);
+
+                        this.dispose();
+                        td.setVisible(true);
+
+                        //学生データ確認画面
+                    } else if (Integer.parseInt(jTextField1.getText()) > 1000 && Integer.parseInt(jTextField1.getText()) < 10000) {
+
+                        sd = new StudentDates();
+                        
+
+                        student = jdbc.getStudentDate(Integer.parseInt(jTextField1.getText()));
+
+                        sd.showStudentDate(student);
+                        sd.readGrade(Integer.parseInt(jTextField1.getText()));
+
+                        this.dispose();
+                        sd.setVisible(true);
+
+                    }
+
+                } else {
+                    jLabel3.setText("IDかパスワードが間違っています！");
+                    jLabel4.setText("正しいIDとパスワードを入力してください！");
+                    return;
+                }
+            } else {
+                jLabel4.setText("");
+                jLabel3.setText("ユーザー情報ありません！");
+
+                return;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                jdbc.closeDbcom();
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -130,6 +229,7 @@ public class Login extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

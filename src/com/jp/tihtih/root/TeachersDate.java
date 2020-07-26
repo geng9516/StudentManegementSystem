@@ -6,7 +6,6 @@
 package com.jp.tihtih.root;
 
 import com.jp.tihtih.studentmanagementsystem.Jdbc;
-import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -211,18 +210,19 @@ public class TeachersDate extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3))
+                            .addComponent(jButton7)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -290,9 +290,8 @@ public class TeachersDate extends javax.swing.JFrame {
             list = jdbc.getClassDB(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
 
             readClassDb(list);
-            
+
             TeacherAdd ta = new TeacherAdd();
-            ta.setClass(list);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,24 +314,47 @@ public class TeachersDate extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 
+        List<Aclass> list = new ArrayList<>();
         Teacher teacher = new Teacher();
         TeacherAdd ta = null;
-        if (jTable1.getSelectedColumn() != -1) {
-            jLabel4.setText("");
-            teacher.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            teacher.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-            teacher.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-            teacher.setSubject(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
-            teacher.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+        Jdbc jdbc = new Jdbc();
+        try {
+            jdbc.getDbcom();
 
-            ta = new TeacherAdd();
-            ta.getDate(teacher);
-            this.dispose();
-            ta.setVisible(true);
+            if (jTable1.getSelectedColumn() != -1) {
+                jLabel4.setText("");
+                teacher.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                teacher.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                teacher.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+                teacher.setSubject(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+                teacher.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
 
-        } else {
-            jLabel4.setText("データを選択してください！");
+                ta = new TeacherAdd();
+                ta.getDate(teacher);
+
+                list = jdbc.getClassDB(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                ta.setClass(list);
+                this.dispose();
+                ta.setVisible(true);
+
+            } else {
+                jLabel4.setText("データを選択してください！");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
     /*
@@ -347,7 +369,7 @@ public class TeachersDate extends javax.swing.JFrame {
             if (jTable1.getSelectedColumn() != -1) {
                 jdbc.deleteTecher(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
                 jdbc.deleteClass(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                jdbc.deleteTeacherUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                jdbc.deleteTeacherUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             } else {
                 jLabel4.setText("データを選択してください！");
             }

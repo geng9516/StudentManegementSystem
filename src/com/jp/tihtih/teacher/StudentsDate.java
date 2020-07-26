@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jp.tihtih.root;
+package com.jp.tihtih.teacher;
 
+import com.jp.tihtih.root.*;
 import com.jp.tihtih.studentmanagementsystem.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author user
  */
-public class AllStudentsDate extends javax.swing.JFrame {
+public class StudentsDate extends javax.swing.JFrame {
 
     /**
      * Creates new form Students
      */
-    public AllStudentsDate() {
+    public StudentsDate() {
         initComponents();
-        readeStudents();
+//        readeStudents();
     }
 
     /*
@@ -50,15 +51,15 @@ public class AllStudentsDate extends javax.swing.JFrame {
             list = jdbc.getAllStudents();
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
                     jdbc.closeDbcom();
                 } catch (SQLException ex) {
-                    Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -67,6 +68,14 @@ public class AllStudentsDate extends javax.swing.JFrame {
         tableModel.setRowCount(0);
         for (Student student : list) {
             tableModel.addRow(new Object[]{student.getId(), student.getAclass(), student.getName(), student.getPass(), student.getSex()});
+        }
+    }
+
+    public void readClassDb(List<Aclass> list) {
+        //一旦jComboBox内のデータを空にする
+        jComboBox1.removeAllItems();
+        for (Aclass aclass : list) {
+            jComboBox1.addItem(aclass.getClassName());
         }
     }
 
@@ -94,7 +103,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton9 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -167,19 +175,10 @@ public class AllStudentsDate extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aクラス", "Bクラス", "Cクラス", "Dクラス" }));
-
         jButton9.setText("クラス別");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("全て");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
             }
         });
 
@@ -197,11 +196,9 @@ public class AllStudentsDate extends javax.swing.JFrame {
                                 .addGap(20, 20, 20)
                                 .addComponent(jButton5))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8))
+                                .addComponent(jButton9))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
@@ -237,12 +234,10 @@ public class AllStudentsDate extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton5))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton9)
-                        .addComponent(jButton8)))
-                .addGap(8, 8, 8)
+                    .addComponent(jButton9))
+                .addGap(9, 9, 9)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +249,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton4)
                         .addComponent(jButton7)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         pack();
@@ -264,7 +259,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        StudentAdd sa = new StudentAdd();
+        StudentAdd2 sa = new StudentAdd2();
         this.dispose();
         sa.setVisible(true);
 
@@ -286,7 +281,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
 
-            StudentAdd sa = new StudentAdd();
+            StudentAdd2 sa = new StudentAdd2();
 
             sa.setDate(student);
 
@@ -304,9 +299,9 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Root root = new Root();
+        TeachersMeru tm = new TeachersMeru();
         this.dispose();
-        root.setVisible(true);
+        tm.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -319,42 +314,39 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-//        Jdbc jdbc = new Jdbc();
-//        List<Grade> list = new ArrayList<>();
+        Jdbc jdbc = new Jdbc();
+        List<Grade> list = new ArrayList<>();
         GradeDate gd = new GradeDate();
-        
-        gd.readGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-        gd.setVisible(true);
 
-//        try {
-//            jdbc.getDbcom();
-//
-//            if (jTable1.getSelectedColumn() != -1) {
-//
-//                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-//
-//                gd.showGrade(list);
-//                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-//
-//                gd.setVisible(true);
-//
-//            } else {
-//                jLabel2.setText("データを選択してください！");
-//                return;
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            if (jdbc != null) {
-//                try {
-//                    jdbc.closeDbcom();
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
+        try {
+            jdbc.getDbcom();
+
+            if (jTable1.getSelectedColumn() != -1) {
+
+                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+
+                gd.showGrade(list);
+                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+
+                gd.setVisible(true);
+
+            } else {
+                jLabel2.setText("データを選択してください！");
+                return;
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
 
 
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -377,15 +369,15 @@ public class AllStudentsDate extends javax.swing.JFrame {
             readeStudents();
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
                     jdbc.closeDbcom();
                 } catch (SQLException ex) {
-                    Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -419,13 +411,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton9ActionPerformed
-/*
-    全ての生徒
-    */
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-        readeStudents();
-    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -444,14 +429,18 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AllStudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AllStudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AllStudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AllStudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentsDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -460,7 +449,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AllStudentsDate().setVisible(true);
+                new StudentsDate().setVisible(true);
             }
         });
     }
@@ -473,7 +462,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;

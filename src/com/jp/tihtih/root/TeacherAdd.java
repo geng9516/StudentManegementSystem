@@ -25,6 +25,7 @@ public class TeacherAdd extends javax.swing.JFrame {
         initComponents();
     }
 
+    //編集画面に既定情報を記載
     public void getDate(Teacher teacher) {
 
         jTextField1.setText(String.valueOf(teacher.getId()));
@@ -38,6 +39,7 @@ public class TeacherAdd extends javax.swing.JFrame {
         }
     }
 
+    //編集画面に既定情報を記載
     public void setClass(List<Aclass> list) {
         for (Aclass aclass : list) {
             if ("Aクラス".equals(aclass.getClassName())) {
@@ -274,10 +276,11 @@ public class TeacherAdd extends javax.swing.JFrame {
             if (jTextField3.getText().isEmpty()) {
                 jLabel8.setText("パスワードを設定してください！");
                 return;
-            } else if (jdbc.checkPass(jTextField3.getText())) {
-                jLabel8.setText("パスワードが重複しています！");
-                return;
-            } else {
+            } //            else if (jdbc.checkPass(jTextField3.getText())) {
+            //                jLabel8.setText("パスワードが重複しています！");
+            //                return;
+            //            } 
+            else {
                 teacher.setPass(jTextField3.getText());
             }
 
@@ -305,40 +308,59 @@ public class TeacherAdd extends javax.swing.JFrame {
             }
 
             //t_classにクラス情報を追加
+            jdbc.deleteClass(Integer.parseInt(jTextField1.getText()));
+            //t_classにクラス情報を編集
             if (jCheckBox1.isSelected()) {
-                aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
-                aclass.setClassName(jCheckBox1.getText());
-                aclass.setSubject(teacher.getSubject());
-                jdbc.insertClass(aclass);
+                if (jdbc.checkClass(jCheckBox1.getText(), jComboBox1.getSelectedItem().toString())) {
+                    aclass = new Aclass();
+                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setClassName(jCheckBox1.getText());
+                    aclass.setSubject(teacher.getSubject());
+                    jdbc.insertClass(aclass);
+                } else {
+                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                }
             }
             if (jCheckBox2.isSelected()) {
-                aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
-                aclass.setClassName(jCheckBox2.getText());
-                aclass.setSubject(teacher.getSubject());
-                jdbc.insertClass(aclass);
+                if (jdbc.checkClass(jCheckBox2.getText(), jComboBox1.getSelectedItem().toString())) {
+                    aclass = new Aclass();
+                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setClassName(jCheckBox2.getText());
+                    aclass.setSubject(teacher.getSubject());
+                    jdbc.insertClass(aclass);
+                } else {
+                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                }
             }
             if (jCheckBox3.isSelected()) {
-                aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
-                aclass.setClassName(jCheckBox3.getText());
-                aclass.setSubject(teacher.getSubject());
-                jdbc.insertClass(aclass);
+                if (jdbc.checkClass(jCheckBox3.getText(), jComboBox1.getSelectedItem().toString())) {
+                    aclass = new Aclass();
+                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setClassName(jCheckBox3.getText());
+                    aclass.setSubject(teacher.getSubject());
+                    jdbc.insertClass(aclass);
+                } else {
+                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                }
             }
             if (jCheckBox4.isSelected()) {
-                aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
-                aclass.setClassName(jCheckBox4.getText());
-                aclass.setSubject(teacher.getSubject());
-                jdbc.insertClass(aclass);
+                if (jdbc.checkClass(jCheckBox4.getText(), jComboBox1.getSelectedItem().toString())) {
+                    aclass = new Aclass();
+                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setClassName(jCheckBox4.getText());
+                    aclass.setSubject(teacher.getSubject());
+                    jdbc.insertClass(aclass);
+                } else {
+                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                }
+
             }
 
             //先生情報を追加
             jdbc.insertTeacher(teacher);
 
             //loginIDとパスワードを追加
-            jdbc.insertTeacherUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
+            jdbc.insertTeacherUser(jTextField1.getText(), jTextField3.getText());
 
             td = new TeachersDate();
 
@@ -400,6 +422,13 @@ public class TeacherAdd extends javax.swing.JFrame {
                 teacher.setPass(jTextField3.getText());
             }
 
+            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                jLabel8.setText("科目を選んでください！");
+                return;
+            } else {
+                teacher.setSubject(jComboBox1.getSelectedItem().toString());
+            }
+
             if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
                 jLabel8.setText("性別を選択していません！");
                 return;
@@ -410,44 +439,37 @@ public class TeacherAdd extends javax.swing.JFrame {
                 teacher.setSex("女");
             }
 
+            //先に一回削除してから
+            jdbc.deleteClass(Integer.parseInt(jTextField1.getText()));
             //t_classにクラス情報を編集
-            if (!jCheckBox1.getText().isEmpty()) {
+            if (jCheckBox1.isSelected()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox1.getText());
-                aclass.setSubject(jComboBox1.getSelectedItem().toString());
-
-                //t_classにもうすでにクラスがあるかどうか
-//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
-                jdbc.updateClass(aclass);
-//                }
+                aclass.setSubject(teacher.getSubject());
+                jdbc.insertClass(aclass);
             }
-            if (!jCheckBox2.getText().isEmpty()) {
+            if (jCheckBox2.isSelected()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox2.getText());
-                aclass.setSubject(jComboBox1.getSelectedItem().toString());
-//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
-                jdbc.updateClass(aclass);
-//                }
+                aclass.setSubject(teacher.getSubject());
+                jdbc.insertClass(aclass);
             }
-            if (!jCheckBox3.getText().isEmpty()) {
+            if (jCheckBox3.isSelected()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
                 aclass.setClassName(jCheckBox3.getText());
-                aclass.setSubject(jComboBox1.getSelectedItem().toString());
-//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
-                jdbc.updateClass(aclass);
-//                }
+                aclass.setSubject(teacher.getSubject());
+                jdbc.insertClass(aclass);
             }
-            if (!jCheckBox3.getText().isEmpty()) {
+            if (jCheckBox4.isSelected()) {
                 aclass = new Aclass();
                 aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
-                aclass.setClassName(jCheckBox3.getText());
-                aclass.setSubject(jComboBox1.getSelectedItem().toString());
-//                if (!jdbc.checkClass(Integer.parseInt(jTextField1.getText()), jCheckBox2.getText())) {
-                jdbc.updateClass(aclass);
-//                }
+                aclass.setClassName(jCheckBox4.getText());
+                aclass.setSubject(teacher.getSubject());
+                jdbc.insertClass(aclass);
+
             }
 
             //先生データを変更
@@ -456,6 +478,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             //loginIDとパスワードを更新
             jdbc.updateTeacherUser(jTextField1.getText(), jTextField3.getText());
 
+            td.readTeacherDb();
             this.dispose();
             td.setVisible(true);
 

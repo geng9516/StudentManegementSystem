@@ -7,6 +7,8 @@ package com.jp.tihtih.root;
 
 import com.jp.tihtih.studentmanagementsystem.Jdbc;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,12 +16,12 @@ import java.util.logging.Logger;
  *
  * @author user
  */
-public class StudentAdd extends javax.swing.JFrame {
+public class StudentAdd2 extends javax.swing.JFrame {
 
     /**
      * Creates new form StudentAdd
      */
-    public StudentAdd() {
+    public StudentAdd2() {
         initComponents();
     }
 
@@ -29,9 +31,9 @@ public class StudentAdd extends javax.swing.JFrame {
         jComboBox1.setSelectedItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
-        if("男".equals(student.getSex())){
+        if ("男".equals(student.getSex())) {
             jRadioButton1.setSelected(true);
-        }else if("女".equals(student.getSex())){
+        } else if ("女".equals(student.getSex())) {
             jRadioButton2.setSelected(true);
         }
     }
@@ -188,7 +190,7 @@ public class StudentAdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         Student student = new Student();
 
-        AllStudentsDate asd = new AllStudentsDate();
+        ClassStudentsDate csd = new ClassStudentsDate();
 
         Jdbc jdbc = new Jdbc();
         try {
@@ -250,15 +252,15 @@ public class StudentAdd extends javax.swing.JFrame {
             jdbc.insertStudent(student);
             jdbc.insertStudentUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
 
-            asd.readeStudents();
+            csd.readeStudents();
 
             this.dispose();
-            asd.setVisible(true);
+            csd.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
@@ -276,7 +278,7 @@ public class StudentAdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         Student student = new Student();
 
-        AllStudentsDate asd = new AllStudentsDate();
+        ClassStudentsDate csd = new ClassStudentsDate();
 
         Jdbc jdbc = new Jdbc();
         try {
@@ -331,16 +333,16 @@ public class StudentAdd extends javax.swing.JFrame {
 
             jdbc.updateStudent(student);
             jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
-            
-            asd.readeStudents();
+
+            csd.readeStudents();
 
             this.dispose();
-            asd.setVisible(true);
+            csd.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
@@ -357,10 +359,34 @@ public class StudentAdd extends javax.swing.JFrame {
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        AllStudentsDate asd = new AllStudentsDate();
-//        asd.readeStudents();
+
+        Jdbc jdbc = new Jdbc();
+        ClassStudentsDate csd = new ClassStudentsDate();
+
+        List<Student> list = new ArrayList<>();
+        try {
+            jdbc.getDbcom();
+
+            list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
+
+            csd.readeStudents(list);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         this.dispose();
-        asd.setVisible(true);
+        csd.setVisible(true);
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -380,21 +406,23 @@ public class StudentAdd extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentAdd().setVisible(true);
+                new StudentAdd2().setVisible(true);
             }
         });
     }

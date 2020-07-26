@@ -25,7 +25,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
      */
     public ClassStudentsDate() {
         initComponents();
-
+//        readeStudents();
     }
 
     /*
@@ -38,8 +38,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{student.getId(), student.getAclass(), student.getName(), student.getPass(), student.getSex()});
         }
     }
-    
-    
+
     public void readeStudents() {
         Jdbc jdbc = new Jdbc();
 
@@ -121,10 +120,25 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         jLabel1.setText("キーワード");
 
         jButton1.setText("新規学生");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("修正");
+        jButton2.setText("編集");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("削除");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("閉じる");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +216,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 /*
     生徒毎の成績
-    */
+     */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         Jdbc jdbc = new Jdbc();
@@ -239,13 +253,81 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
-/*
+    /*
     閉じる
-    */
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+    /*
+    新規
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        StudentAdd2 sa = new StudentAdd2();
+        this.dispose();
+        sa.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    /*
+    編集
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        //Jtable表を値を取得し、編集画面に入れる
+        Student student = new Student();
+
+        //getSelectedColumn() 如果未选择行就返回-1
+        if (jTable1.getSelectedColumn() != -1) {
+            student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+            student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+            student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+            student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+
+            StudentAdd2 sa = new StudentAdd2();
+
+            sa.setDate(student);
+
+            this.dispose();
+
+            sa.setVisible(true);
+
+        } else {
+            jLabel2.setText("データを選択してください！");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+/*
+    削除
+    */
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Jdbc jdbc = new Jdbc();
+
+        try {
+            jdbc.getDbcom();
+
+            //学生情報と成績情報を一緒に削除
+            jdbc.deleteStudent(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+
+            readeStudents();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
