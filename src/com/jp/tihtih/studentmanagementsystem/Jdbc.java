@@ -283,8 +283,8 @@ public class Jdbc {
     //生徒1人一人の成績を取り出す
     public List<Grade> getGrade(int studentId) throws SQLException {
         List<Grade> list = new ArrayList<>();
-
         String sql = "select studentid,testtype,kokugo,math,english,science,history,(kokugo+math+english+science+history) from t_grades where studentid =" + studentId;
+        System.out.println(sql);
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -296,9 +296,11 @@ public class Jdbc {
                 grade.setEnglish(rs.getDouble(5));
                 grade.setScience(rs.getDouble(6));
                 grade.setHistory(rs.getDouble(7));
+                grade.setSum(rs.getDouble(8));
                 list.add(grade);
             }
         }
+
         return list;
     }
 

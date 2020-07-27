@@ -427,11 +427,15 @@ public class TeachersDate extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
-            list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
-            csd.readeStudents(list);
-            csd.showClassName(jComboBox2.getSelectedItem().toString());
+            if (jTable1.getSelectedColumn() != -1) {
+                list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
+                csd.readeStudents(list);
+                csd.showClassName(jComboBox2.getSelectedItem().toString());
 
-            csd.setVisible(true);
+                csd.setVisible(true);
+            } else {
+                jLabel4.setText("データを選択してください！");
+            }
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);

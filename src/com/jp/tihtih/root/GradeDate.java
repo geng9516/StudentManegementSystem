@@ -31,8 +31,13 @@ public class GradeDate extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
         for (Grade grade : list) {
-            tableModel.addRow(new Object[]{grade.getStudentid(), grade.getTest(), grade.getKokugo(), grade.getMath(), grade.getEnglish(), grade.getScience(), grade.getHistory(), grade.getSum()});
+            tableModel.addRow(new Object[]{grade.getStudentid(), grade.getTest(),
+                grade.getKokugo(), grade.getMath(), grade.getEnglish(), grade.getScience(), grade.getHistory(), grade.getSum()});
+            
+            System.out.println(grade.getKokugo() + "," + grade.getMath() + "," +
+                    grade.getEnglish() + "," + grade.getScience() + "," + grade.getHistory() + "," + grade.getSum());
         }
+
     }
 
     //画面の学生IDを表示するため
@@ -170,11 +175,11 @@ public class GradeDate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jButton1)
-                .addGap(49, 49, 49)
+                .addGap(59, 59, 59)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
-                .addGap(26, 26, 26)
+                .addGap(79, 79, 79)
                 .addComponent(jButton3)
                 .addGap(83, 83, 83))
         );
@@ -240,7 +245,7 @@ public class GradeDate extends javax.swing.JFrame {
             grade.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
 
             ga.setGradeAdd(grade);
-            
+
             this.dispose();
             ga.setVisible(true);
 
@@ -257,7 +262,7 @@ public class GradeDate extends javax.swing.JFrame {
 
         try {
             jdbc.getDbcom();
-            
+
             if (jTable1.getSelectedColumn() != -1) {
                 // //成績をテスト別に削除
                 jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
@@ -267,7 +272,7 @@ public class GradeDate extends javax.swing.JFrame {
             } else {
                 jLabel1.setText("データを選択してください！");
             }
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GradeDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
