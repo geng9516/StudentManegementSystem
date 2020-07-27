@@ -159,6 +159,11 @@ public class StudentsDate extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 51, 0));
 
         jButton6.setText("多行削除");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -278,9 +283,8 @@ public class StudentsDate extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addComponent(jButton3)
                         .addComponent(jButton6))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton7)))
+                    .addComponent(jButton7)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -487,6 +491,32 @@ public class StudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+    /*
+    多行削除
+     */
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+
+        Jdbc jdbc = new Jdbc();
+        try {
+            jdbc.getDbcom();
+
+            int[] selection = jTable1.getSelectedRows();
+            for (int i = selection.length - 1; i >= 0; i--) {
+                jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

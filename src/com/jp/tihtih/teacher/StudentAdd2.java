@@ -30,9 +30,9 @@ public class StudentAdd2 extends javax.swing.JFrame {
         jComboBox1.setSelectedItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
-        if("男".equals(student.getSex())){
+        if ("男".equals(student.getSex())) {
             jRadioButton1.setSelected(true);
-        }else if("女".equals(student.getSex())){
+        } else if ("女".equals(student.getSex())) {
             jRadioButton2.setSelected(true);
         }
     }
@@ -332,7 +332,7 @@ public class StudentAdd2 extends javax.swing.JFrame {
 
             jdbc.updateStudent(student);
             jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
-            
+
             sd.readeStudents();
 
             this.dispose();
