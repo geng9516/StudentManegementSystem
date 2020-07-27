@@ -38,6 +38,12 @@ public class StudentAdd2 extends javax.swing.JFrame {
         }
     }
 
+    //追加するクラスを自動表示
+    public void setClassName(String className) {
+        jComboBox1.removeAllItems();
+        jComboBox1.addItem(className);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -367,9 +373,14 @@ public class StudentAdd2 extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
+            //ClassStudentDateへ戻るときそのクラスの生徒をすべて表示
             list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
 
             csd.readeStudents(list);
+            csd.showClassName(jComboBox1.getSelectedItem().toString());
+
+            this.dispose();
+            csd.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
@@ -384,8 +395,7 @@ public class StudentAdd2 extends javax.swing.JFrame {
                 }
             }
         }
-        this.dispose();
-        csd.setVisible(true);
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
 

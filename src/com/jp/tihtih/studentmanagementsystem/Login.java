@@ -8,7 +8,7 @@ package com.jp.tihtih.studentmanagementsystem;
 import com.jp.tihtih.root.Root;
 import com.jp.tihtih.root.Student;
 import com.jp.tihtih.root.Teacher;
-import com.jp.tihtih.student.StudentDates;
+import com.jp.tihtih.student.myDate;
 import com.jp.tihtih.teacher.TeachersMeru;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -126,8 +126,8 @@ public class Login extends javax.swing.JFrame {
         List<Student> list = new ArrayList<>();
         Users user = new Users();
         Teacher teacher = null;
-        Student student = student = new Student();
-        StudentDates sd = null;
+
+        myDate sd = null;
         Jdbc jdbc = new Jdbc();
         try {
 
@@ -163,12 +163,11 @@ public class Login extends javax.swing.JFrame {
 
                         //学生データ確認画面
                     } else if (Integer.parseInt(jTextField1.getText()) > 1000 && Integer.parseInt(jTextField1.getText()) < 10000) {
-
-                        sd = new StudentDates();
-                        
+                        Student student = student = new Student();
+                        sd = new myDate();
 
                         student = jdbc.getStudentDate(Integer.parseInt(jTextField1.getText()));
-
+                        System.out.println(student);
                         sd.showStudentDate(student);
                         sd.readGrade(Integer.parseInt(jTextField1.getText()));
 

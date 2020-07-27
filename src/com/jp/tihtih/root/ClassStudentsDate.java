@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -70,6 +71,11 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         }
     }
 
+    //クラス名を表示
+    public void showClassName(String className) {
+        jLabel5.setText(className);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +97,8 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
@@ -98,6 +106,11 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         setTitle("各クラス生徒一覧");
 
         jButton5.setText("検索");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,20 +169,14 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("クラス");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton5))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(134, 134, 134)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -186,30 +193,48 @@ public class ClassStudentsDate extends javax.swing.JFrame {
                                 .addComponent(jButton6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(70, 70, 70)
+                                .addComponent(jLabel1)))))
                 .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton1)
                     .addComponent(jButton6))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -219,39 +244,45 @@ public class ClassStudentsDate extends javax.swing.JFrame {
      */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        Jdbc jdbc = new Jdbc();
-        List<Grade> list = new ArrayList<>();
+
         GradeDate gd = new GradeDate();
 
-        try {
-            jdbc.getDbcom();
-
-            if (jTable1.getSelectedColumn() != -1) {
-
-                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-
-                gd.showGrade(list);
-                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-
-                gd.setVisible(true);
-
-            } else {
-                jLabel2.setText("データを選択してください！");
-                return;
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+        gd.readGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        gd.setVisible(true);
+//        Jdbc jdbc = new Jdbc();
+//        List<Grade> list = new ArrayList<>();
+//        GradeDate gd = new GradeDate();
+//
+//        try {
+//            jdbc.getDbcom();
+//
+//            if (jTable1.getSelectedColumn() != -1) {
+//
+//                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+//
+//                gd.showGrade(list);
+//                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+//
+//                gd.setVisible(true);
+//
+//            } else {
+//                jLabel2.setText("データを選択してください！");
+//                return;
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            if (jdbc != null) {
+//                try {
+//                    jdbc.closeDbcom();
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
     }//GEN-LAST:event_jButton6ActionPerformed
     /*
     閉じる
@@ -266,6 +297,9 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         StudentAdd2 sa = new StudentAdd2();
+
+        sa.setClassName(jLabel5.getText());
+
         this.dispose();
         sa.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -297,9 +331,9 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             jLabel2.setText("データを選択してください！");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-/*
+    /*
     削除
-    */
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Jdbc jdbc = new Jdbc();
@@ -328,6 +362,55 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+/*
+    検索
+    */
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+         Jdbc jdbc = new Jdbc();
+        Student student = new Student();
+        List<Student> list = new ArrayList<>();
+        //String型をint型にフォーマット
+        Pattern p = Pattern.compile("^-?[1-9]\\d*$");
+//        Matcher m = p.matcher(num);
+        try {
+            jdbc.getDbcom();
+
+            if (!jTextField1.getText().isEmpty()) {
+                jLabel2.setText("");
+                //Stringが数値かを判断
+                if (p.matcher((jTextField1.getText())).find()) {
+                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
+                        list = jdbc.searchStudentId(Integer.parseInt(jTextField1.getText()));
+                        readeStudents(list);
+                    } else {
+                        jLabel2.setText("IDが長すぎます！");
+                        return;
+                    }
+                } else {
+                    //名前、科目、性別（あいまいと特定検索）
+                    list = jdbc.searchStudentName(jTextField1.getText());
+                    readeStudents(list);
+                }
+
+            } else {
+                jLabel2.setText("キーワードを入力してください！");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,6 +464,8 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

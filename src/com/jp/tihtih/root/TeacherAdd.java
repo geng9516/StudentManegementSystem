@@ -37,6 +37,7 @@ public class TeacherAdd extends javax.swing.JFrame {
         } else if ("女".equals(teacher.getSex())) {
             jRadioButton2.setSelected(true);
         }
+        System.out.println(teacher.getId() + "," + teacher.getName() + "," + teacher.getSex());
     }
 
     //編集画面に既定情報を記載

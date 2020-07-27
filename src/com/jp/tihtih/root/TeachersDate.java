@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,6 +52,15 @@ public class TeachersDate extends javax.swing.JFrame {
 
         }
 
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+        for (Teacher teacher : list) {
+            tableModel.addRow(new Object[]{teacher.getId(), teacher.getName(), teacher.getPass(), teacher.getSubject(), teacher.getSex()});
+        }
+    }
+
+    //検索結果を表示する
+    public void showSearchResult(List<Teacher> list) {
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
         for (Teacher teacher : list) {
@@ -122,6 +132,11 @@ public class TeachersDate extends javax.swing.JFrame {
         jLabel1.setText("キーワード");
 
         jButton3.setText("検索");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("削除");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -189,28 +204,24 @@ public class TeachersDate extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 29, Short.MAX_VALUE))))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -219,20 +230,24 @@ public class TeachersDate extends javax.swing.JFrame {
                                 .addComponent(jButton3))
                             .addComponent(jButton7)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3)
                     .addGroup(layout.createSequentialGroup()
@@ -252,7 +267,7 @@ public class TeachersDate extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton4)
                     .addComponent(jButton6))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -365,7 +380,7 @@ public class TeachersDate extends javax.swing.JFrame {
         Jdbc jdbc = new Jdbc();
         try {
             jdbc.getDbcom();
-
+            jComboBox2.removeAllItems();
             if (jTable1.getSelectedColumn() != -1) {
                 jdbc.deleteTecher(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
                 jdbc.deleteClass(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
@@ -414,6 +429,7 @@ public class TeachersDate extends javax.swing.JFrame {
 
             list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
             csd.readeStudents(list);
+            csd.showClassName(jComboBox2.getSelectedItem().toString());
 
             csd.setVisible(true);
 
@@ -433,6 +449,56 @@ public class TeachersDate extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton7ActionPerformed
+    /*
+    検索
+     */
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Jdbc jdbc = new Jdbc();
+        Teacher teacher = new Teacher();
+        List<Teacher> list = new ArrayList<>();
+        //String型をint型にフォーマット
+        Pattern p = Pattern.compile("^-?[1-9]\\d*$");
+//        Matcher m = p.matcher(num);
+        try {
+            jdbc.getDbcom();
+
+            if (!jTextField1.getText().isEmpty()) {
+                jLabel4.setText("");
+                //Stringが数値かを判断
+                if (p.matcher((jTextField1.getText())).find()) {
+                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 1000) {
+                        list = jdbc.searchTeacherId(Integer.parseInt(jTextField1.getText()));
+                        showSearchResult(list);
+                    } else {
+                        jLabel4.setText("IDが長すぎます！");
+                        return;
+                    }
+                } else {
+                    //名前、科目、性別（あいまいと特定検索）
+                    list = jdbc.searchTeacherName(jTextField1.getText());
+                    showSearchResult(list);
+                }
+
+            } else {
+                jLabel4.setText("キーワードを入力してください！");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
