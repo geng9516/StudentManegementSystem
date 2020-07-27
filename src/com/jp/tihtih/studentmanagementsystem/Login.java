@@ -155,8 +155,8 @@ public class Login extends javax.swing.JFrame {
 
                         //先生を探す
                         teacher = jdbc.getTeacher(jTextField1.getText());
-
-                        td.setTeacher(teacher);
+                        //先生のログイン画面のIdと名前を表示
+                        td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
 
                         this.dispose();
                         td.setVisible(true);

@@ -29,9 +29,9 @@ public class TeachersMeru extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void setTeacher(Teacher teacher) {
-        jLabel2.setText(String.valueOf(teacher.getId()));
-        jLabel4.setText(teacher.getName());
+    public void setTeacher(String teacherId, String name) {
+        jLabel2.setText(teacherId);
+        jLabel4.setText(name);
     }
 
     /**
@@ -140,6 +140,8 @@ public class TeachersMeru extends javax.swing.JFrame {
             //クラス情報をStudentDateのcomboxに表示
             list = jdbc.getClassDB(Integer.parseInt(jLabel2.getText()));
             sd.readClassDb(list);
+            sd.showTeacherId(jLabel2.getText(), jLabel4.getText());
+
             this.dispose();
             sd.setVisible(true);
 
@@ -159,21 +161,21 @@ public class TeachersMeru extends javax.swing.JFrame {
         this.dispose();
         login.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
-/*
+    /*
     パスワード変更
-    */
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         NewPass np = new NewPass();
-        
+
         np.setText(jLabel2.getText());
         Jdbc jdbc = new Jdbc();
         try {
             jdbc.getDbcom();
 
             String pass = jdbc.selectPass(jLabel2.getText());
-            
-            np.setOldPass(pass); 
+
+            np.setOldPass(pass);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(NewPass.class.getName()).log(Level.SEVERE, null, ex);
@@ -188,7 +190,7 @@ public class TeachersMeru extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         this.dispose();
         np.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
