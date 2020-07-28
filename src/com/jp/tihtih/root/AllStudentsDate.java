@@ -5,7 +5,7 @@
  */
 package com.jp.tihtih.root;
 
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -197,8 +197,8 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8))
@@ -267,7 +267,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        StudentAdd sa = new StudentAdd();
+        StudentAdd sa = new StudentAdd();      
         this.dispose();
         sa.setVisible(true);
 
@@ -283,24 +283,18 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
         //getSelectedColumn() 如果未选择行就返回-1
         if (jTable1.getSelectedColumn() != -1) {
-            student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-
             StudentAdd sa = new StudentAdd();
-
             sa.setDate(student);
-
             this.dispose();
-
             sa.setVisible(true);
-
         } else {
             jLabel2.setText("データを選択してください！");
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
     /*
     管理者画面へ戻る
@@ -322,43 +316,14 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-//        Jdbc jdbc = new Jdbc();
-//        List<Grade> list = new ArrayList<>();
         GradeDate gd = new GradeDate();
-
-        gd.readGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-        gd.setVisible(true);
-
-//        try {
-//            jdbc.getDbcom();
-//
-//            if (jTable1.getSelectedColumn() != -1) {
-//
-//                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-//
-//                gd.showGrade(list);
-//                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-//
-//                gd.setVisible(true);
-//
-//            } else {
-//                jLabel2.setText("データを選択してください！");
-//                return;
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            if (jdbc != null) {
-//                try {
-//                    jdbc.closeDbcom();
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
-
+        if (jTable1.getSelectedColumn() != -1) {
+            gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            gd.setVisible(true);
+        } else {
+            jLabel2.setText("データを選択してください！");
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
     /*
     削除
@@ -372,9 +337,9 @@ public class AllStudentsDate extends javax.swing.JFrame {
             jdbc.getDbcom();
 
             //学生情報と成績情報を一緒に削除
-            jdbc.deleteStudent(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
             readeStudents();
 

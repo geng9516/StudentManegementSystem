@@ -5,7 +5,7 @@
  */
 package com.jp.tihtih.root;
 
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +33,9 @@ public class GradeDate extends javax.swing.JFrame {
         for (Grade grade : list) {
             tableModel.addRow(new Object[]{grade.getStudentid(), grade.getTest(),
                 grade.getKokugo(), grade.getMath(), grade.getEnglish(), grade.getScience(), grade.getHistory(), grade.getSum()});
-            
-            System.out.println(grade.getKokugo() + "," + grade.getMath() + "," +
-                    grade.getEnglish() + "," + grade.getScience() + "," + grade.getHistory() + "," + grade.getSum());
+
+            System.out.println(grade.getKokugo() + "," + grade.getMath() + ","
+                    + grade.getEnglish() + "," + grade.getScience() + "," + grade.getHistory() + "," + grade.getSum());
         }
 
     }
@@ -46,7 +46,7 @@ public class GradeDate extends javax.swing.JFrame {
     }
 
     //追加した生徒成績を一覧に表示
-    public void readGrade(int studentid) {
+    public void readGrade(String studentid) {
         Jdbc jdbc = new Jdbc();
 
         List<Grade> list = new ArrayList<>();
@@ -231,7 +231,7 @@ public class GradeDate extends javax.swing.JFrame {
         Grade grade = new Grade();
 
         if (jTable1.getSelectedColumn() != -1) {
-            grade.setStudentid(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            grade.setStudentid(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             grade.setTest(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             grade.setKokugo(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString()));
             grade.setMath(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString()));
@@ -260,10 +260,10 @@ public class GradeDate extends javax.swing.JFrame {
 
             if (jTable1.getSelectedColumn() != -1) {
                 // //成績をテスト別に削除
-                jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
 
                 //成績画面データ更新
-                readGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             } else {
                 jLabel1.setText("データを選択してください！");
             }

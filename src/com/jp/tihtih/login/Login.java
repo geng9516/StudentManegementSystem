@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jp.tihtih.studentmanagementsystem;
+package com.jp.tihtih.login;
 
 import com.jp.tihtih.root.Root;
 import com.jp.tihtih.root.Student;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -127,6 +128,8 @@ public class Login extends javax.swing.JFrame {
         Users user = new Users();
         Teacher teacher = null;
 
+        Pattern p = Pattern.compile("^-?[1-9]\\d*$");
+
         myDate sd = null;
         Jdbc jdbc = new Jdbc();
         try {
@@ -149,27 +152,32 @@ public class Login extends javax.swing.JFrame {
                         root.setVisible(true);
 
                         //IDが101から999までのであれば、判断をし、その先生の管理画面にログイン
-                    } else if (Integer.parseInt(jTextField1.getText()) > 100 && Integer.parseInt(jTextField1.getText()) < 1000) {
-                        teacher = new Teacher();
-                        TeachersMeru td = new TeachersMeru();
+                    } else if (p.matcher((jTextField1.getText())).find()) {
+                        if (Integer.parseInt(jTextField1.getText()) > 100 && Integer.parseInt(jTextField1.getText()) < 1000) {
+                            teacher = new Teacher();
+                            TeachersMeru td = new TeachersMeru();
 
-                        //先生を探す
-                        teacher = jdbc.getTeacher(jTextField1.getText());
-                        //先生のログイン画面のIdと名前を表示
-                        td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
+                            //先生を探す
+                            teacher = jdbc.getTeacher(jTextField1.getText());
+                            //先生のログイン画面のIdと名前を表示
+                            td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
 
-                        this.dispose();
-                        td.setVisible(true);
+                            this.dispose();
+                            td.setVisible(true);
+                        } else {
+                            jLabel3.setText("IDかパスワードが間違っています！");
+                            jLabel4.setText("正しいIDとパスワードを入力してください！");
+                        }
 
                         //学生データ確認画面
-                    } else if (Integer.parseInt(jTextField1.getText()) > 1000 && Integer.parseInt(jTextField1.getText()) < 10000) {
+                    } else if (Integer.parseInt(jTextField1.getText().substring(1)) > 1000 && Integer.parseInt(jTextField1.getText().substring(1)) < 10000) {
                         Student student = student = new Student();
                         sd = new myDate();
 
-                        student = jdbc.getStudentDate(Integer.parseInt(jTextField1.getText()));
+                        student = jdbc.getStudentDate(jTextField1.getText());
                         System.out.println(student);
                         sd.showStudentDate(student);
-                        sd.readGrade(Integer.parseInt(jTextField1.getText()));
+                        sd.readGrade(jTextField1.getText());
 
                         this.dispose();
                         sd.setVisible(true);

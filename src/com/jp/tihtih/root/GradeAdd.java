@@ -5,7 +5,7 @@
  */
 package com.jp.tihtih.root;
 
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,11 +229,11 @@ public class GradeAdd extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
-            if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel7.setText("生徒IDは1001〜9999以内です！");
                 return;
             } else {
-                grade.setStudentid(Integer.parseInt(jTextField1.getText()));
+                grade.setStudentid(jTextField1.getText());
             }
 
             if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
@@ -242,7 +242,7 @@ public class GradeAdd extends javax.swing.JFrame {
             }
             //このテストもう入力したかを判断
             if (jRadioButton1.isSelected()) {
-                if (jdbc.checkTestType(jRadioButton1.getText(), Integer.parseInt(jTextField1.getText()))) {
+                if (jdbc.checkTestType(jRadioButton1.getText(), jTextField1.getText())) {
                     jLabel7.setText("中間テストのデータすでにあります！");
                     return;
                 } else {
@@ -250,7 +250,7 @@ public class GradeAdd extends javax.swing.JFrame {
                 }
 
             } else {
-                if (jdbc.checkTestType(jRadioButton2.getText(), Integer.parseInt(jTextField1.getText()))) {
+                if (jdbc.checkTestType(jRadioButton2.getText(), jTextField1.getText())) {
                     jLabel7.setText("期末テストのデータすでにあります！");
                     return;
                 } else {
@@ -310,9 +310,8 @@ public class GradeAdd extends javax.swing.JFrame {
             //成績を挿入
             jdbc.insertGrade(grade);
 
-            
-            gd.readGrade(Integer.parseInt(jTextField1.getText()));
-            
+            gd.readGrade(jTextField1.getText());
+
             gd.showStudentId(jTextField1.getText());
             this.dispose();
             gd.setVisible(true);
@@ -344,12 +343,11 @@ public class GradeAdd extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
-//            jTextField1.setEditable(false);
-            if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel7.setText("生徒IDは1001〜9999以内です！");
                 return;
             } else {
-                grade.setStudentid(Integer.parseInt(jTextField1.getText()));
+                grade.setStudentid(jTextField1.getText());
             }
 
             if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
@@ -417,7 +415,7 @@ public class GradeAdd extends javax.swing.JFrame {
             jdbc.updateGrade(grade);
 
             //成績画面を更新
-            gd.readGrade(Integer.parseInt(jTextField1.getText()));
+            gd.readGrade(jTextField1.getText());
             gd.showStudentId(jTextField1.getText());
 
             this.dispose();

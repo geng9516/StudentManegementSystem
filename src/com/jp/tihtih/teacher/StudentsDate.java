@@ -6,7 +6,7 @@
 package com.jp.tihtih.teacher;
 
 import com.jp.tihtih.root.*;
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +72,7 @@ public class StudentsDate extends javax.swing.JFrame {
         }
     }
 
+    //担当クラスを表示
     public void readClassDb(List<Aclass> list) {
         //一旦jComboBox内のデータを空にする
         jComboBox1.removeAllItems();
@@ -80,6 +81,7 @@ public class StudentsDate extends javax.swing.JFrame {
         }
     }
 
+    //画面にIDと名前を表示
     public void showTeacherId(String teacherId, String name) {
         jLabel5.setText(teacherId);
         jLabel7.setText(name);
@@ -227,46 +229,47 @@ public class StudentsDate extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5)
-                                .addGap(45, 45, 45)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton5)
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton9))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -295,7 +298,9 @@ public class StudentsDate extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        StudentAdd2 sa = new StudentAdd2();
+        StudentAdd3 sa = new StudentAdd3();
+        sa.setClassName(jComboBox1.getSelectedItem().toString());
+        sa.setTeacherDate(jLabel5.getText(), jLabel7.getText());
         this.dispose();
         sa.setVisible(true);
 
@@ -311,13 +316,15 @@ public class StudentsDate extends javax.swing.JFrame {
 
         //getSelectedColumn() 如果未选择行就返回-1
         if (jTable1.getSelectedColumn() != -1) {
-            student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
 
-            StudentAdd2 sa = new StudentAdd2();
+            StudentAdd3 sa = new StudentAdd3();
+
+            sa.setTeacherDate(jLabel5.getText(), jLabel7.getText());
 
             sa.setDate(student);
 
@@ -336,7 +343,7 @@ public class StudentsDate extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         TeachersMeru tm = new TeachersMeru();
-        tm.setTeacher(jLabel5.getText(), jLabel6.getText());
+        tm.setTeacher(jLabel5.getText(), jLabel7.getText());
         this.dispose();
         tm.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -354,7 +361,7 @@ public class StudentsDate extends javax.swing.JFrame {
 
             if (jTable1.getSelectedColumn() != -1) {
 
-                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                list = jdbc.getGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
                 gd.showGrade(list);
                 gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
@@ -393,9 +400,9 @@ public class StudentsDate extends javax.swing.JFrame {
             jdbc.getDbcom();
 
             //学生情報と成績情報を一緒に削除
-            jdbc.deleteStudent(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
             readeStudents();
 
@@ -503,9 +510,11 @@ public class StudentsDate extends javax.swing.JFrame {
 
             int[] selection = jTable1.getSelectedRows();
             for (int i = selection.length - 1; i >= 0; i--) {
-                jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             }
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {

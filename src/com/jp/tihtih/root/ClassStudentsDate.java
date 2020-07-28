@@ -6,7 +6,7 @@
  */
 package com.jp.tihtih.root;
 
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -237,45 +237,14 @@ public class ClassStudentsDate extends javax.swing.JFrame {
      */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-
         GradeDate gd = new GradeDate();
-
-        gd.readGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        if (jTable1.getSelectedColumn() != -1) {
+        gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
         gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
         gd.setVisible(true);
-//        Jdbc jdbc = new Jdbc();
-//        List<Grade> list = new ArrayList<>();
-//        GradeDate gd = new GradeDate();
-//
-//        try {
-//            jdbc.getDbcom();
-//
-//            if (jTable1.getSelectedColumn() != -1) {
-//
-//                list = jdbc.getGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-//
-//                gd.showGrade(list);
-//                gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-//
-//                gd.setVisible(true);
-//
-//            } else {
-//                jLabel2.setText("データを選択してください！");
-//                return;
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            if (jdbc != null) {
-//                try {
-//                    jdbc.closeDbcom();
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
+        } else {
+            jLabel2.setText("データを選択してください！");
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
     /*
     閉じる
@@ -290,6 +259,8 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         StudentAdd2 sa = new StudentAdd2();
+        
+        sa.setStudentId(jLabel5.getText().substring(0, 1));
 
         sa.setClassName(jLabel5.getText());
 
@@ -306,7 +277,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
 
         //getSelectedColumn() 如果未选择行就返回-1
         if (jTable1.getSelectedColumn() != -1) {
-            student.setId(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
@@ -335,9 +306,9 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             jdbc.getDbcom();
 
             //学生情報と成績情報を一緒に削除
-            jdbc.deleteStudent(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteGrade(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            jdbc.deleteStudentUser(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
             readeStudents();
 
@@ -355,12 +326,12 @@ public class ClassStudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-/*
+    /*
     検索
-    */
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-         Jdbc jdbc = new Jdbc();
+        Jdbc jdbc = new Jdbc();
         Student student = new Student();
         List<Student> list = new ArrayList<>();
         //String型をint型にフォーマット

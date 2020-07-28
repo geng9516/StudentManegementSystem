@@ -6,8 +6,10 @@
 package com.jp.tihtih.teacher;
 
 import com.jp.tihtih.root.*;
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,12 +17,12 @@ import java.util.logging.Logger;
  *
  * @author user
  */
-public class StudentAdd2 extends javax.swing.JFrame {
+public class StudentAdd3 extends javax.swing.JFrame {
 
     /**
      * Creates new form StudentAdd
      */
-    public StudentAdd2() {
+    public StudentAdd3() {
         initComponents();
     }
 
@@ -32,9 +34,19 @@ public class StudentAdd2 extends javax.swing.JFrame {
         jTextField3.setText(student.getPass());
         if ("男".equals(student.getSex())) {
             jRadioButton1.setSelected(true);
-        } else if ("女".equals(student.getSex())) {
+        } else {
             jRadioButton2.setSelected(true);
         }
+    }
+
+    //新規時クラスを表示
+    public void setClassName(String className) {
+        jComboBox1.addItem(className);
+    }
+
+    public void setTeacherDate(String teacherId, String teacherName) {
+        jLabel5.setText(teacherId);
+        jLabel6.setText(teacherName);
     }
 
     /**
@@ -62,6 +74,10 @@ public class StudentAdd2 extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("学生情報追加/編集");
@@ -107,12 +123,16 @@ public class StudentAdd2 extends javax.swing.JFrame {
 
         jLabel11.setText("パスワード");
 
+        jLabel7.setText("先生ID");
+
+        jLabel8.setText("名前");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -123,51 +143,73 @@ public class StudentAdd2 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(21, 21, 21)
+                                                .addComponent(jRadioButton1)
+                                                .addGap(45, 45, 45)
+                                                .addComponent(jRadioButton2))))
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addComponent(jRadioButton1)
-                                        .addGap(45, 45, 45)
-                                        .addComponent(jRadioButton2)))))))
-                .addContainerGap())
+                                        .addComponent(jLabel7)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(11, 11, 11)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 27, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jRadioButton1)
@@ -188,7 +230,7 @@ public class StudentAdd2 extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Student student = new Student();
-
+        List<Aclass> list = new ArrayList<>();
         StudentsDate sd = new StudentsDate();
 
         Jdbc jdbc = new Jdbc();
@@ -199,16 +241,16 @@ public class StudentAdd2 extends javax.swing.JFrame {
             if (jTextField1.getText().isEmpty()) {
                 jLabel10.setText("IDを空欄にしてはいけません！");
                 return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel10.setText("IDは1001から9999以内です！");
                 return;
 
                 //IDが重複しているかを判断する
-            } else if (jdbc.checkStudentId(Integer.parseInt(jTextField1.getText()))) {
+            } else if (jdbc.checkStudentId(jTextField1.getText())) {
                 jLabel10.setText("IDがすでに存在しています！");
                 return;
             } else {
-                student.setId(Integer.parseInt(jTextField1.getText()));
+                student.setId(jTextField1.getText());
             }
 
             //クラス判断
@@ -249,17 +291,21 @@ public class StudentAdd2 extends javax.swing.JFrame {
             }
 
             jdbc.insertStudent(student);
-            jdbc.insertStudentUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
+            jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
 
-            sd.readeStudents();
+            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            sd.readClassDb(list);
+
+//            sd.readeStudents();
+            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
 
             this.dispose();
             sd.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd3.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd3.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
@@ -276,7 +322,7 @@ public class StudentAdd2 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Student student = new Student();
-
+        List<Aclass> list = new ArrayList<>();
         StudentsDate sd = new StudentsDate();
 
         Jdbc jdbc = new Jdbc();
@@ -287,12 +333,12 @@ public class StudentAdd2 extends javax.swing.JFrame {
             if (jTextField1.getText().isEmpty()) {
                 jLabel10.setText("IDを空欄にしてはいけません！");
                 return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel10.setText("IDは1001から9999以内です！");
                 return;
 
             } else {
-                student.setId(Integer.parseInt(jTextField1.getText()));
+                student.setId(jTextField1.getText());
             }
 
             //クラス判断
@@ -333,15 +379,19 @@ public class StudentAdd2 extends javax.swing.JFrame {
             jdbc.updateStudent(student);
             jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
 
-            sd.readeStudents();
+            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            sd.readClassDb(list);
+
+//            sd.readeStudents();
+            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
 
             this.dispose();
             sd.setVisible(true);
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd3.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentAdd3.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (jdbc != null) {
                 try {
@@ -358,10 +408,27 @@ public class StudentAdd2 extends javax.swing.JFrame {
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        StudentsDate sd = new StudentsDate();
-//        asd.readeStudents();
-        this.dispose();
-        sd.setVisible(true);
+        Jdbc jdbc = new Jdbc();
+        List<Aclass> list = new ArrayList<>();
+        try {
+            jdbc.getDbcom();
+
+            StudentsDate sd = new StudentsDate();
+
+            //クラス情報をStudentDateのcomboxに表示
+            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            sd.readClassDb(list);
+            //キャンセルからsdに戻るとき先生のデータを表示
+            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
+            this.dispose();
+            sd.setVisible(true);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersMeru.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeachersMeru.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -381,14 +448,18 @@ public class StudentAdd2 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentAdd2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentAdd3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -397,7 +468,7 @@ public class StudentAdd2 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentAdd2().setVisible(true);
+                new StudentAdd3().setVisible(true);
             }
         });
     }
@@ -414,6 +485,10 @@ public class StudentAdd2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTextField jTextField1;

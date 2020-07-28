@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Grade {
 
-    private int studentid;
+    private String studentid;
     private String test;
     private double kokugo;
     private double math;
@@ -25,17 +25,33 @@ public class Grade {
     public Grade() {
     }
 
+    public Grade(String studentid, String test, double kokugo, double math, double english, double science, double history, double sum) {
+        this.studentid = studentid;
+        this.test = test;
+        this.kokugo = kokugo;
+        this.math = math;
+        this.english = english;
+        this.science = science;
+        this.history = history;
+        this.sum = sum;
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + ", sum=" + sum + '}';
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + this.studentid;
-        hash = 79 * hash + Objects.hashCode(this.test);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.studentid);
+        hash = 13 * hash + Objects.hashCode(this.test);
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
         return hash;
     }
 
@@ -51,9 +67,6 @@ public class Grade {
             return false;
         }
         final Grade other = (Grade) obj;
-        if (this.studentid != other.studentid) {
-            return false;
-        }
         if (Double.doubleToLongBits(this.kokugo) != Double.doubleToLongBits(other.kokugo)) {
             return false;
         }
@@ -72,22 +85,20 @@ public class Grade {
         if (Double.doubleToLongBits(this.sum) != Double.doubleToLongBits(other.sum)) {
             return false;
         }
+        if (!Objects.equals(this.studentid, other.studentid)) {
+            return false;
+        }
         if (!Objects.equals(this.test, other.test)) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + ", sum=" + sum + '}';
-    }
-
-    public int getStudentid() {
+    public String getStudentid() {
         return studentid;
     }
 
-    public void setStudentid(int studentid) {
+    public void setStudentid(String studentid) {
         this.studentid = studentid;
     }
 
@@ -146,16 +157,4 @@ public class Grade {
     public void setSum(double sum) {
         this.sum = sum;
     }
-
-    public Grade(int studentid, String test, double kokugo, double math, double english, double science, double history, double sum) {
-        this.studentid = studentid;
-        this.test = test;
-        this.kokugo = kokugo;
-        this.math = math;
-        this.english = english;
-        this.science = science;
-        this.history = history;
-        this.sum = sum;
-    }
-
 }

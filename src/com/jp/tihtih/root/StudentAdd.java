@@ -5,7 +5,7 @@
  */
 package com.jp.tihtih.root;
 
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
+import com.jp.tihtih.login.Jdbc;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,11 +29,16 @@ public class StudentAdd extends javax.swing.JFrame {
         jComboBox1.setSelectedItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
-        if("男".equals(student.getSex())){
+        if ("男".equals(student.getSex())) {
             jRadioButton1.setSelected(true);
-        }else if("女".equals(student.getSex())){
+        } else if ("女".equals(student.getSex())) {
             jRadioButton2.setSelected(true);
         }
+    }
+
+    //studentIdの頭文字表示
+    public void setStudentId(String studentId) {
+        jTextField1.setText(studentId);
     }
 
     /**
@@ -198,16 +203,16 @@ public class StudentAdd extends javax.swing.JFrame {
             if (jTextField1.getText().isEmpty()) {
                 jLabel10.setText("IDを空欄にしてはいけません！");
                 return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel10.setText("IDは1001から9999以内です！");
                 return;
 
                 //IDが重複しているかを判断する
-            } else if (jdbc.checkStudentId(Integer.parseInt(jTextField1.getText()))) {
+            } else if (jdbc.checkStudentId(jTextField1.getText())) {
                 jLabel10.setText("IDがすでに存在しています！");
                 return;
             } else {
-                student.setId(Integer.parseInt(jTextField1.getText()));
+                student.setId(jTextField1.getText());
             }
 
             //クラス判断
@@ -248,7 +253,7 @@ public class StudentAdd extends javax.swing.JFrame {
             }
 
             jdbc.insertStudent(student);
-            jdbc.insertStudentUser(Integer.parseInt(jTextField1.getText()), jTextField3.getText());
+            jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
 
             asd.readeStudents();
 
@@ -286,12 +291,12 @@ public class StudentAdd extends javax.swing.JFrame {
             if (jTextField1.getText().isEmpty()) {
                 jLabel10.setText("IDを空欄にしてはいけません！");
                 return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 1000 || Integer.parseInt(jTextField1.getText()) >= 10000) {
+            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                 jLabel10.setText("IDは1001から9999以内です！");
                 return;
 
             } else {
-                student.setId(Integer.parseInt(jTextField1.getText()));
+                student.setId(jTextField1.getText());
             }
 
             //クラス判断
@@ -331,7 +336,7 @@ public class StudentAdd extends javax.swing.JFrame {
 
             jdbc.updateStudent(student);
             jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
-            
+
             asd.readeStudents();
 
             this.dispose();

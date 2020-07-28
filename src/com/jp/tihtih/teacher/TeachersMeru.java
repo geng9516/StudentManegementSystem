@@ -6,10 +6,9 @@
 package com.jp.tihtih.teacher;
 
 import com.jp.tihtih.root.Aclass;
-import com.jp.tihtih.root.Teacher;
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
-import com.jp.tihtih.studentmanagementsystem.Login;
-import com.jp.tihtih.studentmanagementsystem.NewPass;
+import com.jp.tihtih.login.Jdbc;
+import com.jp.tihtih.login.Login;
+import com.jp.tihtih.login.NewPass;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

@@ -8,10 +8,9 @@ package com.jp.tihtih.student;
 import com.jp.tihtih.root.Grade;
 import com.jp.tihtih.root.GradeDate;
 import com.jp.tihtih.root.Student;
-import com.jp.tihtih.studentmanagementsystem.Jdbc;
-import com.jp.tihtih.studentmanagementsystem.Login;
-import com.jp.tihtih.studentmanagementsystem.NewPass;
-import com.jp.tihtih.teacher.Student2;
+import com.jp.tihtih.login.Jdbc;
+import com.jp.tihtih.login.Login;
+import com.jp.tihtih.login.NewPass;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class myDate extends javax.swing.JFrame {
     }
 
     //追加した生徒成績を一覧に表示
-    public void readGrade(int studentid) {
+    public void readGrade(String studentid) {
         Jdbc jdbc = new Jdbc();
 
         List<Grade> list = new ArrayList<>();

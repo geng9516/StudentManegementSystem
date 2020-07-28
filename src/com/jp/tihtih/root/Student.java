@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Student {
 
-    private int id;
+    private String id;
     private String aclass;
     private String name;
     private String pass;
@@ -23,20 +23,24 @@ public class Student {
     public Student() {
     }
 
-    @Override
-    public String toString() {
-        return "Student{" + "id=" + id + ", aclass=" + aclass + ", name=" + name + ", pass=" + pass + ", sex=" + sex + ", grade=" + grade + '}';
+    public Student(String id, String aclass, String name, String pass, String sex, Grade grade) {
+        this.id = id;
+        this.aclass = aclass;
+        this.name = name;
+        this.pass = pass;
+        this.sex = sex;
+        this.grade = grade;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + this.id;
-        hash = 79 * hash + Objects.hashCode(this.aclass);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + Objects.hashCode(this.pass);
-        hash = 79 * hash + Objects.hashCode(this.sex);
-        hash = 79 * hash + Objects.hashCode(this.grade);
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.aclass);
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.pass);
+        hash = 41 * hash + Objects.hashCode(this.sex);
+        hash = 41 * hash + Objects.hashCode(this.grade);
         return hash;
     }
 
@@ -52,7 +56,7 @@ public class Student {
             return false;
         }
         final Student other = (Student) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.aclass, other.aclass)) {
@@ -73,11 +77,16 @@ public class Student {
         return true;
     }
 
-    public int getId() {
+    @Override
+    public String toString() {
+        return "Student{" + "id=" + id + ", aclass=" + aclass + ", name=" + name + ", pass=" + pass + ", sex=" + sex + ", grade=" + grade + '}';
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -120,14 +129,4 @@ public class Student {
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
-
-    public Student(int id, String aclass, String name, String pass, String sex, Grade grade) {
-        this.id = id;
-        this.aclass = aclass;
-        this.name = name;
-        this.pass = pass;
-        this.sex = sex;
-        this.grade = grade;
-    }
-
 }
