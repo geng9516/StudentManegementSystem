@@ -123,7 +123,8 @@ public class Root extends javax.swing.JFrame {
             asd = new AllStudentsDate();
 
             //AllStudentsDateへlistを送る
-            asd.readeStudents(list);
+//            asd.readeStudents(list);
+            asd.readeStudents("1");
             this.dispose();
             asd.setVisible(true);
 

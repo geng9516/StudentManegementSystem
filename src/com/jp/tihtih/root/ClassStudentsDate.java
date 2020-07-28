@@ -71,6 +71,8 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         }
     }
 
+    
+
     //クラス名を表示
     public void showClassName(String className) {
         jLabel5.setText(className);
@@ -239,9 +241,9 @@ public class ClassStudentsDate extends javax.swing.JFrame {
         // TODO add your handling code here:
         GradeDate gd = new GradeDate();
         if (jTable1.getSelectedColumn() != -1) {
-        gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-        gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-        gd.setVisible(true);
+            gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            gd.showStudentId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            gd.setVisible(true);
         } else {
             jLabel2.setText("データを選択してください！");
         }
@@ -259,7 +261,7 @@ public class ClassStudentsDate extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         StudentAdd2 sa = new StudentAdd2();
-        
+
         sa.setStudentId(jLabel5.getText().substring(0, 1));
 
         sa.setClassName(jLabel5.getText());

@@ -298,6 +298,8 @@ public class StudentAdd3 extends javax.swing.JFrame {
 
 //            sd.readeStudents();
             sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
+            jLabel7.setVisible(false);
+            
 
             this.dispose();
             sd.setVisible(true);
