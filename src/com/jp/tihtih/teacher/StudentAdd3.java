@@ -272,9 +272,6 @@ public class StudentAdd3 extends javax.swing.JFrame {
             if (jTextField3.getText().isEmpty()) {
                 jLabel10.setText("パスワードを設定してください！");
                 return;
-            } else if (jdbc.checkPasss(jTextField3.getText())) {
-                jLabel10.setText("パスワードが重複しています！");
-                return;
             } else {
                 student.setPass(jTextField3.getText());
             }

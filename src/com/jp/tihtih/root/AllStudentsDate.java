@@ -25,7 +25,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     public AllStudentsDate() {
         initComponents();
-        readeStudents();
+//        readeStudents();
     }
 
     /*
@@ -235,6 +235,8 @@ public class AllStudentsDate extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし" }));
+
         jButton9.setText("クラス別");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -366,7 +368,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
                 student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
                 student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-                
+
                 String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
                 sa.setClassName(s);
 
@@ -490,6 +492,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
         Jdbc jdbc = new Jdbc();
 
         List<Student> list = new ArrayList<>();
+        
         try {
             jdbc.getDbcom();
 
@@ -516,7 +519,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        readeStudents();
+//        readeStudents();
     }//GEN-LAST:event_jButton8ActionPerformed
     /*
     検索

@@ -120,6 +120,11 @@ public class StudentAdd extends javax.swing.JFrame {
         jLabel11.setText("パスワード");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,17 +172,17 @@ public class StudentAdd extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,7 +210,7 @@ public class StudentAdd extends javax.swing.JFrame {
         AllStudentsDate asd = new AllStudentsDate();
         Jdbc jdbc = new Jdbc();
 
-        if (jComboBox1.getItemCount() == 2) {
+        if (jComboBox1.getItemCount() == 1) {
             try {
                 jdbc.getDbcom();
 
@@ -244,9 +249,6 @@ public class StudentAdd extends javax.swing.JFrame {
                 if (jTextField3.getText().isEmpty()) {
                     jLabel10.setText("パスワードを設定してください！");
                     return;
-                } else if (jdbc.checkPasss(jTextField3.getText())) {
-                    jLabel10.setText("パスワードが重複しています！");
-                    return;
                 } else {
                     student.setPass(jTextField3.getText());
                 }
@@ -267,10 +269,10 @@ public class StudentAdd extends javax.swing.JFrame {
 
                 //クラス名の表示
                 String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
-                asd.showClassName(s);
+//                asd.ShowClassName(jComboBox1.getSelectedItem().toString());
                 //特定のクラスの生徒をすべて表示
                 asd.readeStudents(jComboBox1.getSelectedItem().toString());
-
+                asd.showClassName(s);
                 this.dispose();
                 asd.setVisible(true);
 
@@ -326,10 +328,7 @@ public class StudentAdd extends javax.swing.JFrame {
                 if (jTextField3.getText().isEmpty()) {
                     jLabel10.setText("パスワードを設定してください！");
                     return;
-                } else if (jdbc.checkPasss(jTextField3.getText())) {
-                    jLabel10.setText("パスワードが重複しています！");
-                    return;
-                } else {
+                }  else {
                     student.setPass(jTextField3.getText());
                 }
 
@@ -552,13 +551,6 @@ public class StudentAdd extends javax.swing.JFrame {
             asd.readeStudents(jComboBox1.getSelectedItem().toString());
             this.dispose();
             asd.setVisible(true);
-//        } else if (jComboBox1.getItemCount() == 1 && jTextField1.getText().length() >= 5 && !jTextField2.getText().isEmpty()) {
-//            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
-//            asd.showClassName(s);
-//            //すべての生徒を表示
-//            asd.readeStudents("1");
-//            this.dispose();
-//            asd.setVisible(true);
         } else {
             String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
             asd.showClassName(s);
@@ -568,6 +560,12 @@ public class StudentAdd extends javax.swing.JFrame {
             asd.setVisible(true);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    //生徒IDの頭文字を表示
+    private void jComboBox1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseEntered
+        // TODO add your handling code here:
+        jTextField1.setText(jComboBox1.getSelectedItem().toString().substring(0, 1));
+    }//GEN-LAST:event_jComboBox1MouseEntered
 
     /**
      * @param args the command line arguments

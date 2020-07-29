@@ -244,18 +244,6 @@ public class Jdbc {
         return false;
     }
 
-    //生徒passの重複チェック
-    public boolean checkPasss(String studentPass) throws SQLException {
-        String sql = "select pass from t_students where pass=" + "'" + studentPass + "'";
-        rs = stmt.executeQuery(sql);
-        if (rs != null) {
-            while (rs.next()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     //生徒データを挿入
     public void insertStudent(Student student) throws SQLException {
         String sql = "insert into t_students(studentid,classname,name,pass,sex) values('";
