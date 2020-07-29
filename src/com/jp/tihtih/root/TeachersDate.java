@@ -411,22 +411,17 @@ public class TeachersDate extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         Jdbc jdbc = new Jdbc();
-        ClassStudentsDate csd = new ClassStudentsDate();
-
         List<Student> list = new ArrayList<>();
+        String[] s = new String[]{jComboBox2.getSelectedItem().toString()};
         try {
             jdbc.getDbcom();
 
             if (jTable1.getSelectedColumn() != -1) {
-//                list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
-//                csd.readeStudents(list);
-//                csd.showClassName(jComboBox2.getSelectedItem().toString());
 
                 AllStudentsDate asd = new AllStudentsDate();
                 asd.readeStudents(jComboBox2.getSelectedItem().toString());
-                asd.showClassName(jComboBox2.getSelectedItem().toString());
+                asd.showClassName(s);
                 asd.setVisible(true);
-//                csd.setVisible(true);
             } else {
                 jLabel4.setText("データを選択してください！");
             }

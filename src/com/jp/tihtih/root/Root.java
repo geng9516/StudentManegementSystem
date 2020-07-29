@@ -115,6 +115,8 @@ public class Root extends javax.swing.JFrame {
         Jdbc jdbc = new Jdbc();
         List<Student> list = new ArrayList<>();
         AllStudentsDate asd = null;
+        //クラスをjComboBoxに表示
+        String[] s = new String[]{"Aクラス","Bクラス","Cクラス","Dクラス"};
         try {
             jdbc.getDbcom();
 
@@ -125,6 +127,9 @@ public class Root extends javax.swing.JFrame {
             //AllStudentsDateへlistを送る
 //            asd.readeStudents(list);
             asd.readeStudents("1");
+            //クラスをjComboBoxに表示
+            asd.showClassName(s);
+            
             this.dispose();
             asd.setVisible(true);
 

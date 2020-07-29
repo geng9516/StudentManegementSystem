@@ -106,8 +106,6 @@ public class StudentAdd2 extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし", "Aクラス", "Bクラス", "Cクラス", "Dクラス" }));
-
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("男");
 

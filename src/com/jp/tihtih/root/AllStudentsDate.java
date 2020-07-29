@@ -129,8 +129,11 @@ public class AllStudentsDate extends javax.swing.JFrame {
     }
 
     //クラス名を表示
-    public void showClassName(String className) {
-        jLabel4.setText(className);
+    public void showClassName(String[] s) {
+        jComboBox1.removeAllItems();
+        for (String s2 : s) {
+            jComboBox1.addItem(s2);
+        }
     }
 
     /**
@@ -222,11 +225,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(jTable1);
 
         jButton7.setText("成績");
@@ -235,8 +233,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aクラス", "Bクラス", "Cクラス", "Dクラス" }));
 
         jButton9.setText("クラス別");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -257,29 +253,28 @@ public class AllStudentsDate extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton5)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -306,8 +301,8 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jButton5))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,8 +332,19 @@ public class AllStudentsDate extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         StudentAdd sa = new StudentAdd();
-        this.dispose();
-        sa.setVisible(true);
+
+        if (jComboBox1.getItemCount() == 1) {
+            String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
+            sa.setClassName(s);
+            this.dispose();
+            sa.setVisible(true);
+        } else {
+            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+            sa.setClassName(s);
+            this.dispose();
+            sa.setVisible(true);
+        }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
     /*
@@ -349,7 +355,8 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
         //Jtable表を値を取得し、編集画面に入れる
         Student student = new Student();
-
+        StudentAdd sa = new StudentAdd();
+        
         //getSelectedColumn() 如果未选择行就返回-1
         if (jTable1.getSelectedColumn() != -1) {
             student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
@@ -357,7 +364,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
             student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-            StudentAdd sa = new StudentAdd();
+            
             sa.setDate(student);
             this.dispose();
             sa.setVisible(true);
@@ -370,16 +377,17 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Root root = new Root();
-        this.dispose();
-        root.setVisible(true);
+
+        if (jComboBox1.getItemCount() == 1) {
+            TeachersDate td = new TeachersDate();
+            this.dispose();
+            td.setVisible(false);
+        } else {
+            Root root = new Root();
+            this.dispose();
+            root.setVisible(true);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_jTable1MouseClicked
     /*
     生徒一人一人の成績確認へ
      */
