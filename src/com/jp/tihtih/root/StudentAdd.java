@@ -26,7 +26,8 @@ public class StudentAdd extends javax.swing.JFrame {
     //編集の基本データを表示
     public void setDate(Student student) {
         jTextField1.setText(String.valueOf(student.getId()));
-        jComboBox1.setSelectedItem(student.getAclass());
+//        jComboBox1.removeAllItems();
+//        jComboBox1.addItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
         if ("男".equals(student.getSex())) {
@@ -40,9 +41,11 @@ public class StudentAdd extends javax.swing.JFrame {
     public void setStudentId(String studentId) {
         jTextField1.setText(studentId);
     }
-    
-    public void setClassName(String[] s){
-        for(String s1 : s){
+
+    //新規時クラス情報を表示
+    public void setClassName(String[] s) {
+        jComboBox1.removeAllItems();
+        for (String s1 : s) {
             jComboBox1.addItem(s1.toString());
             System.out.println(s1.toString());
         }
@@ -116,6 +119,8 @@ public class StudentAdd extends javax.swing.JFrame {
 
         jLabel11.setText("パスワード");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,17 +147,17 @@ public class StudentAdd extends javax.swing.JFrame {
                                     .addComponent(jLabel3))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jRadioButton1)
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jRadioButton2))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                                             .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                                             .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addComponent(jRadioButton1)
-                                        .addGap(45, 45, 45)
-                                        .addComponent(jRadioButton2)))))))
+                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -197,87 +202,175 @@ public class StudentAdd extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Student student = new Student();
-
         AllStudentsDate asd = new AllStudentsDate();
-
         Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
 
-            //null判断
-            if (jTextField1.getText().isEmpty()) {
-                jLabel10.setText("IDを空欄にしてはいけません！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
-                jLabel10.setText("IDは1001から9999以内です！");
-                return;
+        if (jComboBox1.getItemCount() == 2) {
+            try {
+                jdbc.getDbcom();
 
-                //IDが重複しているかを判断する
-            } else if (jdbc.checkStudentId(jTextField1.getText())) {
-                jLabel10.setText("IDがすでに存在しています！");
-                return;
-            } else {
-                student.setId(jTextField1.getText());
+                //null判断
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel10.setText("IDを空欄にしてはいけません！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel10.setText("IDは1001から9999以内です！");
+                    return;
+
+                    //IDが重複しているかを判断する
+                } else if (jdbc.checkStudentId(jTextField1.getText())) {
+                    jLabel10.setText("IDがすでに存在しています！");
+                    return;
+                } else {
+                    student.setId(jTextField1.getText());
+                }
+
+                //クラス判断
+                if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                    jLabel10.setText("クラスを選択してください！");
+                    return;
+                } else {
+                    student.setAclass(jComboBox1.getSelectedItem().toString());
+                }
+
+                //null判断
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel10.setText("名前を空欄にしてはいけません！");
+                    return;
+                } else {
+                    student.setName(jTextField2.getText());
+                }
+
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel10.setText("パスワードを設定してください！");
+                    return;
+                } else if (jdbc.checkPasss(jTextField3.getText())) {
+                    jLabel10.setText("パスワードが重複しています！");
+                    return;
+                } else {
+                    student.setPass(jTextField3.getText());
+                }
+
+                //選択しているか判断
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel10.setText("性別を選択していません！");
+                    return;
+                }
+                if (jRadioButton1.isSelected()) {
+                    student.setSex("男");
+                } else {
+                    student.setSex("女");
+                }
+
+                jdbc.insertStudent(student);
+                jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
+
+                //クラス名の表示
+                String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
+                asd.showClassName(s);
+                //特定のクラスの生徒をすべて表示
+                asd.readeStudents(jComboBox1.getSelectedItem().toString());
+
+                this.dispose();
+                asd.setVisible(true);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
+        } else {
+            try {
+                jdbc.getDbcom();
 
-            //クラス判断
-            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
-                jLabel10.setText("クラスを選択してください！");
-                return;
-            } else {
-                student.setAclass(jComboBox1.getSelectedItem().toString());
-            }
+                //null判断
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel10.setText("IDを空欄にしてはいけません！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel10.setText("IDは1001から9999以内です！");
+                    return;
 
-            //null判断
-            if (jTextField2.getText().isEmpty()) {
-                jLabel10.setText("名前を空欄にしてはいけません！");
-                return;
-            } else {
-                student.setName(jTextField2.getText());
-            }
+                    //IDが重複しているかを判断する
+                } else if (jdbc.checkStudentId(jTextField1.getText())) {
+                    jLabel10.setText("IDがすでに存在しています！");
+                    return;
+                } else {
+                    student.setId(jTextField1.getText());
+                }
 
-            if (jTextField3.getText().isEmpty()) {
-                jLabel10.setText("パスワードを設定してください！");
-                return;
-            } else if (jdbc.checkPasss(jTextField3.getText())) {
-                jLabel10.setText("パスワードが重複しています！");
-                return;
-            } else {
-                student.setPass(jTextField3.getText());
-            }
+                //クラス判断
+                if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                    jLabel10.setText("クラスを選択してください！");
+                    return;
+                } else {
+                    student.setAclass(jComboBox1.getSelectedItem().toString());
+                }
 
-            //選択しているか判断
-            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
-                jLabel10.setText("性別を選択していません！");
-                return;
-            }
-            if (jRadioButton1.isSelected()) {
-                student.setSex("男");
-            } else {
-                student.setSex("女");
-            }
+                //null判断
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel10.setText("名前を空欄にしてはいけません！");
+                    return;
+                } else {
+                    student.setName(jTextField2.getText());
+                }
 
-            jdbc.insertStudent(student);
-            jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel10.setText("パスワードを設定してください！");
+                    return;
+                } else if (jdbc.checkPasss(jTextField3.getText())) {
+                    jLabel10.setText("パスワードが重複しています！");
+                    return;
+                } else {
+                    student.setPass(jTextField3.getText());
+                }
 
-            asd.readeStudents();
+                //選択しているか判断
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel10.setText("性別を選択していません！");
+                    return;
+                }
+                if (jRadioButton1.isSelected()) {
+                    student.setSex("男");
+                } else {
+                    student.setSex("女");
+                }
 
-            this.dispose();
-            asd.setVisible(true);
+                jdbc.insertStudent(student);
+                jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                asd.showClassName(s);
+
+                //すべての生徒を表示
+                asd.readeStudents("1");
+
+                this.dispose();
+                asd.setVisible(true);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
     /*
     編集
@@ -289,77 +382,161 @@ public class StudentAdd extends javax.swing.JFrame {
         AllStudentsDate asd = new AllStudentsDate();
 
         Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
 
-            //null判断
-            if (jTextField1.getText().isEmpty()) {
-                jLabel10.setText("IDを空欄にしてはいけません！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
-                jLabel10.setText("IDは1001から9999以内です！");
-                return;
+        if (jComboBox1.getItemCount() == 1) {
+            try {
+                jdbc.getDbcom();
 
-            } else {
-                student.setId(jTextField1.getText());
+                //null判断
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel10.setText("IDを空欄にしてはいけません！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel10.setText("IDは1001から9999以内です！");
+                    return;
+
+                } else {
+                    student.setId(jTextField1.getText());
+                }
+
+                //クラス判断
+                if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                    jLabel10.setText("クラスを選択してください！");
+                    return;
+                } else {
+                    student.setAclass(jComboBox1.getSelectedItem().toString());
+                }
+
+                //null判断
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel10.setText("名前を空欄にしてはいけません！");
+                    return;
+                } else {
+                    student.setName(jTextField2.getText());
+                }
+
+                //編集時重複おｋ
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel10.setText("パスワードを設定してください！");
+                    return;
+                } else {
+                    student.setPass(jTextField3.getText());
+                }
+
+                //選択しているか判断
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel10.setText("性別を選択していません！");
+                    return;
+                }
+                if (jRadioButton1.isSelected()) {
+                    student.setSex("男");
+                } else {
+                    student.setSex("女");
+                }
+
+                jdbc.updateStudent(student);
+                jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
+
+                //クラス名の表示
+                String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
+                asd.showClassName(s);
+                //特定のクラスの生徒をすべて表示
+                asd.readeStudents(jComboBox1.getSelectedItem().toString());
+
+                this.dispose();
+                asd.setVisible(true);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
+        } else {
+            try {
+                jdbc.getDbcom();
 
-            //クラス判断
-            if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
-                jLabel10.setText("クラスを選択してください！");
-                return;
-            } else {
-                student.setAclass(jComboBox1.getSelectedItem().toString());
-            }
+                //null判断
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel10.setText("IDを空欄にしてはいけません！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel10.setText("IDは1001から9999以内です！");
+                    return;
 
-            //null判断
-            if (jTextField2.getText().isEmpty()) {
-                jLabel10.setText("名前を空欄にしてはいけません！");
-                return;
-            } else {
-                student.setName(jTextField2.getText());
-            }
+                } else {
+                    student.setId(jTextField1.getText());
+                }
 
-            //編集時重複おｋ
-            if (jTextField3.getText().isEmpty()) {
-                jLabel10.setText("パスワードを設定してください！");
-                return;
-            } else {
-                student.setPass(jTextField3.getText());
-            }
+                //クラス判断
+                if ("なし".equals(jComboBox1.getSelectedItem().toString())) {
+                    jLabel10.setText("クラスを選択してください！");
+                    return;
+                } else {
+                    student.setAclass(jComboBox1.getSelectedItem().toString());
+                }
 
-            //選択しているか判断
-            if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
-                jLabel10.setText("性別を選択していません！");
-                return;
-            }
-            if (jRadioButton1.isSelected()) {
-                student.setSex("男");
-            } else {
-                student.setSex("女");
-            }
+                //null判断
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel10.setText("名前を空欄にしてはいけません！");
+                    return;
+                } else {
+                    student.setName(jTextField2.getText());
+                }
 
-            jdbc.updateStudent(student);
-            jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
+                //編集時重複おｋ
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel10.setText("パスワードを設定してください！");
+                    return;
+                } else {
+                    student.setPass(jTextField3.getText());
+                }
 
-            asd.readeStudents();
+                //選択しているか判断
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel10.setText("性別を選択していません！");
+                    return;
+                }
+                if (jRadioButton1.isSelected()) {
+                    student.setSex("男");
+                } else {
+                    student.setSex("女");
+                }
 
-            this.dispose();
-            asd.setVisible(true);
+                jdbc.updateStudent(student);
+                jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                asd.showClassName(s);
+
+                //すべての生徒を表示
+                asd.readeStudents("1");
+
+                this.dispose();
+                asd.setVisible(true);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
     /*
@@ -368,9 +545,28 @@ public class StudentAdd extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         AllStudentsDate asd = new AllStudentsDate();
-//        asd.readeStudents();
-        this.dispose();
-        asd.setVisible(true);
+        if (jComboBox1.getItemCount() == 1) {
+            String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
+            asd.showClassName(s);
+            //特定のクラスの生徒をすべて表示
+            asd.readeStudents(jComboBox1.getSelectedItem().toString());
+            this.dispose();
+            asd.setVisible(true);
+//        } else if (jComboBox1.getItemCount() == 1 && jTextField1.getText().length() >= 5 && !jTextField2.getText().isEmpty()) {
+//            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+//            asd.showClassName(s);
+//            //すべての生徒を表示
+//            asd.readeStudents("1");
+//            this.dispose();
+//            asd.setVisible(true);
+        } else {
+            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+            asd.showClassName(s);
+            //すべての生徒を表示
+            asd.readeStudents("1");
+            this.dispose();
+            asd.setVisible(true);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

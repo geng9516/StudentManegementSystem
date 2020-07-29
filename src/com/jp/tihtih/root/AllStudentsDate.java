@@ -71,6 +71,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
         }
     }
 
+    //textの値がクラスを含むならそのクラスのすべての生徒を一覧に表示、そうでない場合すべての生徒を表示
     public void readeStudents(String text) {
         Jdbc jdbc = new Jdbc();
 
@@ -336,6 +337,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
         if (jComboBox1.getItemCount() == 1) {
             String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
             sa.setClassName(s);
+            sa.setStudentId(jComboBox1.getSelectedItem().toString().substring(0, 1));
             this.dispose();
             sa.setVisible(true);
         } else {
@@ -356,20 +358,40 @@ public class AllStudentsDate extends javax.swing.JFrame {
         //Jtable表を値を取得し、編集画面に入れる
         Student student = new Student();
         StudentAdd sa = new StudentAdd();
-        
-        //getSelectedColumn() 如果未选择行就返回-1
-        if (jTable1.getSelectedColumn() != -1) {
-            student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-            student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-            student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
-            student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-            
-            sa.setDate(student);
-            this.dispose();
-            sa.setVisible(true);
+        if (jComboBox1.getItemCount() == 1) {
+            //getSelectedColumn() 如果未选择行就返回-1
+            if (jTable1.getSelectedColumn() != -1) {
+                student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+                student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+                student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+                
+                String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
+                sa.setClassName(s);
+
+                sa.setDate(student);
+                this.dispose();
+                sa.setVisible(true);
+            } else {
+                jLabel2.setText("データを選択してください！");
+            }
         } else {
-            jLabel2.setText("データを選択してください！");
+            if (jTable1.getSelectedColumn() != -1) {
+                student.setId(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                student.setAclass(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                student.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+                student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+                student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                sa.setClassName(s);
+
+                sa.setDate(student);
+                this.dispose();
+                sa.setVisible(true);
+            } else {
+                jLabel2.setText("データを選択してください！");
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     /*
@@ -409,29 +431,55 @@ public class AllStudentsDate extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         Jdbc jdbc = new Jdbc();
+        if (jComboBox1.getItemCount() == 1) {
+            try {
+                jdbc.getDbcom();
 
-        try {
-            jdbc.getDbcom();
+                //学生情報と成績情報を一緒に削除
+                jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
-            //学生情報と成績情報を一緒に削除
-            jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                readeStudents(jComboBox1.getSelectedItem().toString());
 
-            readeStudents();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
+        } else {
+            try {
+                jdbc.getDbcom();
+
+                //学生情報と成績情報を一緒に削除
+                jdbc.deleteStudent(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                jdbc.deleteGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+
+                readeStudents("1");
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     /*
