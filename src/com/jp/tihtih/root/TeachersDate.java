@@ -192,7 +192,6 @@ public class TeachersDate extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
         jButton7.setText("成績");
@@ -512,34 +511,39 @@ public class TeachersDate extends javax.swing.JFrame {
      */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        Jdbc jdbc = new Jdbc();
-        List<Student> list = new ArrayList<>();
-        List<Grade> list2 = new ArrayList<>();
-        try {
-            jdbc.getDbcom();
-            list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
-            for (Student student : list) {
-                list2 = jdbc.selectGrade(student.getId());
-            }
-            GradeDate gd = new GradeDate();
-            gd.showClassName(jComboBox2.getSelectedItem().toString());
-            gd.showGrade(list2);
-            
-            this.dispose();
-            gd.setVisible(true);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        if (jTable1.getSelectedColumn() != -1) {
+            Jdbc jdbc = new Jdbc();
+            List<Student> list = new ArrayList<>();
+            List<Grade> list2 = new ArrayList<>();
+            try {
+                jdbc.getDbcom();
+                list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
+                for (Student student : list) {
+                    list2 = jdbc.selectGrade(student.getId());
+                }
+                GradeDate gd = new GradeDate();
+                gd.showClassName(jComboBox2.getSelectedItem().toString());
+                gd.showGrade(list2);
+
+                this.dispose();
+                gd.setVisible(true);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (jdbc != null) {
+                    try {
+                        jdbc.closeDbcom();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
+        }else {
+            jLabel4.setText("データを選んでください！");
         }
 
 
