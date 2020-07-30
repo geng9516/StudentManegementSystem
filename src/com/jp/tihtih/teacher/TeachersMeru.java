@@ -9,6 +9,7 @@ import com.jp.tihtih.root.Aclass;
 import com.jp.tihtih.login.Jdbc;
 import com.jp.tihtih.login.Login;
 import com.jp.tihtih.login.NewPass;
+import com.jp.tihtih.root.Student;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +126,7 @@ public class TeachersMeru extends javax.swing.JFrame {
         // TODO add your handling code here:
         Jdbc jdbc = new Jdbc();
         List<Aclass> list = new ArrayList<>();
+        List<Student> list2 = new ArrayList<>();
 
         try {
             jdbc.getDbcom();
@@ -133,6 +135,11 @@ public class TeachersMeru extends javax.swing.JFrame {
 
             //クラス情報をStudentDateのcomboxに表示
             list = jdbc.getClassDB(jLabel2.getText());
+            for(Aclass className : list){
+                list2 = jdbc.selectClass(className.getClassName());
+                sd.readeStudents(list2);
+            }
+            
             sd.readClassDb(list);
             sd.showTeacherId(jLabel2.getText(), jLabel4.getText());
 

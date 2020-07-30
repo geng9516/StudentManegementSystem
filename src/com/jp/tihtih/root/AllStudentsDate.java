@@ -552,7 +552,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchStudentId(Integer.parseInt(jTextField1.getText()));
+                        list = jdbc.searchStudentId(jTextField1.getText());
                         readeStudents(list);
                     } else {
                         jLabel2.setText("IDが長すぎます！");
@@ -564,8 +564,12 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     readeStudents(list);
                 }
 
-            } else {
-                jLabel2.setText("キーワードを入力してください！");
+            } else if (jComboBox1.getItemCount() == 1) {
+                list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
+                readeStudents(list);
+
+            }else{
+                readeStudents("1");
             }
 
         } catch (ClassNotFoundException ex) {

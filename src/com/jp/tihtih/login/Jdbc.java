@@ -377,7 +377,7 @@ public class Jdbc {
     //クラス毎の生徒一覧
     public List<Student> selectClass(String className) throws SQLException {
 
-        String sql = "select * from t_students where classname = '" + className + "'";
+        String sql = "select * from t_students where classname = '" + className + "' order by studentid";
         List<Student> list = new ArrayList<>();
         rs = stmt.executeQuery(sql);
         if (rs != null) {
@@ -393,6 +393,8 @@ public class Jdbc {
         }
         return list;
     }
+    
+  
 
     //生徒データ削除
     public void deleteStudent(String studentId) throws SQLException {
@@ -527,7 +529,7 @@ public class Jdbc {
     //teacherIdで検索（あいまいと特定検索できる）
     public List<Teacher> searchTeacherId(String teacherId) throws SQLException {
         List<Teacher> list = new ArrayList<>();
-        String sql = "select * from t_teachers where cast(id as text) like" + "'%" + teacherId + "%'";
+        String sql = "select * from t_teachers where id like '%" + teacherId + "%' order by id";
         System.out.println(sql);
         rs = stmt.executeQuery(sql);
         if (rs != null) {
@@ -548,7 +550,7 @@ public class Jdbc {
     public List<Teacher> searchTeacherName(String text) throws SQLException {
         List<Teacher> list = new ArrayList<>();
         String sql = "select * from t_teachers where name like " + "'%" + text + "%' or subject like ";
-        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%' or id like '%" + text + "%'";
+        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%' or id like '%" + text + "%' order by id";
         System.out.println(sql);
         rs = stmt.executeQuery(sql);
         if (rs != null) {
@@ -566,9 +568,9 @@ public class Jdbc {
     }
 
     //生徒Idで検索
-    public List<Student> searchStudentId(int studentId) throws SQLException {
+    public List<Student> searchStudentId(String studentId) throws SQLException {
         List<Student> list = new ArrayList<>();
-        String sql = "select * from t_Students where cast(studentid as text) like" + "'%" + studentId + "%'";
+        String sql = "select * from t_Students where studentid like '%" + studentId + "%'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
