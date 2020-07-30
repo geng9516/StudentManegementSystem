@@ -82,8 +82,9 @@ public class StudentsDate extends javax.swing.JFrame {
     }
 
     //画面にIDと名前を表示
-    public void showTeacherId( String name) {
-        jLabel5.setText(name);
+    public void showTeacherId(String teacherId ,String name) {
+        jLabel5.setText(teacherId);
+        jLabel7.setText(name);
 
     }
 
@@ -363,7 +364,7 @@ public class StudentsDate extends javax.swing.JFrame {
                 list = jdbc.getGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
                 gd.showGrade(list);
-                gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+//                gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
                 gd.setVisible(true);
 
