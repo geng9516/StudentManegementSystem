@@ -401,7 +401,7 @@ public class GradeDate extends javax.swing.JFrame {
                 jLabel1.setText("");
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
-                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) <= 100) {
+                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 1000) {
                         list2 = jdbc.searchGrade(Integer.parseInt(jTextField1.getText()));
                         showGrade(list2);
                     } else {

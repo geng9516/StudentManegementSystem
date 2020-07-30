@@ -275,10 +275,10 @@ public class GradeAdd extends javax.swing.JFrame {
 
             if (!jLabel1.getText().contains("クラス")) {
 
-                if (!jdbc.getStudentId(jLabel10.getText()).equals(jTextField1.getText())) {
-                    jLabel7.setText("生徒IDは" + jdbc.getStudentId(jLabel1.getText())+ "入力してください!");
-                    return;
-                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+//                if (!jdbc.getStudentId(jLabel10.getText()).equals(jTextField1.getText())) {
+//                    jLabel7.setText("生徒IDは" + jdbc.getStudentId(jLabel1.getText())+ "入力してください!");
+//                    return;
+                if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
                     return;
                 } else {
@@ -382,10 +382,10 @@ public class GradeAdd extends javax.swing.JFrame {
                 //クラス毎のほう
             } else if (jLabel1.getText().contains("クラス")) {
 
-                if (jLabel1.getText().substring(0, 1) != jTextField1.getText().substring(0, 1)) {
-                    jLabel7.setText(jLabel1.getText() + "の生徒IDを入力してください！");
-                    return;
-                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+//                if (jLabel1.getText().substring(0, 1) != jTextField1.getText().substring(0, 1)) {
+//                    jLabel7.setText(jLabel1.getText() + "の生徒IDを入力してください！");
+//                    return;
+               if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
                     return;
                 } else {

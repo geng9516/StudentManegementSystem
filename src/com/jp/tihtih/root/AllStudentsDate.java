@@ -543,6 +543,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
         List<Student> list = new ArrayList<>();
         //String型をint型にフォーマット
         Pattern p = Pattern.compile("^-?[1-9]\\d*$");
+        
 //        Matcher m = p.matcher(num);
         try {
             jdbc.getDbcom();
@@ -552,7 +553,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchStudentId(jTextField1.getText());
+                        list = jdbc.searchStudentId(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
                         readeStudents(list);
                     } else {
                         jLabel2.setText("IDが長すぎます！");
@@ -560,7 +561,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     }
                 } else {
                     //名前、科目、性別（あいまいと特定検索）
-                    list = jdbc.searchStudentName(jTextField1.getText());
+                    list = jdbc.searchStudentName(jTextField1.getText(),jComboBox1.getSelectedItem().toString());
                     readeStudents(list);
                 }
 
@@ -568,8 +569,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
                 readeStudents(list);
 
-            }else{
-                readeStudents("1");
             }
 
         } catch (ClassNotFoundException ex) {

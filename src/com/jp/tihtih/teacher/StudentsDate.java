@@ -74,6 +74,10 @@ public class StudentsDate extends javax.swing.JFrame {
 
     //担当クラスを表示
     public void readClassDb(List<Aclass> list) {
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jButton6.setVisible(false);
         //一旦jComboBox内のデータを空にする
         jComboBox1.removeAllItems();
         for (Aclass aclass : list) {
@@ -293,7 +297,7 @@ public class StudentsDate extends javax.swing.JFrame {
                     .addComponent(jButton7)
                     .addComponent(jButton6)
                     .addComponent(jButton3)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -474,7 +478,7 @@ public class StudentsDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchStudentId(jTextField1.getText());
+                        list = jdbc.searchStudentId(jTextField1.getText(),);
                         readeStudents(list);
                     } else {
                         jLabel2.setText("IDが長すぎます！");
@@ -488,8 +492,8 @@ public class StudentsDate extends javax.swing.JFrame {
 
             } else {
                 Object[] o = jComboBox1.getSelectedObjects();
-                for(Object i : o){
-                    System.out.println(i);
+                for(int i = 0 ; i < o.length; i++){
+                    System.out.println(o[i]);
                 }
             }
 

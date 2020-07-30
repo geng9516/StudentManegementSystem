@@ -568,9 +568,9 @@ public class Jdbc {
     }
 
     //生徒Idで検索
-    public List<Student> searchStudentId(String studentId) throws SQLException {
+    public List<Student> searchStudentId(String studentId,String className) throws SQLException {
         List<Student> list = new ArrayList<>();
-        String sql = "select * from t_Students where studentid like '%" + studentId + "%'";
+        String sql = "select * from t_Students where studentid like '%" + studentId + "%' and classname =" + className + "'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -587,10 +587,11 @@ public class Jdbc {
     }
 //生徒のクラス/名前/性別
 
-    public List<Student> searchStudentName(String text) throws SQLException {
+    public List<Student> searchStudentName(String text , String className) throws SQLException {
         List<Student> list = new ArrayList<>();
-        String sql = "select * from t_students where name like " + "'%" + text + "%' or classname like ";
-        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%' or studentid like '%" + text + "%'";
+        String sql = "select * from t_students where calssname = '" + className + "' and (name like " + "'%" + text + "%' or classname like ";
+        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%' or studentid like '%" + text + "%')";
+        System.out.println(sql);
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -616,7 +617,9 @@ public class Jdbc {
         sql += "and cast(english as text) like" + "'%" + text + "%'";
         sql += "and cast(science as text) like" + "'%" + text + "%'";
         sql += "and cast(history as text) like" + "'%" + text + "%'";
+        System.out.println(sql);
         rs = stmt.executeQuery(sql);
+        
         if (rs != null) {
             while (rs.next()) {
                 Grade grade = new Grade();
