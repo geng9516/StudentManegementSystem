@@ -69,8 +69,8 @@ public class Jdbc {
     
      */
     //先生のIDが重複するかを調べる
-    public boolean checkTeacherID(int id) throws SQLException {
-        String sql = "select id from t_teachers where id=" + id;
+    public boolean checkTeacherID(String id) throws SQLException {
+        String sql = "select id from t_teachers where id='" + id + "'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
@@ -94,8 +94,8 @@ public class Jdbc {
 
     //t_teacherにクラス情報を挿入
     public void insertTeacher(Teacher teacher) throws SQLException {
-        String sql = "insert into t_teachers (id,name,pass,subject,sex)values(";
-        sql += teacher.getId() + ",'";
+        String sql = "insert into t_teachers (id,name,pass,subject,sex)values('";
+        sql += teacher.getId() + "','";
         sql += teacher.getName() + "','";
         sql += teacher.getPass() + "','";
         sql += teacher.getSubject() + "','";
@@ -105,8 +105,8 @@ public class Jdbc {
 
     //t_classにクラス情報を挿入
     public void insertClass(Aclass aclass) throws SQLException {
-        String sql = "insert into t_class(teacherid,classname,subject)values(";
-        sql += aclass.getTeacherId() + ",'" + aclass.getClassName() + "','" + aclass.getSubject() + "')";
+        String sql = "insert into t_class(teacherid,classname,subject)values('";
+        sql += aclass.getTeacherId() + "','" + aclass.getClassName() + "','" + aclass.getSubject() + "')";
         stmt.executeUpdate(sql);
     }
 
@@ -117,7 +117,7 @@ public class Jdbc {
         sql += "pass= '" + teacher.getPass() + "',";
         sql += "subject= '" + teacher.getSubject() + "',";
         sql += "sex= '" + teacher.getSex() + "'";
-        sql += "where id=" + teacher.getId();
+        sql += "where id='" + teacher.getId() + "'";
         stmt.executeUpdate(sql);
     }
 
@@ -125,7 +125,7 @@ public class Jdbc {
     public void updateClass(Aclass aclass) {
         String sql = "update t_teachers set ";
         sql += "classname ='" + aclass.getClassName();
-        sql += "' where teacherid = " + aclass.getTeacherId() + " and subje = '" + aclass.getClassName() + "'";
+        sql += "' where teacherid = '" + aclass.getTeacherId() + "' and subje = '" + aclass.getClassName() + "'";
     }
 
     //クラス重複チェック
@@ -149,7 +149,7 @@ public class Jdbc {
         if (rs != null) {
             while (rs.next()) {
                 teacher = new Teacher();
-                teacher.setId(rs.getInt(1));
+                teacher.setId(rs.getString(1));
                 teacher.setName(rs.getString(2));
                 teacher.setPass(rs.getString(3));
                 teacher.setSubject(rs.getString(4));
@@ -161,16 +161,16 @@ public class Jdbc {
     }
 
     //クラスのデータをすべて読み取るjtableに表示
-    public List<Aclass> getClassDB(int teacherid) throws SQLException {
+    public List<Aclass> getClassDB(String teacherid) throws SQLException {
         List<Aclass> list = new ArrayList<>();
         Aclass aclass = null;
 
-        String sql = "select * from t_class where teacherid = " + teacherid;
+        String sql = "select * from t_class where teacherid = '" + teacherid + "'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
                 aclass = new Aclass();
-                aclass.setTeacherId(rs.getInt(1));
+                aclass.setTeacherId(rs.getString(1));
                 aclass.setClassName(rs.getString(2));
                 aclass.setSubject(rs.getString(3));
                 list.add(aclass);
@@ -180,14 +180,14 @@ public class Jdbc {
     }
 
     //先生データ削除
-    public void deleteTecher(int teacherid) throws SQLException {
-        String sql = "delete from t_teachers where id =" + teacherid;
+    public void deleteTecher(String teacherid) throws SQLException {
+        String sql = "delete from t_teachers where id ='" + teacherid + "'";
         stmt.executeUpdate(sql);
     }
 
     //classデータ削除
-    public void deleteClass(int teacherid) throws SQLException {
-        String sql = "delete from t_class where teacherid =" + teacherid;
+    public void deleteClass(String teacherid) throws SQLException {
+        String sql = "delete from t_class where teacherid ='" + teacherid + "'";
         stmt.executeUpdate(sql);
     }
 
@@ -350,7 +350,7 @@ public class Jdbc {
         System.out.println(sql);
     }
 
-    //成績をすべて読み取って一覧に表示
+    //生徒ごとの成績をすべて読み取って一覧に表示
     public List<Grade> selectGrade(String studentid) throws SQLException {
         List<Grade> list = new ArrayList<>();
 
@@ -454,12 +454,12 @@ public class Jdbc {
     //先生情報を調べる
     public Teacher getTeacher(String teacherId) throws SQLException {
         Teacher teacher = null;
-        String sql = "select * from t_teachers where id=" + Integer.parseInt(teacherId);
+        String sql = "select * from t_teachers where id='" + teacherId + "'";
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
                 teacher = new Teacher();
-                teacher.setId(rs.getInt(1));
+                teacher.setId(rs.getString(1));
                 teacher.setName(rs.getString(2));
                 teacher.setPass(rs.getString(3));
                 teacher.setSubject(rs.getString(4));
@@ -510,7 +510,7 @@ public class Jdbc {
     検索機能
      */
     //teacherIdで検索（あいまいと特定検索できる）
-    public List<Teacher> searchTeacherId(int teacherId) throws SQLException {
+    public List<Teacher> searchTeacherId(String teacherId) throws SQLException {
         List<Teacher> list = new ArrayList<>();
         String sql = "select * from t_teachers where cast(id as text) like" + "'%" + teacherId + "%'";
         System.out.println(sql);
@@ -518,7 +518,7 @@ public class Jdbc {
         if (rs != null) {
             while (rs.next()) {
                 Teacher teacher = new Teacher();
-                teacher.setId(rs.getInt(1));
+                teacher.setId(rs.getString(1));
                 teacher.setName(rs.getString(2));
                 teacher.setPass(rs.getString(3));
                 teacher.setSubject(rs.getString(4));
@@ -533,13 +533,13 @@ public class Jdbc {
     public List<Teacher> searchTeacherName(String text) throws SQLException {
         List<Teacher> list = new ArrayList<>();
         String sql = "select * from t_teachers where name like " + "'%" + text + "%' or subject like ";
-        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%'";
+        sql += "'%" + text + "%' or sex like '%" + text + "%' or pass like '%" + text + "%' or id like '%" + text + "%'";
         System.out.println(sql);
         rs = stmt.executeQuery(sql);
         if (rs != null) {
             while (rs.next()) {
                 Teacher teacher = new Teacher();
-                teacher.setId(rs.getInt(1));
+                teacher.setId(rs.getString(1));
                 teacher.setName(rs.getString(2));
                 teacher.setPass(rs.getString(3));
                 teacher.setSubject(rs.getString(4));
@@ -584,6 +584,55 @@ public class Jdbc {
                 student.setPass(rs.getString(4));
                 student.setSex(rs.getString(5));
                 list.add(student);
+            }
+        }
+        return list;
+    }
+
+    //数値で検索
+    public List<Grade> searchGrade(int text) throws SQLException {
+        List<Grade> list = new ArrayList<>();
+        String sql = "select studentid,testtype,kokugo,math,english,science,history,(kokugo+math+english+science+history) from t_Students ";
+        sql += "where cast(studentid as text) like" + "'%" + text + "%'";
+        sql += "and cast(kokugo as text) like" + "'%" + text + "%'";
+        sql += "and cast(math as text) like" + "'%" + text + "%'";
+        sql += "and cast(english as text) like" + "'%" + text + "%'";
+        sql += "and cast(science as text) like" + "'%" + text + "%'";
+        sql += "and cast(history as text) like" + "'%" + text + "%'";
+        rs = stmt.executeQuery(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                Grade grade = new Grade();
+                grade.setStudentid(rs.getString(1));
+                grade.setTest(rs.getString(2));
+                grade.setKokugo(rs.getDouble(3));
+                grade.setMath(rs.getDouble(4));
+                grade.setEnglish(rs.getDouble(5));
+                grade.setScience(rs.getDouble(6));
+                grade.setHistory(rs.getDouble(7));
+                list.add(grade);
+            }
+        }
+        return list;
+    }
+
+    //
+    public List<Grade> searchTesttype(String text) throws SQLException {
+        List<Grade> list = new ArrayList<>();
+        String sql = "select studentid,testtype,kokugo,math,english,science,history,(kokugo+math+english+science+history) from t_Students ";
+        sql += "where studentid like " + "'%" + text + "%' or testtype like " + "'%" + text + "%'";
+        rs = stmt.executeQuery(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                Grade grade = new Grade();
+                grade.setStudentid(rs.getString(1));
+                grade.setTest(rs.getString(2));
+                grade.setKokugo(rs.getDouble(3));
+                grade.setMath(rs.getDouble(4));
+                grade.setEnglish(rs.getDouble(5));
+                grade.setScience(rs.getDouble(6));
+                grade.setHistory(rs.getDouble(7));
+                list.add(grade);
             }
         }
         return list;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -248,23 +249,42 @@ public class TeacherAdd extends javax.swing.JFrame {
         List<Aclass> list = new ArrayList<>();
         Aclass aclass = null;
         TeachersDate td = null;
+        Pattern p = Pattern.compile("^-?[1-9]\\d*$");
 
         try {
             jdbc.getDbcom();
+            //普通の先生であれば
+            if (p.matcher((jTextField1.getText())).find()) {
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel8.setText("先生IDを入力してください！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
+                    jLabel8.setText("先生IDは101～999以内です！");
+                    return;
 
-            if (jTextField1.getText().isEmpty()) {
-                jLabel8.setText("先生IDを入力してください！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
-                jLabel8.setText("先生IDは101～999以内です！");
-                return;
-
-                //追加するとき先生のIDが重複しているかを判断
-            } else if (jdbc.checkTeacherID(Integer.parseInt(jTextField1.getText()))) {
-                jLabel8.setText("先生IDすでに存在しています！");
-                return;
+                    //追加するとき先生のIDが重複しているかを判断
+                } else if (jdbc.checkTeacherID(jTextField1.getText())) {
+                    jLabel8.setText("先生IDすでに存在しています！");
+                    return;
+                } else {
+                    teacher.setId(jTextField1.getText());
+                }
+                //ABCDがついている先生ID
             } else {
-                teacher.setId(Integer.parseInt(jTextField1.getText()));
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel8.setText("先生IDを入力してください！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 100 || Integer.parseInt(jTextField1.getText().substring(1)) >= 1000) {
+                    jLabel8.setText("先生IDは101～999以内です！");
+                    return;
+
+                    //追加するとき先生のIDが重複しているかを判断
+                } else if (jdbc.checkTeacherID(jTextField1.getText())) {
+                    jLabel8.setText("先生IDすでに存在しています！");
+                    return;
+                } else {
+                    teacher.setId(jTextField1.getText());
+                }
             }
 
             if (jTextField2.getText().isEmpty()) {
@@ -277,11 +297,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             if (jTextField3.getText().isEmpty()) {
                 jLabel8.setText("パスワードを設定してください！");
                 return;
-            } //            else if (jdbc.checkPass(jTextField3.getText())) {
-            //                jLabel8.setText("パスワードが重複しています！");
-            //                return;
-            //            } 
-            else {
+            } else {
                 teacher.setPass(jTextField3.getText());
             }
 
@@ -309,12 +325,12 @@ public class TeacherAdd extends javax.swing.JFrame {
             }
 
             //t_classにクラス情報を追加
-            jdbc.deleteClass(Integer.parseInt(jTextField1.getText()));
+            jdbc.deleteClass(jTextField1.getText());
             //t_classにクラス情報を編集
             if (jCheckBox1.isSelected()) {
                 if (jdbc.checkClass(jCheckBox1.getText(), jComboBox1.getSelectedItem().toString())) {
                     aclass = new Aclass();
-                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox1.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
@@ -325,7 +341,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             if (jCheckBox2.isSelected()) {
                 if (jdbc.checkClass(jCheckBox2.getText(), jComboBox1.getSelectedItem().toString())) {
                     aclass = new Aclass();
-                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox2.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
@@ -336,7 +352,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             if (jCheckBox3.isSelected()) {
                 if (jdbc.checkClass(jCheckBox3.getText(), jComboBox1.getSelectedItem().toString())) {
                     aclass = new Aclass();
-                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox3.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
@@ -347,7 +363,7 @@ public class TeacherAdd extends javax.swing.JFrame {
             if (jCheckBox4.isSelected()) {
                 if (jdbc.checkClass(jCheckBox4.getText(), jComboBox1.getSelectedItem().toString())) {
                     aclass = new Aclass();
-                    aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                    aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox4.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
@@ -395,18 +411,32 @@ public class TeacherAdd extends javax.swing.JFrame {
         Teacher teacher = new Teacher();
         TeachersDate td = new TeachersDate();
         Aclass aclass = null;
-
+        Pattern p = Pattern.compile("^-?[1-9]\\d*$");
         try {
             jdbc.getDbcom();
+            //普通の先生であれば
+            if (p.matcher((jTextField1.getText())).find()) {
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel8.setText("先生IDを入力してください！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 100 || Integer.parseInt(jTextField1.getText().substring(1)) >= 1000) {
+                    jLabel8.setText("先生IDは101～999以内です！");
+                    return;
 
-            if (jTextField1.getText().isEmpty()) {
-                jLabel8.setText("先生IDを入力してください！");
-                return;
-            } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
-                jLabel8.setText("先生IDは101～999以内です！");
-                return;
+                } else {
+                    teacher.setId(jTextField1.getText());
+                }
+                //ABCDがついている先生ID
             } else {
-                teacher.setId(Integer.parseInt(jTextField1.getText()));
+                if (jTextField1.getText().isEmpty()) {
+                    jLabel8.setText("先生IDを入力してください！");
+                    return;
+                } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 100 || Integer.parseInt(jTextField1.getText().substring(1)) >= 1000) {
+                    jLabel8.setText("先生IDは101～999以内です！");
+                    return;
+                } else {
+                    teacher.setId(jTextField1.getText());
+                }
             }
 
             if (jTextField2.getText().isEmpty()) {
@@ -441,32 +471,32 @@ public class TeacherAdd extends javax.swing.JFrame {
             }
 
             //先に一回削除してから
-            jdbc.deleteClass(Integer.parseInt(jTextField1.getText()));
+            jdbc.deleteClass(jTextField1.getText());
             //t_classにクラス情報を編集
             if (jCheckBox1.isSelected()) {
                 aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                aclass.setTeacherId(jTextField1.getText());
                 aclass.setClassName(jCheckBox1.getText());
                 aclass.setSubject(teacher.getSubject());
                 jdbc.insertClass(aclass);
             }
             if (jCheckBox2.isSelected()) {
                 aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                aclass.setTeacherId(jTextField1.getText());
                 aclass.setClassName(jCheckBox2.getText());
                 aclass.setSubject(teacher.getSubject());
                 jdbc.insertClass(aclass);
             }
             if (jCheckBox3.isSelected()) {
                 aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                aclass.setTeacherId(jTextField1.getText());
                 aclass.setClassName(jCheckBox3.getText());
                 aclass.setSubject(teacher.getSubject());
                 jdbc.insertClass(aclass);
             }
             if (jCheckBox4.isSelected()) {
                 aclass = new Aclass();
-                aclass.setTeacherId(Integer.parseInt(jTextField1.getText()));
+                aclass.setTeacherId(jTextField1.getText());
                 aclass.setClassName(jCheckBox4.getText());
                 aclass.setSubject(teacher.getSubject());
                 jdbc.insertClass(aclass);

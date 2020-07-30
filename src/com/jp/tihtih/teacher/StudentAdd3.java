@@ -290,7 +290,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
             jdbc.insertStudent(student);
             jdbc.insertStudentUser(jTextField1.getText(), jTextField3.getText());
 
-            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            list = jdbc.getClassDB(jLabel5.getText());
             sd.readClassDb(list);
 
 //            sd.readeStudents();
@@ -378,7 +378,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
             jdbc.updateStudent(student);
             jdbc.updateStudentUser(jTextField1.getText(), jTextField3.getText());
 
-            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            list = jdbc.getClassDB(jLabel5.getText());
             sd.readClassDb(list);
 
 //            sd.readeStudents();
@@ -415,7 +415,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
             StudentsDate sd = new StudentsDate();
 
             //クラス情報をStudentDateのcomboxに表示
-            list = jdbc.getClassDB(Integer.parseInt(jLabel5.getText()));
+            list = jdbc.getClassDB(jLabel5.getText());
             sd.readClassDb(list);
             //キャンセルからsdに戻るとき先生のデータを表示
             sd.showTeacherId(jLabel5.getText(), jLabel6.getText());

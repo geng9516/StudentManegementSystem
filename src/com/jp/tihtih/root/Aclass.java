@@ -13,14 +13,14 @@ import java.util.Objects;
  */
 public class Aclass {
 
-    private int teacherId;
+    private String teacherId;
     private String className;
     private String subject;
 
     public Aclass() {
     }
 
-    public Aclass(int teacherId, String className, String subject) {
+    public Aclass(String teacherId, String className, String subject) {
         this.teacherId = teacherId;
         this.className = className;
         this.subject = subject;
@@ -31,44 +31,11 @@ public class Aclass {
         return "Aclass{" + "teacherId=" + teacherId + ", className=" + className + ", subject=" + subject + '}';
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + this.teacherId;
-        hash = 73 * hash + Objects.hashCode(this.className);
-        hash = 73 * hash + Objects.hashCode(this.subject);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Aclass other = (Aclass) obj;
-        if (this.teacherId != other.teacherId) {
-            return false;
-        }
-        if (!Objects.equals(this.className, other.className)) {
-            return false;
-        }
-        if (!Objects.equals(this.subject, other.subject)) {
-            return false;
-        }
-        return true;
-    }
-
-    public int getTeacherId() {
+    public String getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(int teacherId) {
+    public void setTeacherId(String teacherId) {
         this.teacherId = teacherId;
     }
 
@@ -88,4 +55,36 @@ public class Aclass {
         this.subject = subject;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.teacherId);
+        hash = 83 * hash + Objects.hashCode(this.className);
+        hash = 83 * hash + Objects.hashCode(this.subject);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Aclass other = (Aclass) obj;
+        if (!Objects.equals(this.teacherId, other.teacherId)) {
+            return false;
+        }
+        if (!Objects.equals(this.className, other.className)) {
+            return false;
+        }
+        if (!Objects.equals(this.subject, other.subject)) {
+            return false;
+        }
+        return true;
+    }
 }

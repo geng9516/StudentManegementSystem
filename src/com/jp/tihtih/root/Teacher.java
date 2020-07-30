@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Teacher {
 
-    private int id;
+    private String id;
     private String name;
     private String pass;
     private String Subject;
@@ -23,18 +23,13 @@ public class Teacher {
     }
 
     @Override
-    public String toString() {
-        return "Teacher{" + "id=" + id + ", name=" + name + ", pass=" + pass + ", Subject=" + Subject + ", sex=" + sex + '}';
-    }
-
-    @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + this.id;
-        hash = 23 * hash + Objects.hashCode(this.name);
-        hash = 23 * hash + Objects.hashCode(this.pass);
-        hash = 23 * hash + Objects.hashCode(this.Subject);
-        hash = 23 * hash + Objects.hashCode(this.sex);
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.pass);
+        hash = 97 * hash + Objects.hashCode(this.Subject);
+        hash = 97 * hash + Objects.hashCode(this.sex);
         return hash;
     }
 
@@ -50,7 +45,7 @@ public class Teacher {
             return false;
         }
         final Teacher other = (Teacher) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
@@ -68,11 +63,16 @@ public class Teacher {
         return true;
     }
 
-    public int getId() {
+    @Override
+    public String toString() {
+        return "Teacher{" + "id=" + id + ", name=" + name + ", pass=" + pass + ", Subject=" + Subject + ", sex=" + sex + '}';
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -108,7 +108,7 @@ public class Teacher {
         this.sex = sex;
     }
 
-    public Teacher(int id, String name, String pass, String Subject, String sex) {
+    public Teacher(String id, String name, String pass, String Subject, String sex) {
         this.id = id;
         this.name = name;
         this.pass = pass;
@@ -116,4 +116,4 @@ public class Teacher {
         this.sex = sex;
     }
 
-   }
+}

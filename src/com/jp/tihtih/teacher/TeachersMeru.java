@@ -132,7 +132,7 @@ public class TeachersMeru extends javax.swing.JFrame {
             StudentsDate sd = new StudentsDate();
 
             //クラス情報をStudentDateのcomboxに表示
-            list = jdbc.getClassDB(Integer.parseInt(jLabel2.getText()));
+            list = jdbc.getClassDB(jLabel2.getText());
             sd.readClassDb(list);
             sd.showTeacherId(jLabel2.getText(), jLabel4.getText());
 

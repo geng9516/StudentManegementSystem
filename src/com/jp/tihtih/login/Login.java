@@ -168,8 +168,20 @@ public class Login extends javax.swing.JFrame {
                             jLabel3.setText("IDかパスワードが間違っています！");
                             jLabel4.setText("正しいIDとパスワードを入力してください！");
                         }
+                      //ABCD担当先生の場合 
+                    } else if (Integer.parseInt(jTextField1.getText().substring(1)) > 100 && Integer.parseInt(jTextField1.getText().substring(1)) < 1000) {
+                        teacher = new Teacher();
+                        TeachersMeru td = new TeachersMeru();
 
-                        //学生データ確認画面
+                        //先生を探す
+                        teacher = jdbc.getTeacher(jTextField1.getText());
+                        //先生のログイン画面のIdと名前を表示
+                        td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
+
+                        this.dispose();
+                        td.setVisible(true);
+                        
+                         //学生データ確認画面
                     } else if (Integer.parseInt(jTextField1.getText().substring(1)) > 1000 && Integer.parseInt(jTextField1.getText().substring(1)) < 10000) {
                         Student student = student = new Student();
                         sd = new myDate();
@@ -192,7 +204,6 @@ public class Login extends javax.swing.JFrame {
             } else {
                 jLabel4.setText("");
                 jLabel3.setText("ユーザー情報ありません！");
-
                 return;
             }
 
