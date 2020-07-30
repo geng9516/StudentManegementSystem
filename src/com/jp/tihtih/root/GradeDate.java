@@ -43,9 +43,15 @@ public class GradeDate extends javax.swing.JFrame {
 
     //画面の学生IDと名前を表示するため
     public void showStudentDate(String studentId, String name) {
+        jLabel4.setVisible(false);
         jLabel3.setText(name);
         jLabel7.setText(studentId);
 
+    }
+
+    //一人一人の生徒の成績確認時使用
+    public void setStudentClassName(String StudentClass) {
+        jLabel4.setText(StudentClass);
     }
 
     //クラスごとの成績を表示する際にそのクラス名も表示
@@ -106,6 +112,7 @@ public class GradeDate extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("成績確認");
@@ -152,7 +159,7 @@ public class GradeDate extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("閉じる");
+        jButton3.setText("戻る");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -183,16 +190,16 @@ public class GradeDate extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jButton1)
-                .addGap(59, 59, 59)
-                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(56, 56, 56)
                 .addComponent(jButton4)
-                .addGap(79, 79, 79)
+                .addGap(57, 57, 57)
                 .addComponent(jButton3)
                 .addGap(83, 83, 83))
             .addGroup(layout.createSequentialGroup()
@@ -202,7 +209,8 @@ public class GradeDate extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -227,13 +235,17 @@ public class GradeDate extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5)))
-                .addGap(13, 13, 13)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5))
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -251,17 +263,22 @@ public class GradeDate extends javax.swing.JFrame {
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
-        if(!jLabel3.getText().isEmpty()){
+        //jLabel4にクラス名があれば
+        if (!jLabel4.getText().isEmpty()) {
             AllStudentsDate asd = new AllStudentsDate();
+            //戻るときクラス毎の生徒を表示するため
+            asd.readeStudents(jLabel4.getText());
+            String[] s = new String[]{jLabel4.getText()};
+            asd.showClassName(s);
             this.dispose();
             asd.setVisible(true);
-        }else if(jLabel7.getText().contains("クラス")){
+            //jLabel7にクラスを含むなら
+        } else if (jLabel7.getText().contains("クラス")) {
             TeachersDate td = new TeachersDate();
             this.dispose();
             td.setVisible(true);
         }
-       
+
     }//GEN-LAST:event_jButton3ActionPerformed
     /*
     新規
@@ -269,16 +286,17 @@ public class GradeDate extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         GradeAdd ga = new GradeAdd();
-        //jLabel3に名前
+        //jLabel3に名前があるかどうかをチェック
         if (!jLabel3.getText().isEmpty()) {
-
             ga.setStudentName(jLabel3.getText());
             //成績新規画面の学生IDを自動表示するため
             ga.setStudentId(jLabel7.getText());
+            ga.setClassName(jLabel4.getText());
             this.dispose();
             ga.setVisible(true);
         } else if (jLabel7.getText().contains("クラス")) {
             ga.setStudentName(jLabel7.getText());
+            ga.setStudentId(jLabel7.getText());
             this.dispose();
             ga.setVisible(true);
         }
@@ -306,7 +324,7 @@ public class GradeDate extends javax.swing.JFrame {
 
                 ga.setStudentName(jLabel3.getText());
                 ga.setGradeAdd(grade);
-
+                ga.setClassName(jLabel4.getText());
                 this.dispose();
                 ga.setVisible(true);
             } else if (jLabel7.getText().contains("クラス")) {
@@ -318,8 +336,9 @@ public class GradeDate extends javax.swing.JFrame {
                 grade.setScience(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString()));
                 grade.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
 
-                ga.setStudentName(jLabel7.getText());
                 ga.setGradeAdd(grade);
+                //classname
+                ga.setStudentName(jLabel7.getText());
 
                 this.dispose();
                 ga.setVisible(true);
@@ -468,6 +487,7 @@ public class GradeDate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;

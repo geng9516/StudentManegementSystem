@@ -29,18 +29,18 @@ public class Jdbc {
     Statement stmt = null;
     ResultSet rs = null;
 
-    String DB_URL = "jdbc:postgresql://localhost:5432/chen";
-    String USER = "postgres";
-    String PASS = "postgres";
-//    String DB_URL = "jdbc:mysql://localhost:3306/studentmanagementsystem";
-//    String USER = "root";
-//    String PASS = "213sos1995";
+//    String DB_URL = "jdbc:postgresql://localhost:5432/chen";
+//    String USER = "postgres";
+//    String PASS = "postgres";
+    String DB_URL = "jdbc:mysql://localhost:3306/studentmanagementsystem";
+    String USER = "root";
+    String PASS = "213sos1995";
 
     //DBに接続
     public Connection getDbcom() throws ClassNotFoundException {
         if (conn == null) {
-            Class.forName("org.postgresql.Driver");
-//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try {
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 stmt = conn.createStatement();
@@ -428,6 +428,21 @@ public class Jdbc {
     public void deleteStudentUser(String studentId) throws SQLException {
         String sql = "delete from t_user where id = '" + studentId + "'";
         stmt.executeUpdate(sql);
+    }
+
+    //名前で生徒IDを取得
+    public String getStudentId(String studentName) throws SQLException {
+
+        String sql = "select studentid from t_students where name ='" + studentName + "'";
+        String studentId = null;
+        rs = stmt.executeQuery(sql);
+        System.out.println(sql);
+        if (rs != null) {
+            while (rs.next()) {
+                studentId = rs.getString(1);
+            }
+        }
+        return studentId;
     }
 
     /*

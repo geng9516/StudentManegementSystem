@@ -429,7 +429,10 @@ public class AllStudentsDate extends javax.swing.JFrame {
         GradeDate gd = new GradeDate();
         if (jTable1.getSelectedColumn() != -1) {
             gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            //生徒IDと名前
             gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+            gd.setStudentClassName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+            this.dispose();
             gd.setVisible(true);
         } else {
             jLabel2.setText("データを選択してください！");

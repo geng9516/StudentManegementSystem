@@ -518,8 +518,10 @@ public class TeachersDate extends javax.swing.JFrame {
             List<Grade> list2 = new ArrayList<>();
             try {
                 jdbc.getDbcom();
+               //クラス別の生徒を探し、lisｔに入れる
                 list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
                 for (Student student : list) {
+                    //クラスの生徒を一人一人表に表示する
                     list2 = jdbc.selectGrade(student.getId());
                 }
                 GradeDate gd = new GradeDate();

@@ -120,11 +120,6 @@ public class StudentAdd extends javax.swing.JFrame {
         jLabel11.setText("パスワード");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "なし" }));
-        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jComboBox1MouseEntered(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -560,12 +555,6 @@ public class StudentAdd extends javax.swing.JFrame {
             asd.setVisible(true);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    //生徒IDの頭文字を表示
-    private void jComboBox1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseEntered
-        // TODO add your handling code here:
-        jTextField1.setText(jComboBox1.getSelectedItem().toString().substring(0, 1));
-    }//GEN-LAST:event_jComboBox1MouseEntered
 
     /**
      * @param args the command line arguments
