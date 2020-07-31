@@ -15,6 +15,7 @@ public class Grade {
 
     private String studentid;
     private String test;
+    private String className;
     private double kokugo;
     private double math;
     private double english;
@@ -25,33 +26,18 @@ public class Grade {
     public Grade() {
     }
 
-    public Grade(String studentid, String test, double kokugo, double math, double english, double science, double history, double sum) {
-        this.studentid = studentid;
-        this.test = test;
-        this.kokugo = kokugo;
-        this.math = math;
-        this.english = english;
-        this.science = science;
-        this.history = history;
-        this.sum = sum;
-    }
-
-    @Override
-    public String toString() {
-        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + ", sum=" + sum + '}';
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.studentid);
-        hash = 13 * hash + Objects.hashCode(this.test);
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
-        hash = 13 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.studentid);
+        hash = 37 * hash + Objects.hashCode(this.test);
+        hash = 37 * hash + Objects.hashCode(this.className);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.kokugo) ^ (Double.doubleToLongBits(this.kokugo) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.math) ^ (Double.doubleToLongBits(this.math) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.english) ^ (Double.doubleToLongBits(this.english) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.science) ^ (Double.doubleToLongBits(this.science) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.history) ^ (Double.doubleToLongBits(this.history) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
         return hash;
     }
 
@@ -91,7 +77,15 @@ public class Grade {
         if (!Objects.equals(this.test, other.test)) {
             return false;
         }
+        if (!Objects.equals(this.className, other.className)) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" + "studentid=" + studentid + ", test=" + test + ", className=" + className + ", kokugo=" + kokugo + ", math=" + math + ", english=" + english + ", science=" + science + ", history=" + history + ", sum=" + sum + '}';
     }
 
     public String getStudentid() {
@@ -108,6 +102,14 @@ public class Grade {
 
     public void setTest(String test) {
         this.test = test;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public double getKokugo() {
@@ -157,4 +159,17 @@ public class Grade {
     public void setSum(double sum) {
         this.sum = sum;
     }
-}
+
+    public Grade(String studentid, String test, String className, double kokugo, double math, double english, double science, double history, double sum) {
+        this.studentid = studentid;
+        this.test = test;
+        this.className = className;
+        this.kokugo = kokugo;
+        this.math = math;
+        this.english = english;
+        this.science = science;
+        this.history = history;
+        this.sum = sum;
+    }
+
+    }

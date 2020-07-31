@@ -73,61 +73,40 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
     //textの値がクラスを含むならそのクラスのすべての生徒を一覧に表示、そうでない場合すべての生徒を表示
     public void readeStudents(String text) {
+        List<Student> list = new ArrayList<>();
         Jdbc jdbc = new Jdbc();
 
-        List<Student> list = new ArrayList<>();
-        if (text.contains("クラス")) {
-            jButton9.setVisible(false);
-            jButton8.setVisible(false);
-            try {
-                jdbc.getDbcom();
+        try {
+            jdbc.getDbcom();
+
+            if (text.contains("クラス")) {
+                jButton9.setVisible(false);
+                jButton8.setVisible(false);
 
                 list = jdbc.selectClass(text);
 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                if (jdbc != null) {
-                    try {
-                        jdbc.closeDbcom();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-
-            DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-            tableModel.setRowCount(0);
-            for (Student student : list) {
-                tableModel.addRow(new Object[]{student.getId(), student.getAclass(), student.getName(), student.getPass(), student.getSex()});
-            }
-        } else {
-            try {
-                jdbc.getDbcom();
-
+            } else {
                 list = jdbc.getAllStudents();
+            }
 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                if (jdbc != null) {
-                    try {
-                        jdbc.closeDbcom();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AllStudentsDate.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        }
 
-            DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-            tableModel.setRowCount(0);
-            for (Student student : list) {
-                tableModel.addRow(new Object[]{student.getId(), student.getAclass(), student.getName(), student.getPass(), student.getSex()});
-            }
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+        for (Student student : list) {
+            tableModel.addRow(new Object[]{student.getId(), student.getAclass(), student.getName(), student.getPass(), student.getSex()});
         }
     }
 
@@ -531,7 +510,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
      */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-//        readeStudents();
+        readeStudents();
     }//GEN-LAST:event_jButton8ActionPerformed
     /*
     検索
@@ -543,32 +522,56 @@ public class AllStudentsDate extends javax.swing.JFrame {
         List<Student> list = new ArrayList<>();
         //String型をint型にフォーマット
         Pattern p = Pattern.compile("^-?[1-9]\\d*$");
-        
+
 //        Matcher m = p.matcher(num);
         try {
             jdbc.getDbcom();
-
-            if (!jTextField1.getText().isEmpty()) {
-                jLabel2.setText("");
-                //Stringが数値かを判断
-                if (p.matcher((jTextField1.getText())).find()) {
-                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchStudentId(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
-                        readeStudents(list);
+            if (!jComboBox1.getItemAt(0).isEmpty()) {
+                if (!jTextField1.getText().isEmpty()) {
+                    jLabel2.setText("");
+                    //Stringが数値かを判断
+                    if (p.matcher((jTextField1.getText())).find()) {
+                        if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
+                            list = jdbc.searchStudentId(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
+                            readeStudents(list);
+                        } else {
+                            jLabel2.setText("IDが長すぎます！");
+                            return;
+                        }
                     } else {
-                        jLabel2.setText("IDが長すぎます！");
-                        return;
+                        //名前、科目、性別（あいまいと特定検索）
+                        list = jdbc.searchStudentName(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
+                        readeStudents(list);
                     }
-                } else {
-                    //名前、科目、性別（あいまいと特定検索）
-                    list = jdbc.searchStudentName(jTextField1.getText(),jComboBox1.getSelectedItem().toString());
+
+                } else if (jComboBox1.getItemCount() == 1) {
+                    list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
                     readeStudents(list);
+
                 }
+            } else if (!jComboBox1.getItemAt(3).isEmpty()) {
+                if (!jTextField1.getText().isEmpty()) {
+                    jLabel2.setText("");
+                    //Stringが数値かを判断
+                    if (p.matcher((jTextField1.getText())).find()) {
+                        if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
+                            list = jdbc.searchStudentId(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
+                            readeStudents(list);
+                        } else {
+                            jLabel2.setText("IDが長すぎます！");
+                            return;
+                        }
+                    } else {
+                        //名前、科目、性別（あいまいと特定検索）
+                        list = jdbc.searchStudentName(jTextField1.getText());
+                        readeStudents(list);
+                    }
 
-            } else if (jComboBox1.getItemCount() == 1) {
-                list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
-                readeStudents(list);
+                } else if (jComboBox1.getItemCount() == 1) {
+//                    list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
+                    readeStudents("1");
 
+                }
             }
 
         } catch (ClassNotFoundException ex) {

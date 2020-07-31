@@ -136,10 +136,11 @@ public class TeachersMeru extends javax.swing.JFrame {
 
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
-                for (Aclass className : list) {
-                    list2 = jdbc.selectClass(className.getClassName());
+                for (int i = list.size(); i <= 0 ; i--) {
+                    list2 = jdbc.selectClass(list.get(i).toString());
                     sd.readeStudents(list2);
                 }
+
                 sd.readClassDb(list);
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText());
                 this.dispose();
@@ -154,6 +155,7 @@ public class TeachersMeru extends javax.swing.JFrame {
                     sd.readeStudents(list2);
                 }
                 sd.readClassDb(list);
+                sd.setTtacherID(jLabel2.getText());
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText());
                 this.dispose();
                 sd.setVisible(true);

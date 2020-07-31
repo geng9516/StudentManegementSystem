@@ -346,19 +346,15 @@ public class TeachersDate extends javax.swing.JFrame {
                 teacher.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
                 teacher.setSubject(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
                 teacher.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-
                 ta = new TeacherAdd();
                 ta.getDate(teacher);
-
                 list = jdbc.getClassDB(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
                 ta.setClass(list);
                 this.dispose();
                 ta.setVisible(true);
-
             } else {
                 jLabel4.setText("データを選択してください！");
             }
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -391,7 +387,6 @@ public class TeachersDate extends javax.swing.JFrame {
             } else {
                 jLabel4.setText("データを選択してください！");
             }
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -428,9 +423,7 @@ public class TeachersDate extends javax.swing.JFrame {
         String[] s = new String[]{jComboBox2.getSelectedItem().toString()};
         try {
             jdbc.getDbcom();
-
             if (jTable1.getSelectedColumn() != -1) {
-
                 AllStudentsDate asd = new AllStudentsDate();
                 asd.readeStudents(jComboBox2.getSelectedItem().toString());
                 asd.showClassName(s);
@@ -438,7 +431,6 @@ public class TeachersDate extends javax.swing.JFrame {
             } else {
                 jLabel4.setText("データを選択してください！");
             }
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -512,40 +504,31 @@ public class TeachersDate extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
 
-        if (jTable1.getSelectedColumn() != -1) {
-            Jdbc jdbc = new Jdbc();
-            List<Student> list = new ArrayList<>();
-            List<Grade> list2 = new ArrayList<>();
-            try {
-                jdbc.getDbcom();
-               //クラス別の生徒を探し、lisｔに入れる
-                list = jdbc.selectClass(jComboBox2.getSelectedItem().toString());
-                for (Student student : list) {
-                    //クラスの生徒を一人一人表に表示する
-                    list2 = jdbc.selectGrade(student.getId());
-                }
-                GradeDate gd = new GradeDate();
-                gd.showClassName(jComboBox2.getSelectedItem().toString());
-                gd.showGrade(list2);
+        Jdbc jdbc = new Jdbc();
 
-                this.dispose();
-                gd.setVisible(true);
+        List<Grade> list = new ArrayList<>();
 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                if (jdbc != null) {
-                    try {
-                        jdbc.closeDbcom();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        GradeDate gd = new GradeDate();
+        try {
+            jdbc.getDbcom();
+            //クラス別の生徒を探し、lisｔに入れる
+            list = jdbc.getGrade2(jComboBox2.getSelectedItem().toString());
+            gd.showGrade(list);
+            gd.showClassName(jComboBox2.getSelectedItem().toString());
+            this.dispose();
+            gd.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (jdbc != null) {
+                try {
+                    jdbc.closeDbcom();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }else {
-            jLabel4.setText("データを選んでください！");
         }
 
 

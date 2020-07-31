@@ -74,10 +74,7 @@ public class StudentsDate extends javax.swing.JFrame {
 
     //担当クラスを表示
     public void readClassDb(List<Aclass> list) {
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
-        jButton3.setVisible(false);
-        jButton6.setVisible(false);
+
         //一旦jComboBox内のデータを空にする
         jComboBox1.removeAllItems();
         for (Aclass aclass : list) {
@@ -87,9 +84,18 @@ public class StudentsDate extends javax.swing.JFrame {
 
     //画面にIDと名前を表示
     public void showTeacherId(String teacherId, String name) {
+        jLabel8.setVisible(false);
         jLabel5.setText(teacherId);
         jLabel7.setText(name);
 
+    }
+
+    public void setTtacherID(String ID) {
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        
+        jLabel8.setText(ID);
     }
 
     /**
@@ -110,7 +116,6 @@ public class StudentsDate extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
@@ -120,6 +125,7 @@ public class StudentsDate extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
@@ -164,13 +170,6 @@ public class StudentsDate extends javax.swing.JFrame {
         });
 
         jLabel2.setForeground(new java.awt.Color(255, 51, 0));
-
-        jButton6.setText("多行削除");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -231,8 +230,6 @@ public class StudentsDate extends javax.swing.JFrame {
                             .addComponent(jButton7)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton3)
-                            .addGap(12, 12, 12)
-                            .addComponent(jButton6)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -262,8 +259,10 @@ public class StudentsDate extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(38, 38, 38)
+                                        .addComponent(jLabel8)))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,7 +276,8 @@ public class StudentsDate extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22)
@@ -295,7 +295,6 @@ public class StudentsDate extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton7)
-                    .addComponent(jButton6)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -368,16 +367,13 @@ public class StudentsDate extends javax.swing.JFrame {
 
         try {
             jdbc.getDbcom();
-
             if (jTable1.getSelectedColumn() != -1) {
-
                 list = jdbc.getGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-
                 gd.showGrade(list);
-//                gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-
+                gd.setsTudentID(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+//                gd.set1("1");
+//                gd.setT(jLabel5.getText(), jLabel7.getText());
                 gd.setVisible(true);
-
             } else {
                 jLabel2.setText("データを選択してください！");
                 return;
@@ -478,7 +474,7 @@ public class StudentsDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchStudentId(jTextField1.getText(),);
+                        list = jdbc.searchStudentName(jTextField1.getText());
                         readeStudents(list);
                     } else {
                         jLabel2.setText("IDが長すぎます！");
@@ -491,10 +487,7 @@ public class StudentsDate extends javax.swing.JFrame {
                 }
 
             } else {
-                Object[] o = jComboBox1.getSelectedObjects();
-                for(int i = 0 ; i < o.length; i++){
-                    System.out.println(o[i]);
-                }
+                jLabel2.setText("データ入力してください");
             }
 
         } catch (ClassNotFoundException ex) {
@@ -511,34 +504,6 @@ public class StudentsDate extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
-    /*
-    多行削除
-     */
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-
-        Jdbc jdbc = new Jdbc();
-        try {
-            jdbc.getDbcom();
-
-            int[] selection = jTable1.getSelectedRows();
-            for (int i = selection.length - 1; i >= 0; i--) {
-                jdbc.deleteStudentUser(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (jdbc != null) {
-                try {
-                    jdbc.closeDbcom();
-                } catch (SQLException ex) {
-                    Logger.getLogger(StudentsDate.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -588,7 +553,6 @@ public class StudentsDate extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -599,6 +563,7 @@ public class StudentsDate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
