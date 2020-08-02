@@ -154,13 +154,11 @@ public class TeachersMeru extends javax.swing.JFrame {
 
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
-                for (int i = list.size(); i <= 0; i--) {
-                    list2 = jdbc.selectClass(list.get(i).toString());
-                    sd.readeStudents(list2);
-                }
-
                 sd.readClassDb(list);
-                sd.showTeacherId(jLabel2.getText(), jLabel4.getText(),jLabel5.getText());
+                list2 = jdbc.selectClass(list.get(0).getClassName());
+                System.out.println(list.get(0).getClassName());
+                sd.readeStudents(list2);             
+                sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());
                 this.dispose();
                 sd.setVisible(true);
             } else {
@@ -169,13 +167,9 @@ public class TeachersMeru extends javax.swing.JFrame {
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
                 sd.readClassDb(list);
-                for (Aclass className : list) {
-                    list2 = jdbc.selectClass(className.getClassName());
-                    sd.readeStudents(list2);
-                }
-                
-//                sd.setTtacherID(jLabel2.getText());
-                sd.showTeacherId(jLabel2.getText(), jLabel4.getText(),jLabel5.getText());
+                list2 = jdbc.selectClass(list.get(0).getClassName());
+                sd.readeStudents(list2);      
+                sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());
                 sd.setVisible();
                 this.dispose();
                 sd.setVisible(true);

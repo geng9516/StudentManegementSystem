@@ -84,15 +84,11 @@ public class StudentsDate extends javax.swing.JFrame {
 
     //画面にIDと名前を表示
     public void showTeacherId(String teacherId, String name, String subject) {
-//        jLabel8.setVisible(false);
         jLabel5.setText(teacherId);
         jLabel7.setText(name);
         jLabel9.setText(subject);
     }
 
-//    public void setTtacherID(String ID) {
-//        jLabel8.setText(ID);
-//    }
     public void setVisible() {
         jButton1.setVisible(false);
         jButton2.setVisible(false);
@@ -127,7 +123,6 @@ public class StudentsDate extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
@@ -217,8 +212,6 @@ public class StudentsDate extends javax.swing.JFrame {
 
         jLabel6.setText("名前");
 
-        jLabel8.setText("jLabel8");
-
         jLabel9.setText("jLabel9");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -270,9 +263,7 @@ public class StudentsDate extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel9)
                                 .addGap(71, 71, 71)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -280,7 +271,7 @@ public class StudentsDate extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -294,8 +285,6 @@ public class StudentsDate extends javax.swing.JFrame {
                         .addGap(22, 22, 22))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -328,6 +317,7 @@ public class StudentsDate extends javax.swing.JFrame {
         StudentAdd3 sa = new StudentAdd3();
         sa.setClassName(jComboBox1.getSelectedItem().toString());
         sa.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText());
+        sa.setvisible();
         this.dispose();
         sa.setVisible(true);
 
@@ -382,19 +372,36 @@ public class StudentsDate extends javax.swing.JFrame {
         Jdbc jdbc = new Jdbc();
         List<Grade> list = new ArrayList<>();
         TeacherGradeAdd tga = new TeacherGradeAdd();
-        String[] s = new String[]{"国語", "数学", "英語", "理科", "歴史"};
 
         try {
             jdbc.getDbcom();
             if (jTable1.getSelectedColumn() != -1) {
                 if (jLabel5.getText().contains("A") || jLabel5.getText().contains("B") || jLabel5.getText().contains("C") || jLabel5.getText().contains("D")) {
+                    if (jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString().contains(jLabel5.getText().substring(0, 1))) {
+                        list = jdbc.selectGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                        tga.showGradeDb(list);
+                        tga.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText(), jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                        tga.setvisible();
+                        this.dispose();
+                        tga.setVisible(true);
+                    } else {
+                        list = jdbc.selectGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                        tga.showGradeDb(list);
+                        tga.setSubject(jLabel9.getText());
+                        tga.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText(), jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                        tga.setvisible();
+                        this.dispose();
+                        tga.setVisible(true);
+                    }
+
+                } else {
                     list = jdbc.selectGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
                     tga.showGradeDb(list);
-                    tga.setSubject(s);
+                    tga.setSubject(jLabel9.getText());
+                    tga.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText(), jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                    tga.setvisible();
                     this.dispose();
                     tga.setVisible(true);
-                } else {
-
                 }
             } else {
                 jLabel2.setText("データを選択してください！");
@@ -585,7 +592,6 @@ public class StudentsDate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
