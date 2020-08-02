@@ -568,7 +568,6 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     }
 
                 } else if (jComboBox1.getItemCount() == 1) {
-//                    list = jdbc.selectClass(jComboBox1.getSelectedItem().toString());
                     readeStudents("1");
 
                 }

@@ -160,7 +160,8 @@ public class Login extends javax.swing.JFrame {
                             //先生を探す
                             teacher = jdbc.getTeacher(jTextField1.getText());
                             //先生のログイン画面のIdと名前を表示
-                            td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
+                            td.setTeacher(String.valueOf(teacher.getId()), teacher.getName(),teacher.getSubject());
+                            td.setVisible();
 
                             this.dispose();
                             td.setVisible(true);
@@ -176,7 +177,9 @@ public class Login extends javax.swing.JFrame {
                         //先生を探す
                         teacher = jdbc.getTeacher(jTextField1.getText());
                         //先生のログイン画面のIdと名前を表示
-                        td.setTeacher(String.valueOf(teacher.getId()), teacher.getName());
+                        td.setTeacher(String.valueOf(teacher.getId()), teacher.getName(),teacher.getSubject());
+                        td.setVisible();
+
 
                         this.dispose();
                         td.setVisible(true);

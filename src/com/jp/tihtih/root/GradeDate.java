@@ -40,7 +40,6 @@ public class GradeDate extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{grade.getStudentid(), grade.getTest(),
                 grade.getKokugo(), grade.getMath(), grade.getEnglish(), grade.getScience(), grade.getHistory(), grade.getSum()});
         }
-
     }
 
     //画面の学生IDと名前を表示するため
@@ -200,7 +199,7 @@ public class GradeDate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(56, 56, 56)
                 .addComponent(jButton4)
@@ -208,53 +207,61 @@ public class GradeDate extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(83, 83, 83))
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5)))))
-                .addContainerGap(226, Short.MAX_VALUE))
+                                .addComponent(jButton5))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5))
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addComponent(jLabel4)))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,6 +311,7 @@ public class GradeDate extends javax.swing.JFrame {
         GradeAdd ga = new GradeAdd();
         //jLabel3に名前があるかどうかをチェック
         if (!jLabel3.getText().isEmpty()) {
+            ga.setVisivble();
             ga.setStudentName(jLabel3.getText());
             //成績新規画面の学生IDを自動表示するため
             ga.setStudentId(jLabel7.getText());
@@ -426,11 +434,9 @@ public class GradeDate extends javax.swing.JFrame {
         // TODO add your handling code here:
         Jdbc jdbc = new Jdbc();
         Teacher teacher = new Teacher();
-        List<Student> list = new ArrayList<>();
-        List<Grade> list2 = new ArrayList<>();
+        List<Grade> list = new ArrayList<>();
         //String型をint型にフォーマット
         Pattern p = Pattern.compile("^-?[1-9]\\d*$");
-//        Matcher m = p.matcher(num);
         try {
             jdbc.getDbcom();
 
@@ -439,25 +445,21 @@ public class GradeDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 1000) {
-                        list2 = jdbc.searchGrade(Integer.parseInt(jTextField1.getText()));
-                        showGrade(list2);
+                        list = jdbc.searchGrade(jTextField1.getText());
+                        showGrade(list);
                     } else {
-                        jLabel1.setText("データが長すぎます！");
-                        return;
+                        jLabel1.setText("数字が大きすぎます");
                     }
                 } else {
                     //名前、科目、性別（あいまいと特定検索）
-                    list2 = jdbc.searchTesttype(jTextField1.getText());
-                    showGrade(list2);
+                    list = jdbc.searchTesttype(jTextField1.getText(),jLabel7.getText());
+                    showGrade(list);
                 }
                 // 空欄のときクラスのすべての生徒の成績を一覧に
             } else {
 
-                list = jdbc.selectClass(jLabel7.getText());
-                for (Student student : list) {
-                    list2 = jdbc.selectGrade(student.getId());
-                }
-                showGrade(list2);
+                list = jdbc.getGrade2(jLabel7.getText());
+                showGrade(list);
             }
 
         } catch (ClassNotFoundException ex) {

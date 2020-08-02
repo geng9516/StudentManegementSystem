@@ -44,9 +44,10 @@ public class StudentAdd3 extends javax.swing.JFrame {
         jComboBox1.addItem(className);
     }
 
-    public void setTeacherDate(String teacherId, String teacherName) {
+    public void setTeacherDate(String teacherId, String teacherName, String subject) {
         jLabel5.setText(teacherId);
         jLabel6.setText(teacherName);
+        jLabel7.setText(subject);
     }
 
     /**
@@ -76,6 +77,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("学生情報追加/編集");
@@ -121,6 +123,12 @@ public class StudentAdd3 extends javax.swing.JFrame {
 
         jLabel11.setText("パスワード");
 
+        jLabel5.setText("jLabel5");
+
+        jLabel6.setText("jLabel6");
+
+        jLabel7.setText("jLabel7");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,10 +169,12 @@ public class StudentAdd3 extends javax.swing.JFrame {
                                                 .addComponent(jRadioButton2))))
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -177,8 +187,10 @@ public class StudentAdd3 extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -280,7 +292,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
             sd.readClassDb(list);
 
 //            sd.readeStudents();
-            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
+            sd.showTeacherId(jLabel5.getText(), jLabel6.getText(), jLabel7.getText());
 
             this.dispose();
             sd.setVisible(true);
@@ -366,7 +378,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
             sd.readClassDb(list);
 
 //            sd.readeStudents();
-            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
+            sd.showTeacherId(jLabel5.getText(), jLabel6.getText(), jLabel7.getText());
 
             this.dispose();
             sd.setVisible(true);
@@ -399,10 +411,11 @@ public class StudentAdd3 extends javax.swing.JFrame {
             StudentsDate sd = new StudentsDate();
 
             //クラス情報をStudentDateのcomboxに表示
+            System.out.println("----------------");
             list = jdbc.getClassDB(jLabel5.getText());
             sd.readClassDb(list);
             //キャンセルからsdに戻るとき先生のデータを表示
-            sd.showTeacherId(jLabel5.getText(), jLabel6.getText());
+//            sd.showTeacherId(jLabel5.getText(), jLabel6.getText(), jLabel7.getText());
             this.dispose();
             sd.setVisible(true);
 
@@ -470,6 +483,7 @@ public class StudentAdd3 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTextField jTextField1;
