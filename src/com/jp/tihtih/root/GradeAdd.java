@@ -364,30 +364,14 @@ public class GradeAdd extends javax.swing.JFrame {
                 gd.setStudentClassName(jLabel9.getText());
                 this.dispose();
                 gd.setVisible(true);
-//                if (!jLabel1.getText().contains("クラス")) {
-//
-//                    gd.showStudentDate(jTextField1.getText(), jLabel1.getText());
-//                    gd.setStudentClassName(jLabel9.getText());
-//                } else if (jLabel1.getText().contains("クラス")) {
-//                    list = jdbc.selectClass(jLabel1.getText());
-//                    for (Student student : list) {
-//                        list2 = jdbc.selectGrade(student.getId());
-//                    }
-//                    gd.showGrade(list2);
-//                    //クラス名を返す
-//                    gd.showClassName(jLabel1.getText());
-//                    this.dispose();
-//                    gd.setVisible(true);
-//                }
 
                 //クラス毎のほう
             } else if (jLabel1.getText().contains("クラス")) {
-
-//                if (jLabel1.getText().substring(0, 1) != jTextField1.getText().substring(0, 1)) {
-//                    jLabel7.setText(jLabel1.getText() + "の生徒IDを入力してください！");
-//                    return;
                 if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
+                    return;
+                } else if (!jdbc.checkStudentId(jTextField1.getText())) {
+                    jLabel7.setText("生徒情報まだ入力してないです！");
                     return;
                 } else {
                     grade.setStudentid(jTextField1.getText());
@@ -466,10 +450,7 @@ public class GradeAdd extends javax.swing.JFrame {
                 grade.setClassName(jdbc.getstudentClass(jTextField1.getText()));
                 //成績を挿入
                 jdbc.insertGrade(grade);
-                list = jdbc.selectClass(jLabel1.getText());
-                for (Student student : list) {
-                    list2 = jdbc.selectGrade(student.getId());
-                }
+                list2 = jdbc.getGrade2(jLabel1.getText());
                 gd.showGrade(list2);
                 //クラス名を返す
                 gd.showClassName(jLabel1.getText());
@@ -593,7 +574,7 @@ public class GradeAdd extends javax.swing.JFrame {
 
             } else if (jLabel1.getText().contains("クラス")) {
 
-                if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                if (Integer.parseInt(jTextField1.getText().substring(1)) <= 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
                     return;
                 } else {
@@ -602,6 +583,9 @@ public class GradeAdd extends javax.swing.JFrame {
 
                 if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
                     jLabel7.setText("テストの種類を選んでください！");
+                    return;
+                } else if (!jdbc.checkTeatType(jTextField1.getText(),"中間テスト") || !jdbc.checkTeatType(jTextField1.getText(),"期末テスト")) {
+                    jLabel7.setText("編集できるデータがありません！");
                     return;
                 }
                 if (jRadioButton1.isSelected()) {
@@ -664,10 +648,7 @@ public class GradeAdd extends javax.swing.JFrame {
                 grade.setClassName(jdbc.getstudentClass(jTextField1.getText()));
 
                 jdbc.updateGrade(grade);
-                list = jdbc.selectClass(jLabel1.getText());
-                for (Student student : list) {
-                    list2 = jdbc.selectGrade(student.getId());
-                }
+                list2 = jdbc.getGrade2(jLabel1.getText());
                 gd.showGrade(list2);
                 //クラス名を返す
                 gd.showClassName(jLabel1.getText());
@@ -700,7 +681,7 @@ public class GradeAdd extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Jdbc jdbc = new Jdbc();
-        
+
         List<Grade> list = new ArrayList<>();
         try {
             jdbc.getDbcom();

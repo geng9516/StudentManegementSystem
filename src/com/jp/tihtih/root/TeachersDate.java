@@ -194,6 +194,8 @@ public class TeachersDate extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
         }
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
         jButton7.setText("成績");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -424,6 +426,7 @@ public class TeachersDate extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
             if (jTable1.getSelectedColumn() != -1) {
+                jLabel4.setText("");
                 AllStudentsDate asd = new AllStudentsDate();
                 asd.readeStudents(jComboBox2.getSelectedItem().toString());
                 asd.showClassName(s);
@@ -467,7 +470,7 @@ public class TeachersDate extends javax.swing.JFrame {
                         list = jdbc.searchTeacherId(jTextField1.getText());
                         showSearchResult(list);
                     } else {
-                        jLabel4.setText("IDが長すぎます！");
+                        jLabel4.setText("データが大きすぎます！");
                         return;
                     }
                 } else {
@@ -512,11 +515,15 @@ public class TeachersDate extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
             //クラス別の生徒を探し、lisｔに入れる
-            list = jdbc.getGrade2(jComboBox2.getSelectedItem().toString());
-            gd.showGrade(list);
-            gd.showClassName(jComboBox2.getSelectedItem().toString());
-            this.dispose();
-            gd.setVisible(true);
+            if (jTable1.getSelectedColumn() != -1) {
+                list = jdbc.getGrade2(jComboBox2.getSelectedItem().toString());
+                gd.showGrade(list);
+                gd.showClassName(jComboBox2.getSelectedItem().toString());
+                this.dispose();
+                gd.setVisible(true);
+            } else {
+                jLabel4.setText("クラスを選択してください！");
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TeachersDate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

@@ -266,6 +266,9 @@ public class TeacherAdd extends javax.swing.JFrame {
                 } else if (jdbc.checkTeacherID(jTextField1.getText())) {
                     jLabel8.setText("先生IDすでに存在しています！");
                     return;
+                } else if (jdbc.checkTeacherID2(jTextField1.getText())) {
+                    jLabel8.setText("先生IDすでに存在しています！");
+                    return;
                 } else {
                     teacher.setId(jTextField1.getText());
                 }
@@ -277,11 +280,19 @@ public class TeacherAdd extends javax.swing.JFrame {
                 } else if (Integer.parseInt(jTextField1.getText().substring(1)) < 100 || Integer.parseInt(jTextField1.getText().substring(1)) >= 1000) {
                     jLabel8.setText("先生IDは101～999以内です！");
                     return;
-
-                    //追加するとき先生のIDが重複しているかを判断
+                    //追加するとき先生のIDが重複しているかを判断 
                 } else if (jdbc.checkTeacherID(jTextField1.getText())) {
                     jLabel8.setText("先生IDすでに存在しています！");
                     return;
+                    //担任先生の唯一性をチェック
+                } else if (jdbc.checkTeacherID(jTextField1.getText().substring(1, 4))) {
+                    jLabel8.setText("先生IDすでに存在しています！");
+                    return;
+                    //担任先生の唯一性をチェック
+                } else if (jdbc.selectTeacherId(jTextField1.getText().substring(0, 1)) > 1) {
+                    jLabel8.setText("クラス担任先生すでにいます！");
+                    return;
+
                 } else {
                     teacher.setId(jTextField1.getText());
                 }
@@ -328,50 +339,99 @@ public class TeacherAdd extends javax.swing.JFrame {
             jdbc.deleteClass(jTextField1.getText());
             //t_classにクラス情報を編集
             if (jCheckBox1.isSelected()) {
-                if (jdbc.checkClass(jCheckBox1.getText(), jComboBox1.getSelectedItem().toString())) {
+                if (jdbc.checkClass2(jCheckBox1.getText(), jComboBox1.getSelectedItem().toString()) == 0) {
                     aclass = new Aclass();
                     aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox1.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
                 } else {
-                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                    jLabel8.setText(jCheckBox1.getText().substring(0, 1) + "クラスの" + teacher.getSubject() + "先生すでにいます！");
+                    return;
                 }
             }
             if (jCheckBox2.isSelected()) {
-                if (jdbc.checkClass(jCheckBox2.getText(), jComboBox1.getSelectedItem().toString())) {
+                if (jdbc.checkClass2(jCheckBox2.getText(), jComboBox1.getSelectedItem().toString()) == 0) {
                     aclass = new Aclass();
                     aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox2.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
                 } else {
-                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                    jLabel8.setText(jTextField1.getText().substring(0, 1) + "クラスの" + teacher.getSubject() + "先生すでにいます！");
+                    return;
                 }
             }
             if (jCheckBox3.isSelected()) {
-                if (jdbc.checkClass(jCheckBox3.getText(), jComboBox1.getSelectedItem().toString())) {
+                if (jdbc.checkClass2(jCheckBox3.getText(), jComboBox1.getSelectedItem().toString()) == 0) {
                     aclass = new Aclass();
                     aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox3.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
                 } else {
-                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                    jLabel8.setText(jTextField1.getText().substring(0, 1) + "クラスの" + teacher.getSubject() + "先生すでにいます！");
+                    return;
                 }
             }
             if (jCheckBox4.isSelected()) {
-                if (jdbc.checkClass(jCheckBox4.getText(), jComboBox1.getSelectedItem().toString())) {
+                if (jdbc.checkClass2(jCheckBox4.getText(), jComboBox1.getSelectedItem().toString()) == 0) {
                     aclass = new Aclass();
                     aclass.setTeacherId(jTextField1.getText());
                     aclass.setClassName(jCheckBox4.getText());
                     aclass.setSubject(teacher.getSubject());
                     jdbc.insertClass(aclass);
                 } else {
-                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+                    jLabel8.setText(jTextField1.getText().substring(0, 1) + "クラスの" + teacher.getSubject() + "先生すでにいます！");
+                    return;
                 }
 
             }
+//            if (jCheckBox1.isSelected()) {
+//                if (jdbc.checkClass(jCheckBox1.getText(), jComboBox1.getSelectedItem().toString())) {
+//                    aclass = new Aclass();
+//                    aclass.setTeacherId(jTextField1.getText());
+//                    aclass.setClassName(jCheckBox1.getText());
+//                    aclass.setSubject(teacher.getSubject());
+//                    jdbc.insertClass(aclass);
+//                } else {
+//                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+//                }
+//            }
+//            if (jCheckBox2.isSelected()) {
+//                if (jdbc.checkClass(jCheckBox2.getText(), jComboBox1.getSelectedItem().toString())) {
+//                    aclass = new Aclass();
+//                    aclass.setTeacherId(jTextField1.getText());
+//                    aclass.setClassName(jCheckBox2.getText());
+//                    aclass.setSubject(teacher.getSubject());
+//                    jdbc.insertClass(aclass);
+//                } else {
+//                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+//                }
+//            }
+//            if (jCheckBox3.isSelected()) {
+//                if (jdbc.checkClass(jCheckBox3.getText(), jComboBox1.getSelectedItem().toString())) {
+//                    aclass = new Aclass();
+//                    aclass.setTeacherId(jTextField1.getText());
+//                    aclass.setClassName(jCheckBox3.getText());
+//                    aclass.setSubject(teacher.getSubject());
+//                    jdbc.insertClass(aclass);
+//                } else {
+//                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+//                }
+//            }
+//            if (jCheckBox4.isSelected()) {
+//                if (jdbc.checkClass(jCheckBox4.getText(), jComboBox1.getSelectedItem().toString())) {
+//                    aclass = new Aclass();
+//                    aclass.setTeacherId(jTextField1.getText());
+//                    aclass.setClassName(jCheckBox4.getText());
+//                    aclass.setSubject(teacher.getSubject());
+//                    jdbc.insertClass(aclass);
+//                } else {
+//                    jLabel8.setText(teacher.getSubject() + "先生すでにいます！");
+//                }
+//
+//            }
 
             //先生情報を追加
             jdbc.insertTeacher(teacher);

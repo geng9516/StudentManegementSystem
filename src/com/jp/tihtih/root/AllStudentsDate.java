@@ -359,7 +359,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
 
                 String[] s = new String[]{jComboBox1.getSelectedItem().toString()};
                 sa.setClassName(s);
-
+                sa.setVisible();
                 sa.setDate(student);
                 this.dispose();
                 sa.setVisible(true);
@@ -375,7 +375,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                 student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
                 String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
                 sa.setClassName(s);
-
+                sa.setVisible();
                 sa.setDate(student);
                 this.dispose();
                 sa.setVisible(true);
@@ -526,7 +526,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
 //        Matcher m = p.matcher(num);
         try {
             jdbc.getDbcom();
-            if (!jComboBox1.getItemAt(0).isEmpty()) {
+            if (jComboBox1.getItemCount() == 1) {
                 if (!jTextField1.getText().isEmpty()) {
                     jLabel2.setText("");
                     //Stringが数値かを判断
@@ -549,13 +549,13 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     readeStudents(list);
 
                 }
-            } else if (!jComboBox1.getItemAt(3).isEmpty()) {
+            } else if (jComboBox1.getItemCount() != 1) {
                 if (!jTextField1.getText().isEmpty()) {
                     jLabel2.setText("");
                     //Stringが数値かを判断
                     if (p.matcher((jTextField1.getText())).find()) {
                         if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                            list = jdbc.searchStudentId(jTextField1.getText(), jComboBox1.getSelectedItem().toString());
+                            list = jdbc.searchStudentId(jTextField1.getText());
                             readeStudents(list);
                         } else {
                             jLabel2.setText("IDが長すぎます！");
@@ -567,7 +567,7 @@ public class AllStudentsDate extends javax.swing.JFrame {
                         readeStudents(list);
                     }
 
-                } else if (jComboBox1.getItemCount() == 1) {
+                } else {
                     readeStudents("1");
 
                 }

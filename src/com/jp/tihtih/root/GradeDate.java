@@ -324,14 +324,6 @@ public class GradeDate extends javax.swing.JFrame {
             this.dispose();
             ga.setVisible(true);
         }
-//        else if (jLabel8.getText().equals("1")) {
-//            ga.set1(jLabel8.getText());
-//            ga.setStudentId(jLabel7.getText());
-//            ga.setT(jLabel3.getText(), jTextField1.getText());
-//            this.dispose();
-//            ga.setVisible(true);
-//        }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /*
@@ -374,21 +366,6 @@ public class GradeDate extends javax.swing.JFrame {
                 this.dispose();
                 ga.setVisible(true);
             }
-//            else if (jLabel8.getText().equals("1")) {
-//                grade.setStudentid(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-//                grade.setTest(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-//                grade.setKokugo(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString()));
-//                grade.setMath(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString()));
-//                grade.setEnglish(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString()));
-//                grade.setScience(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString()));
-//                grade.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
-//                ga.setGradeAdd(grade);
-//                ga.set1(jLabel8.getText());
-//                ga.setT(jLabel3.getText(), jTextField1.getText());
-//                this.dispose();
-//                ga.setVisible(true);
-//            }
-
         } else {
             jLabel1.setText("データを選択してください！");
         }
@@ -444,8 +421,8 @@ public class GradeDate extends javax.swing.JFrame {
                 jLabel1.setText("");
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
-                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 1000) {
-                        list = jdbc.searchGrade(jTextField1.getText());
+                    if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
+                        list = jdbc.searchGrade(jTextField1.getText(),jLabel7.getText());
                         showGrade(list);
                     } else {
                         jLabel1.setText("数字が大きすぎます");

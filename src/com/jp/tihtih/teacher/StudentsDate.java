@@ -314,7 +314,7 @@ public class StudentsDate extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        StudentAdd3 sa = new StudentAdd3();
+        StudentAdd2 sa = new StudentAdd2();
         sa.setClassName(jComboBox1.getSelectedItem().toString());
         sa.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText());
         sa.setvisible();
@@ -339,11 +339,12 @@ public class StudentsDate extends javax.swing.JFrame {
             student.setPass(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             student.setSex(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
 
-            StudentAdd3 sa = new StudentAdd3();
+            StudentAdd2 sa = new StudentAdd2();
 
             sa.setTeacherDate(jLabel5.getText(), jLabel7.getText(), jLabel9.getText());
 
             sa.setDate(student);
+            sa.setEditable();
 
             this.dispose();
 
@@ -516,7 +517,13 @@ public class StudentsDate extends javax.swing.JFrame {
                 }
 
             } else {
-                jLabel2.setText("データ入力してください");
+//                jLabel2.setText("データ入力してください");
+                List<Aclass> list2 = new ArrayList<>();
+                list2 = jdbc.getClassDB(jLabel5.getText());
+                for (Aclass aclass : list2) {
+                    list.add(jdbc.selectClass2(aclass.getClassName()));
+                }
+                readeStudents(list);
             }
 
         } catch (ClassNotFoundException ex) {

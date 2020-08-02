@@ -26,8 +26,6 @@ public class StudentAdd extends javax.swing.JFrame {
     //編集の基本データを表示
     public void setDate(Student student) {
         jTextField1.setText(String.valueOf(student.getId()));
-//        jComboBox1.removeAllItems();
-//        jComboBox1.addItem(student.getAclass());
         jTextField2.setText(student.getName());
         jTextField3.setText(student.getPass());
         if ("男".equals(student.getSex())) {
@@ -49,6 +47,10 @@ public class StudentAdd extends javax.swing.JFrame {
             jComboBox1.addItem(s1.toString());
             System.out.println(s1.toString());
         }
+    }
+    
+    public void setVisible(){
+        jTextField1.setEditable(false);
     }
 
     /**

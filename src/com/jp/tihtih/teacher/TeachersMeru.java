@@ -155,9 +155,10 @@ public class TeachersMeru extends javax.swing.JFrame {
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
                 sd.readClassDb(list);
-                list2 = jdbc.selectClass(list.get(0).getClassName());
-                System.out.println(list.get(0).getClassName());
-                sd.readeStudents(list2);             
+                for (Aclass aclass : list) {
+                    list2.add(jdbc.selectClass2(aclass.getClassName()));
+                }
+                sd.readeStudents(list2);
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());
                 this.dispose();
                 sd.setVisible(true);
@@ -167,8 +168,10 @@ public class TeachersMeru extends javax.swing.JFrame {
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
                 sd.readClassDb(list);
-                list2 = jdbc.selectClass(list.get(0).getClassName());
-                sd.readeStudents(list2);      
+                for (Aclass aclass : list) {
+                    list2.add(jdbc.selectClass2(aclass.getClassName()));
+                }
+                sd.readeStudents(list2);
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());
                 sd.setVisible();
                 this.dispose();
