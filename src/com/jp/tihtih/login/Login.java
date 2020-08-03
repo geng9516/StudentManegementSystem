@@ -173,30 +173,23 @@ public class Login extends javax.swing.JFrame {
                     } else if (Integer.parseInt(jTextField1.getText().substring(1)) > 100 && Integer.parseInt(jTextField1.getText().substring(1)) < 1000) {
                         teacher = new Teacher();
                         TeachersMeru td = new TeachersMeru();
-
                         //先生を探す
                         teacher = jdbc.getTeacher(jTextField1.getText());
                         //先生のログイン画面のIdと名前を表示
                         td.setTeacher(String.valueOf(teacher.getId()), teacher.getName(),teacher.getSubject());
                         td.setVisible();
-
-
                         this.dispose();
-                        td.setVisible(true);
-                        
+                        td.setVisible(true);                       
                          //学生データ確認画面
                     } else if (Integer.parseInt(jTextField1.getText().substring(1)) > 1000 && Integer.parseInt(jTextField1.getText().substring(1)) < 10000) {
                         Student student = student = new Student();
                         sd = new myDate();
-
                         student = jdbc.getStudentDate(jTextField1.getText());
                         System.out.println(student);
                         sd.showStudentDate(student);
                         sd.readGrade(jTextField1.getText());
-
                         this.dispose();
                         sd.setVisible(true);
-
                     }
 
                 } else {

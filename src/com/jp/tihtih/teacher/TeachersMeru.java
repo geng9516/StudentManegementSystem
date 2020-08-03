@@ -99,16 +99,15 @@ public class TeachersMeru extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel3))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,31 +144,35 @@ public class TeachersMeru extends javax.swing.JFrame {
         Jdbc jdbc = new Jdbc();
         List<Aclass> list = new ArrayList<>();
         List<Student> list2 = new ArrayList<>();
-
+        StudentsDate sd = null;
         try {
             jdbc.getDbcom();
             //もしTeacherIDにABCDのアルファベットを含むなら
             if (jLabel2.getText().contains("A") || jLabel2.getText().contains("B") || jLabel2.getText().contains("C") || jLabel2.getText().contains("D")) {
-                StudentsDate sd = new StudentsDate();
-
+                sd = new StudentsDate();
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
-                sd.readClassDb(list);
                 for (Aclass aclass : list) {
-                    list2.add(jdbc.selectClass2(aclass.getClassName()));
+                    if (jdbc.checkStudentDb(aclass.getClassName())) {
+                        list2.add(jdbc.selectClass2(aclass.getClassName()));
+//                        list2 = jdbc.selectClass(aclass.getClassName());
+                    }
+                    sd.readeStudents(list2);
                 }
-                sd.readeStudents(list2);
+                sd.readClassDb(list);
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());
+                sd.setVisible2();
                 this.dispose();
                 sd.setVisible(true);
             } else {
-                StudentsDate sd = new StudentsDate();
-
+                sd = new StudentsDate();
                 //クラス情報をStudentDateのcomboxに表示
                 list = jdbc.getClassDB(jLabel2.getText());
                 sd.readClassDb(list);
                 for (Aclass aclass : list) {
-                    list2.add(jdbc.selectClass2(aclass.getClassName()));
+                    if (jdbc.checkStudentDb(aclass.getClassName())) {
+                        list2.add(jdbc.selectClass2(aclass.getClassName()));
+                    }
                 }
                 sd.readeStudents(list2);
                 sd.showTeacherId(jLabel2.getText(), jLabel4.getText(), jLabel5.getText());

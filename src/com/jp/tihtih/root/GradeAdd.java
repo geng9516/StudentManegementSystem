@@ -58,6 +58,31 @@ public class GradeAdd extends javax.swing.JFrame {
         }
     }
 
+    public void setClass(String[] s) {
+        jComboBox1.removeAllItems();
+        for (String s2 : s) {
+            jComboBox1.addItem(s2);
+        }
+    }
+
+    public void setStudentID(String id) {
+        jTextField1.setText(id);
+
+    }
+
+//    public void setName(String name) {
+//        jLabel10.setText(name);
+//    }
+
+    public void setEditable() {
+        jTextField1.setEditable(false);
+    }
+
+    public void setVisible() {
+        jComboBox1.setVisible(false);
+//        jLabel10.setVisible(false);
+    }
+
     public void setVisivble() {
         jLabel1.setVisible(false);
         jLabel9.setVisible(false);
@@ -116,6 +141,7 @@ public class GradeAdd extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("成績追加/編集");
@@ -168,9 +194,6 @@ public class GradeAdd extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
@@ -210,13 +233,21 @@ public class GradeAdd extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jRadioButton1)
                                         .addComponent(jRadioButton2)))
-                                .addGap(17, 17, 17)))))
+                                .addGap(17, 17, 17))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -276,7 +307,7 @@ public class GradeAdd extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
-            if (!jLabel1.getText().contains("クラス")) {
+            if (!jLabel1.getText().contains("クラス") && jComboBox1.getSelectedIndex() == -1) {
 
                 if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
@@ -360,13 +391,15 @@ public class GradeAdd extends javax.swing.JFrame {
                 jdbc.insertGrade(grade);
 
                 gd.readGrade(jTextField1.getText());
+                gd.setVisible2();
                 gd.showStudentDate(jTextField1.getText(), jLabel1.getText());
                 gd.setStudentClassName(jLabel9.getText());
+                gd.setVisible();
                 this.dispose();
                 gd.setVisible(true);
 
                 //クラス毎のほう
-            } else if (jLabel1.getText().contains("クラス")) {
+            } else if (jLabel1.getText().contains("クラス") && jComboBox1.getSelectedIndex() == -1) {
                 if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
                     return;
@@ -454,6 +487,102 @@ public class GradeAdd extends javax.swing.JFrame {
                 gd.showGrade(list2);
                 //クラス名を返す
                 gd.showClassName(jLabel1.getText());
+                gd.setVisible();
+                this.dispose();
+                gd.setVisible(true);
+            } else if (jComboBox1.getItemCount() >= 1) {
+                if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel7.setText("生徒IDは1001〜9999以内です！");
+                    return;
+                } else if (!jdbc.checkStudentId(jTextField1.getText())) {
+                    jLabel7.setText("生徒情報まだ入力してないです！");
+                    return;
+                } else {
+                    grade.setStudentid(jTextField1.getText());
+                }
+
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel7.setText("テストの種類を選んでください！");
+                    return;
+                }
+                //このテストもう入力したかを判断
+                if (jRadioButton1.isSelected()) {
+                    if (jdbc.checkTestType(jRadioButton1.getText(), jTextField1.getText())) {
+                        jLabel7.setText("中間テストのデータすでにあります！");
+                        return;
+                    } else {
+                        grade.setTest(jRadioButton1.getText());
+                    }
+
+                } else {
+                    if (jdbc.checkTestType(jRadioButton2.getText(), jTextField1.getText())) {
+                        jLabel7.setText("期末テストのデータすでにあります！");
+                        return;
+                    } else {
+                        grade.setTest(jRadioButton2.getText());
+                    }
+                }
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField2.getText()) < 0 || Double.parseDouble(jTextField2.getText()) > 100) {
+                    jLabel7.setText("国語の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setKokugo(Double.parseDouble(jTextField2.getText()));
+                }
+
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField3.getText()) < 0 || Double.parseDouble(jTextField3.getText()) > 100) {
+                    jLabel7.setText("数学の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setMath(Double.parseDouble(jTextField3.getText()));
+                }
+
+                if (jTextField4.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField4.getText()) < 0 || Double.parseDouble(jTextField4.getText()) > 100) {
+                    jLabel7.setText("英語の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setEnglish(Double.parseDouble(jTextField4.getText()));
+                }
+
+                if (jTextField5.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField5.getText()) < 0 || Double.parseDouble(jTextField5.getText()) > 100) {
+                    jLabel7.setText("理科の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setScience(Double.parseDouble(jTextField5.getText()));
+                }
+
+                if (jTextField6.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField6.getText()) < 0 || Double.parseDouble(jTextField6.getText()) > 100) {
+                    jLabel7.setText("歴史の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setHistory(Double.parseDouble(jTextField6.getText()));
+                }
+                grade.setClassName(jdbc.getstudentClass(jTextField1.getText()));
+                //成績を挿入
+                jdbc.insertGrade(grade);
+
+                gd.readGrade(jTextField1.getText());
+                //クラス名を返す
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                gd.setClass(s);
+                gd.setVisible();
+                gd.setStudentID(jTextField1.getText());
+//                gd.setName(jLabel10.getText());
+                gd.setVisible2();
                 this.dispose();
                 gd.setVisible(true);
             }
@@ -489,7 +618,7 @@ public class GradeAdd extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
 
-            if (!jLabel1.getText().contains("クラス")) {
+            if (!jLabel1.getText().contains("クラス") && jComboBox1.getSelectedIndex() == -1) {
 
                 if (Integer.parseInt(jTextField1.getText().substring(1)) < 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
                     jLabel7.setText("生徒IDは1001〜9999以内です！");
@@ -565,10 +694,11 @@ public class GradeAdd extends javax.swing.JFrame {
 
                 //成績画面を更新
                 gd.readGrade(jTextField1.getText());
+                gd.setVisible2();
                 //名前
                 gd.showStudentDate(jTextField1.getText(), jLabel1.getText());
                 gd.setStudentClassName(jLabel9.getText());
-
+                gd.setVisible();
                 this.dispose();
                 gd.setVisible(true);
 
@@ -584,7 +714,7 @@ public class GradeAdd extends javax.swing.JFrame {
                 if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
                     jLabel7.setText("テストの種類を選んでください！");
                     return;
-                } else if (!jdbc.checkTeatType(jTextField1.getText(),"中間テスト") || !jdbc.checkTeatType(jTextField1.getText(),"期末テスト")) {
+                } else if (!jdbc.checkTeatType(jTextField1.getText(), "中間テスト") || !jdbc.checkTeatType(jTextField1.getText(), "期末テスト")) {
                     jLabel7.setText("編集できるデータがありません！");
                     return;
                 }
@@ -652,6 +782,94 @@ public class GradeAdd extends javax.swing.JFrame {
                 gd.showGrade(list2);
                 //クラス名を返す
                 gd.showClassName(jLabel1.getText());
+                gd.setVisible();
+                this.dispose();
+                gd.setVisible(true);
+
+            } else if (jComboBox1.getItemCount() >= 1) {
+
+                if (Integer.parseInt(jTextField1.getText().substring(1)) <= 1000 || Integer.parseInt(jTextField1.getText().substring(1)) >= 10000) {
+                    jLabel7.setText("生徒IDは1001〜9999以内です！");
+                    return;
+                } else {
+                    grade.setStudentid(jTextField1.getText());
+                }
+
+                if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
+                    jLabel7.setText("テストの種類を選んでください！");
+                    return;
+                } else if (!jdbc.checkTeatType(jTextField1.getText(), "中間テスト") || !jdbc.checkTeatType(jTextField1.getText(), "期末テスト")) {
+                    jLabel7.setText("編集できるデータがありません！");
+                    return;
+                }
+                if (jRadioButton1.isSelected()) {
+                    grade.setTest(jRadioButton1.getText());
+
+                } else {
+                    grade.setTest(jRadioButton2.getText());
+
+                }
+
+                if (jTextField2.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField2.getText()) < 0 || Double.parseDouble(jTextField2.getText()) > 100) {
+                    jLabel7.setText("国語の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setKokugo(Double.parseDouble(jTextField2.getText()));
+                }
+
+                if (jTextField3.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField3.getText()) < 0 || Double.parseDouble(jTextField3.getText()) > 100) {
+                    jLabel7.setText("数学の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setMath(Double.parseDouble(jTextField3.getText()));
+                }
+
+                if (jTextField4.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField4.getText()) < 0 || Double.parseDouble(jTextField4.getText()) > 100) {
+                    jLabel7.setText("英語の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setEnglish(Double.parseDouble(jTextField4.getText()));
+                }
+
+                if (jTextField5.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField5.getText()) < 0 || Double.parseDouble(jTextField5.getText()) > 100) {
+                    jLabel7.setText("理科の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setScience(Double.parseDouble(jTextField5.getText()));
+                }
+
+                if (jTextField6.getText().isEmpty()) {
+                    jLabel7.setText("データ入力してください！");
+                    return;
+                } else if (Double.parseDouble(jTextField6.getText()) < 0 || Double.parseDouble(jTextField6.getText()) > 100) {
+                    jLabel7.setText("歴史の値は0～100以内です！");
+                    return;
+                } else {
+                    grade.setHistory(Double.parseDouble(jTextField6.getText()));
+                }
+                grade.setClassName(jdbc.getstudentClass(jTextField1.getText()));
+
+                jdbc.updateGrade(grade);
+                gd.readGrade(jTextField1.getText());
+                //クラス名を返す
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                gd.setClass(s);
+                gd.setVisible();
+                gd.setStudentID(jTextField1.getText());
+//                gd.setName(jLabel10.getText());
+                gd.setVisible2();
                 this.dispose();
                 gd.setVisible(true);
 
@@ -686,22 +904,36 @@ public class GradeAdd extends javax.swing.JFrame {
         try {
             jdbc.getDbcom();
             //クラスを含まないなら
-            if (!jLabel1.getText().contains("クラス")) {
+            if (!jLabel1.getText().contains("クラス") && jComboBox1.getSelectedIndex() == -1) {
                 GradeDate gd = new GradeDate();
                 gd.readGrade(jTextField1.getText());
+                gd.setVisible2();
                 //名前と生徒IDを返す
                 gd.showStudentDate(jTextField1.getText(), jLabel1.getText());
                 gd.setStudentClassName(jLabel9.getText());
+                gd.setVisible();
                 this.dispose();
                 gd.setVisible(true);
                 //クラスを含むなら
-            } else if (jLabel1.getText().contains("クラス")) {
+            } else if (jLabel1.getText().contains("クラス") && jComboBox1.getSelectedIndex() == -1) {
                 GradeDate gd = new GradeDate();
                 //クラスごとの生徒データを取得
                 list = jdbc.getGrade2(jLabel1.getText());
                 gd.showGrade(list);
                 //クラス名を返す
                 gd.showClassName(jLabel1.getText());
+                gd.setVisible();
+                this.dispose();
+                gd.setVisible(true);
+            } else if (jComboBox1.getItemCount() >= 1) {
+                GradeDate gd = new GradeDate();
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                gd.setClass(s);
+                gd.readGrade(jTextField1.getText());
+                gd.setStudentID(jTextField1.getText());
+//                gd.setName(jLabel10.getText());
+                gd.setVisible2();
+                gd.setVisible();
                 this.dispose();
                 gd.setVisible(true);
             }
@@ -775,6 +1007,7 @@ public class GradeAdd extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

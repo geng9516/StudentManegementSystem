@@ -519,6 +519,7 @@ public class TeachersDate extends javax.swing.JFrame {
                 list = jdbc.getGrade2(jComboBox2.getSelectedItem().toString());
                 gd.showGrade(list);
                 gd.showClassName(jComboBox2.getSelectedItem().toString());
+                gd.setVisible();
                 this.dispose();
                 gd.setVisible(true);
             } else {

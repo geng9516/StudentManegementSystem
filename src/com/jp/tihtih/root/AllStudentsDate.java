@@ -263,15 +263,15 @@ public class AllStudentsDate extends javax.swing.JFrame {
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addGap(61, 61, 61)
                 .addComponent(jButton2)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addGap(37, 37, 37)
+                .addGap(43, 43, 43)
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
@@ -302,10 +302,9 @@ public class AllStudentsDate extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton2)
                         .addComponent(jButton1)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton7)))
+                        .addComponent(jButton3)
+                        .addComponent(jButton7))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -401,12 +400,26 @@ public class AllStudentsDate extends javax.swing.JFrame {
         // TODO add your handling code here:
         GradeDate gd = new GradeDate();
         if (jTable1.getSelectedColumn() != -1) {
-            gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            //生徒IDと名前
-            gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-            gd.setStudentClassName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-            this.dispose();
-            gd.setVisible(true);
+            if (jComboBox1.getItemCount() == 1) {
+                gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                gd.setVisible2();
+                //生徒IDと名前
+                gd.showStudentDate(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+                gd.setStudentClassName(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                gd.setVisible();
+                this.dispose();
+                gd.setVisible(true);
+            } else {
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                gd.setClass(s);
+                gd.readGrade(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                gd.setStudentID(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                gd.setVisible();
+                gd.setVisible2();
+//                gd.setName(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+                this.dispose();
+                gd.setVisible(true);
+            }
         } else {
             jLabel2.setText("データを選択してください！");
         }

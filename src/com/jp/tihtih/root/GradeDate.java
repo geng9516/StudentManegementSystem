@@ -50,6 +50,10 @@ public class GradeDate extends javax.swing.JFrame {
 
     }
 
+    public void setName(String name) {
+        jLabel3.setText(name);
+    }
+
     public void setsTudentID(String studentId) {
 
         jLabel7.setVisible(false);
@@ -66,19 +70,38 @@ public class GradeDate extends javax.swing.JFrame {
         jLabel7.setText(className);
     }
 
-    //追加した生徒成績を一覧に表示
-    public void readGrade(String studentid) {
+    public void setStudentID(String id) {
+        jLabel8.setText(id);
+    }
+
+    public void setClass(String[] s) {
+        jComboBox1.removeAllItems();
+        for (String s2 : s) {
+            jComboBox1.addItem(s2);
+        }
+    }
+
+    public void setVisible() {
+        jComboBox1.setVisible(false);
+        jLabel8.setVisible(false);
+    }
+
+    public void setVisible2() {
         jLabel7.setVisible(false);
         jLabel6.setVisible(false);
         jTextField1.setVisible(false);
         jButton5.setVisible(false);
+    }
+
+    //追加した生徒成績を一覧に表示
+    public void readGrade(String studentid) {
         Jdbc jdbc = new Jdbc();
         List<Grade> list = new ArrayList<>();
         try {
             jdbc.getDbcom();
             list = jdbc.selectGrade(studentid);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(GradeDate.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(GradeDate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 jdbc.closeDbcom();
@@ -117,6 +140,8 @@ public class GradeDate extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("成績確認");
@@ -188,18 +213,22 @@ public class GradeDate extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel8.setText("jLabel8");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(56, 56, 56)
                 .addComponent(jButton4)
@@ -220,21 +249,27 @@ public class GradeDate extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
-                        .addGap(15, 15, 15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5))))
+                                .addComponent(jButton5))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(80, 80, 80))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,13 +281,15 @@ public class GradeDate extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5))
+                        .addComponent(jButton5)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -293,14 +330,15 @@ public class GradeDate extends javax.swing.JFrame {
             TeachersDate td = new TeachersDate();
             this.dispose();
             td.setVisible(true);
+        } else if (jComboBox1.getItemCount() >= 1) {
+            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+            AllStudentsDate asd = new AllStudentsDate();
+            asd.showClassName(s);
+            asd.readeStudents();
+            this.dispose();
+            asd.setVisible(true);
         }
-//        else if (jLabel8.getText().equals("1")) {
-//            StudentsDate sd = new StudentsDate();
-//            sd.readeStudents();
-//            sd.showTeacherId(jLabel3.getText(), jTextField1.getText());
-//            this.dispose();
-//            sd.setVisible(true);
-//        }
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
     /*
@@ -316,11 +354,22 @@ public class GradeDate extends javax.swing.JFrame {
             //成績新規画面の学生IDを自動表示するため
             ga.setStudentId(jLabel7.getText());
             ga.setClassName(jLabel4.getText());
+            ga.setVisible();
             this.dispose();
             ga.setVisible(true);
         } else if (jLabel7.getText().contains("クラス")) {
             ga.setStudentName(jLabel7.getText());
             ga.setStudentId(jLabel7.getText());
+            ga.setVisible();
+            this.dispose();
+            ga.setVisible(true);
+        } else if (jComboBox1.getItemCount() >= 1) {
+            String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+            ga.setClass(s);
+            ga.setStudentID(jLabel8.getText());
+//            ga.setName(jLabel3.getText());
+//            ga.setEditable();
+            ga.setVisible();
             this.dispose();
             ga.setVisible(true);
         }
@@ -344,10 +393,10 @@ public class GradeDate extends javax.swing.JFrame {
                 grade.setEnglish(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString()));
                 grade.setScience(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString()));
                 grade.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
-
                 ga.setStudentName(jLabel3.getText());
                 ga.setGradeAdd(grade);
                 ga.setClassName(jLabel4.getText());
+                ga.setVisible();
                 this.dispose();
                 ga.setVisible(true);
             } else if (jLabel7.getText().contains("クラス")) {
@@ -362,9 +411,26 @@ public class GradeDate extends javax.swing.JFrame {
                 ga.setGradeAdd(grade);
                 //classname
                 ga.setStudentName(jLabel7.getText());
-
+                ga.setVisible();
                 this.dispose();
                 ga.setVisible(true);
+            } else if (jComboBox1.getItemCount() >= 1) {
+                grade.setStudentid(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                grade.setTest(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+                grade.setKokugo(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString()));
+                grade.setMath(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString()));
+                grade.setEnglish(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString()));
+                grade.setScience(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString()));
+                grade.setHistory(Double.parseDouble(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString()));
+                String[] s = new String[]{"Aクラス", "Bクラス", "Cクラス", "Dクラス"};
+                ga.setClass(s);
+                ga.setGradeAdd(grade);
+                ga.setName(jLabel3.getText());
+                ga.setEditable();
+                ga.setVisible();
+                this.dispose();
+                ga.setVisible(true);
+
             }
         } else {
             jLabel1.setText("データを選択してください！");
@@ -422,14 +488,14 @@ public class GradeDate extends javax.swing.JFrame {
                 //Stringが数値かを判断
                 if (p.matcher((jTextField1.getText())).find()) {
                     if (Integer.parseInt(jTextField1.getText()) >= 0 && Integer.parseInt(jTextField1.getText()) < 10000) {
-                        list = jdbc.searchGrade(jTextField1.getText(),jLabel7.getText());
+                        list = jdbc.searchGrade(jTextField1.getText(), jLabel7.getText());
                         showGrade(list);
                     } else {
                         jLabel1.setText("数字が大きすぎます");
                     }
                 } else {
                     //名前、科目、性別（あいまいと特定検索）
-                    list = jdbc.searchTesttype(jTextField1.getText(),jLabel7.getText());
+                    list = jdbc.searchTesttype(jTextField1.getText(), jLabel7.getText());
                     showGrade(list);
                 }
                 // 空欄のときクラスのすべての生徒の成績を一覧に
@@ -500,6 +566,7 @@ public class GradeDate extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -507,6 +574,7 @@ public class GradeDate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

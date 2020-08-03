@@ -258,7 +258,10 @@ public class TeacherAdd extends javax.swing.JFrame {
                 if (jTextField1.getText().isEmpty()) {
                     jLabel8.setText("先生IDを入力してください！");
                     return;
-                } else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
+                } else if (jdbc.checkTeacherID2(jTextField1.getText())) {
+                    jLabel8.setText("先生IDすでに存在しています！");
+                    return;
+                }else if (Integer.parseInt(jTextField1.getText()) < 100 || Integer.parseInt(jTextField1.getText()) >= 1000) {
                     jLabel8.setText("先生IDは101～999以内です！");
                     return;
 
@@ -266,10 +269,7 @@ public class TeacherAdd extends javax.swing.JFrame {
                 } else if (jdbc.checkTeacherID(jTextField1.getText())) {
                     jLabel8.setText("先生IDすでに存在しています！");
                     return;
-                } else if (jdbc.checkTeacherID2(jTextField1.getText())) {
-                    jLabel8.setText("先生IDすでに存在しています！");
-                    return;
-                } else {
+                } else{
                     teacher.setId(jTextField1.getText());
                 }
                 //ABCDがついている先生ID
